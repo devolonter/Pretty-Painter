@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="brush">Кисть</string>
+    <string name="rotate">Повернуть</string>
+    <string name="clear">Очистить</string>
+    <string name="save">Сохранить</string>
+    <string name="share">Отправить</string>
+    <string name="about">О программе</string>
+    <string name="brush_size">Размер кисти</string>
+    <string name="blur_radius">Размытие</string>
+    <string name="blur_style">Тип размытия</string>
+    <string name="blur_prompt">Выберите тип размытия</string>
+    <string-array name="blur_types">
+        <item>Без размытия</item>
+        <item>Стандартное</item>
+        <item>Сплошное</item>
+        <item>Внешннее</item>
+        <item>Внутреннее</item>
+    </string-array>
+    <string name="brush_color">Цвет кисти</string>
+    <string name="pick_a_color">Цвет</string>
+    <string name="clear_app_prompt_title">Очистить</string>
+    <string name="clear_bitmap_alert">Очистить холст?</string>
+    <string name="sd_card_not_writeable">Карта памяти недоступна для записи</string>
+    <string name="sd_card_not_available">Карта памяти недоступна</string>
+    <string name="saving_title">Сохранение</string>
+    <string name="saving_to_sd">Изображение сохраняется. Пожалуйста, подождите...</string>
+    <string name="exit_app_prompt_title">Выход</string>
+	<string name="exit_app_prompt">Сохранить изображение перед выходом?</string>
+	<string name="share_app_prompt_title">Отправить</string>
+	<string name="share_prompt">Сохранить изображение перед отправкой?</string>
+	<string name="share_image">Отправить на:</string>
+	<string name="about_text">Бесплатый, графический  редактор с открытым исходным кодом.
+	\n\nРазработка - Артур Бикмуллин
+	\n\nЛокализация - Ольга Бикмуллина
+	\n\nИконка приложения - Paul Gucolav
+	\n\nИконки инструментов - Guenther Beyer, Jack Cai, Everaldo Coelho, Beauticons, eponas-deeway
+	\n\nИсходный код: http://github.com/devolonter
+	</string>
+</resources>

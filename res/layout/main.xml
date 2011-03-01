@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+	<org.sprite2d.apps.pp.PainterCanvas android:id="@+id/canvas"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"/>
+		
+	<RelativeLayout android:id="@+id/settings_layout" 
+		style="@style/Settings">	
+	
+		<LinearLayout android:id="@+id/presets_bar"
+			android:gravity="center_horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true">	
+			<LinearLayout style="@style/BrushsPresets">
+				<ImageButton android:id="@+id/preset_pencil"
+					android:onClick="setPreset"
+					android:src="@drawable/pencil"
+					style="@style/BrushsPresets.Preset"/>
+				<ImageButton android:id="@+id/preset_brush"
+					android:onClick="setPreset"
+					android:src="@drawable/brush"
+					style="@style/BrushsPresets.Preset"/>
+				<ImageButton android:id="@+id/preset_marker"
+					android:onClick="setPreset"
+					android:src="@drawable/marker"
+					style="@style/BrushsPresets.Preset"/>
+				<ImageButton android:id="@+id/preset_pen"
+					android:onClick="setPreset"
+					android:src="@drawable/pen"
+					style="@style/BrushsPresets.Preset"/>
+			</LinearLayout>	
+		</LinearLayout>	
+		
+		<LinearLayout android:id="@+id/properties_bar"
+			style="@style/BrushProperties.Wrapper" >
+			<LinearLayout style="@style/BrushProperties.Controls" >
+				<TextView style="@style/BrushProperties.Label"
+					android:text="@string/brush_color"/>
+				<ImageButton android:src="@drawable/color_picker"
+					android:onClick="changeBrushColor"
+					style="@style/BrushProperties.Control.Image"	/>				
+			</LinearLayout>
+			<LinearLayout style="@style/BrushProperties.Controls" >
+				<TextView style="@style/BrushProperties.Label"
+					android:text="@string/brush_size"/>
+				<SeekBar android:id="@+id/brush_size"
+					style="@style/BrushProperties.Control" />				
+			</LinearLayout>
+			<LinearLayout style="@style/BrushProperties.Controls">
+				<TextView style="@style/BrushProperties.Label"
+					android:text="@string/blur_radius" />
+				<SeekBar android:id="@+id/brush_blur_radius"
+					style="@style/BrushProperties.Control" />				
+			</LinearLayout>
+			<LinearLayout style="@style/BrushProperties.Controls.Last">
+				<TextView style="@style/BrushProperties.Label"
+					android:text="@string/blur_style" />
+				<org.sprite2d.apps.pp.BlurStyleSpinner android:id="@+id/brush_blur_style"
+					android:prompt="@string/blur_prompt"
+					android:entries="@array/blur_types"
+					style="@style/BrushProperties.Control" />			
+			</LinearLayout>
+		</LinearLayout>
+	</RelativeLayout>
+	
+</FrameLayout>
