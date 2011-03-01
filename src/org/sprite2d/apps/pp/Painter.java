@@ -631,7 +631,7 @@ public class Painter extends Activity {
 			return;
 		}
     	
-    	if(this.mCanvas.isChanged()){ 
+    	if(this.mCanvas.isChanged() || this.mIsNewFile){ 
     		if(this.mIsNewFile){
     			this.savePicture(Painter.ACTION_SAVE_AND_SHARE);
     		}
