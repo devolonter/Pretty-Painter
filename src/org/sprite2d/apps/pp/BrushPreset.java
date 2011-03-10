@@ -32,7 +32,7 @@ class BrushPreset implements Serializable{
 	public BrushPreset(int type, int color){
 		switch(type) {
 			case BrushPreset.PENCIL:
-				this.set(2, color, Blur.OUTER, 10);
+				this.set(2, color, Blur.INNER, 10);
 				break;
 			case BrushPreset.BRUSH: 
 				this.set(15, color, Blur.NORMAL, 18);
@@ -85,22 +85,28 @@ class BrushPreset implements Serializable{
 	}
 	
 	public void setColor(int color) {
-		this.color = color;
-		this.setType(BrushPreset.CUSTOM);
+		if(this.color != color){
+			this.setType(BrushPreset.CUSTOM);
+		}
+		this.color = color;	
 	}
 	
 	public void setType(int type) {
 		this.type = type;
 	}
 	
-	public void setSize(float size) {		
+	public void setSize(float size) {
+		if(this.size != size){
+			this.setType(BrushPreset.CUSTOM);
+		}
 		this.size = (size > 0) ? size : 1;
-		this.setType(BrushPreset.CUSTOM);
 	}
 	
 	public void setBlur(Blur blurStyle, int blurRadius) {
+		if(this.blurStyle != blurStyle || this.blurRadius != blurRadius){
+			this.setType(BrushPreset.CUSTOM);
+		}
 		this.blurStyle = blurStyle;
 		this.blurRadius = blurRadius;
-		this.setType(BrushPreset.CUSTOM);
 	}
 }

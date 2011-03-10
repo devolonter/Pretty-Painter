@@ -302,10 +302,6 @@ public class Painter extends Activity {
     				}    				
     				return true;
     			}
-    			else {
-    				this.mSettings.preset = this.mCanvas.getCurrentPreset();
-    				this.saveSettings();
-    			}
     		    break;
     		case KeyEvent.KEYCODE_MENU: 
     			if(this.mCanvas.isSetup()){
@@ -342,6 +338,13 @@ public class Painter extends Activity {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	protected void onStop() {
+		this.mSettings.preset = this.mCanvas.getCurrentPreset();
+		this.saveSettings();
+		super.onStop();
 	}
     
     public void changeBrushColor(View v) {    	
@@ -611,13 +614,23 @@ public class Painter extends Activity {
 					listenerLayout.setVisibility(View.INVISIBLE);	
 					if(listenerLast){
 						Painter.this.mCanvas.setVisibility(View.VISIBLE);
-						Painter.this.mSettingsLayout.setVisibility(View.INVISIBLE);
+						Handler handler = new Handler(); 
+					    handler.postDelayed(new Runnable() { 
+					         public void run() {    
+					        	 Painter.this.mSettingsLayout.setVisibility(View.INVISIBLE);
+					         } 
+					    }, 10);						
 					}
 				}
 				else {
 					if(listenerLast){
 						Painter.this.mCanvas.setVisibility(View.VISIBLE);
-						Painter.this.mSettingsLayout.setBackgroundColor(Color.TRANSPARENT);
+						Handler handler = new Handler(); 
+					    handler.postDelayed(new Runnable() { 
+					         public void run() {    
+					        	 Painter.this.mSettingsLayout.setBackgroundColor(Color.TRANSPARENT);
+					         } 
+					    }, 10);							
 					}
 				}
 			}
@@ -680,12 +693,12 @@ public class Painter extends Activity {
 				break;
 			case 2: 				
 				blur = Blur.SOLID;
-				break;
-			case 3: 				
-				blur = Blur.INNER;
-				break;
-			case 4: 
+				break;			
+			case 3: 
 				blur = Blur.OUTER;
+				break;
+			case 4: 				
+				blur = Blur.INNER;
 				break;
 			default: 
 				blur = Blur.NORMAL;				
@@ -719,7 +732,7 @@ public class Painter extends Activity {
     }
     
     private void rotate() {    	
-    	if(!this.mIsNewFile){
+    	if(!this.mIsNewFile || this.mCanvas.isChanged()){
 			this.savePicture(Painter.ACTION_SAVE_AND_ROTATE);
 		}
 		else {
