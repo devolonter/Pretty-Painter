@@ -874,4 +874,5 @@ public class Painter extends Activity {
     	this.mSettings.lastPicture = null;
     	this.deleteFile(Painter.SETTINGS_STRORAGE);		
     }
+    
 }

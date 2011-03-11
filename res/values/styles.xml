@@ -1,5 +1,4 @@
-
-    <resources>
+<resources>
     	<style name="BrushProperties"></style>    	
         <style name="BrushProperties.Wrapper">
             <item name="android:padding">10dp</item>
@@ -55,4 +54,4 @@
             <item name="android:background">#fff</item>
             <item name="android:visibility">gone</item>
         </style>
-    </resources>
+</resources>
