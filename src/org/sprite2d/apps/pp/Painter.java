@@ -57,6 +57,9 @@ public class Painter extends Activity {
 	private static final short MENU_SHARE = 0x1003;
 	private static final short MENU_ROTATE = 0x1004;
 	private static final short MENU_ABOUT = 0x1005;
+	private static final short MENU_UNDO = 0x1006;
+	private static final short MENU_OPEN = 0x1007;
+	private static final short MENU_PREFERENCES = 0x1008;
 	
 	private static final int DIALOG_CLEAR = 1;
 	private static final int DIALOG_EXIT = 2;
@@ -231,6 +234,18 @@ public class Painter extends Activity {
 			.setIcon(android.R.drawable.ic_menu_delete);
 		
 		menu.add(Menu.NONE, 
+				Painter.MENU_UNDO,
+				Menu.NONE,
+				R.string.undo)
+			.setIcon(android.R.drawable.ic_menu_revert);
+		
+		menu.add(Menu.NONE, 
+				Painter.MENU_OPEN,
+				Menu.NONE,
+				R.string.open)
+			.setIcon(android.R.drawable.ic_menu_upload);
+		
+		menu.add(Menu.NONE, 
 				Painter.MENU_SHARE,
 				Menu.NONE,
 				R.string.share)
@@ -241,6 +256,12 @@ public class Painter extends Activity {
 				Menu.NONE,
 				R.string.rotate)
 			.setIcon(android.R.drawable.ic_menu_rotate);
+		
+		menu.add(Menu.NONE, 
+				Painter.MENU_PREFERENCES,
+				Menu.NONE,
+				R.string.preferences)
+			.setIcon(android.R.drawable.ic_menu_preferences);
 		
 		menu.add(Menu.NONE, 
 				Painter.MENU_ABOUT,
@@ -276,7 +297,10 @@ public class Painter extends Activity {
     			break; 
     		case Painter.MENU_ABOUT: 
     			this.showDialog(Painter.DIALOG_ABOUT);
-    			break;   
+    			break; 
+    		case Painter.MENU_OPEN:
+    			this.open();
+    			break;
     	}
     	return true; 
     } 
@@ -875,4 +899,14 @@ public class Painter extends Activity {
     	this.deleteFile(Painter.SETTINGS_STRORAGE);		
     }
     
+    private void open() {
+    	Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+    	//File file = new File(this.getSaveDir());
+    	//intent.setDataAndType(Uri.fromFile(file), "image/*");
+        if(new File(this.mSettings.lastPicture).exists()){
+        	intent.setDataAndType(Uri.fromFile(new File(this.mSettings.lastPicture)), "image/*");
+		}
+    	startActivity(intent); 
+    }    
 }
