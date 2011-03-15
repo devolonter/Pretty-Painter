@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
 
 import org.sprite2d.apps.pp.R;
 
@@ -18,7 +19,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Color;
@@ -28,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.util.Linkify;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -63,15 +67,23 @@ public class Painter extends Activity {
 	
 	private static final int DIALOG_CLEAR = 1;
 	private static final int DIALOG_EXIT = 2;
-	private static final int DIALOG_SHARE = 3;
+	private static final int DIALOG_SHARE = 3;	
 	private static final int DIALOG_ABOUT = 4;
+	private static final int DIALOG_OPEN = 5;
 	
 	public static final int ACTION_SAVE_AND_EXIT = 1;
 	public static final int ACTION_SAVE_AND_RETURN = 2;
 	public static final int ACTION_SAVE_AND_SHARE = 3;
 	public static final int ACTION_SAVE_AND_ROTATE = 4;
+	public static final int ACTION_SAVE_AND_OPEN = 5;
+	
+	public static final int REQUEST_OPEN = 1;
 	
 	private static final String SETTINGS_STRORAGE = "settings";
+	
+	private static final String PICTURE_MIME = "image/png";
+	private static final String PICTURE_PREFIX = "picture_";
+	private static final String PICTURE_EXT = ".png";
 		
 	private PainterCanvas mCanvas;
 	private SeekBar mBrushSize;
@@ -240,16 +252,16 @@ public class Painter extends Activity {
 			.setIcon(android.R.drawable.ic_menu_revert);
 		
 		menu.add(Menu.NONE, 
-				Painter.MENU_OPEN,
-				Menu.NONE,
-				R.string.open)
-			.setIcon(android.R.drawable.ic_menu_upload);
-		
-		menu.add(Menu.NONE, 
 				Painter.MENU_SHARE,
 				Menu.NONE,
 				R.string.share)
 			.setIcon(android.R.drawable.ic_menu_share);
+		
+		menu.add(Menu.NONE, 
+				Painter.MENU_OPEN,
+				Menu.NONE,
+				R.string.open)
+			.setIcon(android.R.drawable.ic_menu_upload);		
 		
 		menu.add(Menu.NONE, 
 				Painter.MENU_ROTATE,
@@ -359,6 +371,8 @@ public class Painter extends Activity {
 				return this.createDialogShare();
 			case Painter.DIALOG_ABOUT: 
 				return this.createDialogAbout();
+			case Painter.DIALOG_OPEN: 
+				return this.createDialogOpen();
 		}
 		
 		return null;
@@ -369,6 +383,72 @@ public class Painter extends Activity {
 		this.mSettings.preset = this.mCanvas.getCurrentPreset();
 		this.saveSettings();
 		super.onStop();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+	{
+		switch(requestCode) {
+			case Painter.REQUEST_OPEN:
+				if (resultCode == Activity.RESULT_OK){
+					Uri uri = intent.getData();
+					String path = "";
+					
+				    if (uri != null) {
+				    	if(uri.toString().toLowerCase().startsWith("content://")) {
+				    		path = "file://"+this.getRealPathFromURI(uri);
+				    	}
+				    	else {
+				    		path = uri.toString().toLowerCase();
+				    	}
+						URI file_uri = URI.create(path);
+						
+						if(file_uri != null) {
+							File picture = new File(file_uri);
+							
+							if(picture.exists()){
+								Bitmap bitmap = null;								
+						
+								try {
+									bitmap = BitmapFactory.decodeFile(
+											picture.getAbsolutePath()
+									);									
+								} catch(Exception e) {}								
+								
+								Config bitmapConfig = bitmap.getConfig();
+								if(!bitmapConfig.equals(Bitmap.Config.ARGB_8888)) {
+									bitmap = null;
+								}
+								
+								if(bitmap != null) {
+									if(bitmap.getWidth() > bitmap.getHeight()) {
+										this.mSettings.orientation = 
+											ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+									}
+									else {
+										this.mSettings.orientation = 
+											ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+									}									
+									this.mSettings.lastPicture = 
+											picture.getAbsolutePath();		
+									
+									this.saveSettings();									
+									this.restart();	
+								}
+								else {
+									Toast.makeText(this, R.string.invalid_file, 
+						    	    		Toast.LENGTH_SHORT).show();
+								}
+							}
+							else {
+								Toast.makeText(this, R.string.file_not_found, 
+					    	    		Toast.LENGTH_SHORT).show();
+							}
+						}
+				    }
+				}
+				break;
+		}
 	}
     
     public void changeBrushColor(View v) {    	
@@ -462,6 +542,10 @@ public class Painter extends Activity {
 					Painter.this.startShareActivity(pictureName);
 				}
 				
+				if(taskAction == Painter.ACTION_SAVE_AND_OPEN) {
+					Painter.this.startOpenActivity();
+				}
+				
 				super.onPostExecute(pictureName);
 				
 				if(taskAction == Painter.ACTION_SAVE_AND_EXIT)	{
@@ -508,14 +592,13 @@ public class Painter extends Activity {
     	AlertDialog.Builder alert =  new AlertDialog.Builder(this);
 		alert.setMessage(R.string.clear_bitmap_alert);
 		alert.setCancelable(false);
-		alert.setTitle(R.string.clear_app_prompt_title);
+		alert.setTitle(R.string.clear_prompt_title);
 		
 		alert.setPositiveButton(R.string.yes, 
 				new DialogInterface.OnClickListener() {
 			
 					public void onClick(DialogInterface dialog, int which) {
 						Painter.this.clear();	
-
 					}
 		});
 		alert.setNegativeButton(R.string.no, null);
@@ -546,11 +629,35 @@ public class Painter extends Activity {
 		return alert.create();
     }
     
-    private Dialog createDialogShare() {
+    private Dialog createDialogOpen() {    	
+    	AlertDialog.Builder alert =  new AlertDialog.Builder(this);
+		alert.setMessage(R.string.open_prompt);
+		alert.setCancelable(false);
+		alert.setTitle(R.string.open_prompt_title);
+		
+		alert.setPositiveButton(R.string.yes, 
+				new DialogInterface.OnClickListener() {
+			
+					public void onClick(DialogInterface dialog, int which) {						
+						Painter.this.savePicture(Painter.ACTION_SAVE_AND_OPEN);
+					}
+		});
+		alert.setNegativeButton(R.string.no, 
+				new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						Painter.this.startOpenActivity();
+					}
+				});
+		
+		return alert.create();
+    }
+    
+    private Dialog createDialogShare() {    	
     	AlertDialog.Builder alert =  new AlertDialog.Builder(this);
 		alert.setMessage(R.string.share_prompt);
 		alert.setCancelable(false);
-		alert.setTitle(R.string.share_app_prompt_title);
+		alert.setTitle(R.string.share_prompt_title);
 		
 		alert.setPositiveButton(R.string.yes, 
 				new DialogInterface.OnClickListener() {
@@ -685,7 +792,7 @@ public class Painter extends Activity {
     	Uri uri = Uri.fromFile(new File(pictureName));
 
 		Intent i = new Intent(Intent.ACTION_SEND);
-		i.setType("image/png");
+		i.setType(Painter.PICTURE_MIME);
 		i.putExtra(Intent.EXTRA_STREAM, uri);
 		startActivity(Intent.createChooser(i,
 				getString(R.string.share_image)));
@@ -805,8 +912,8 @@ public class Painter extends Activity {
     		return this.mSettings.lastPicture;
     	}
     	
-		String prefix = "picture_";
-		String ext = ".png";
+		String prefix = Painter.PICTURE_PREFIX;
+		String ext = Painter.PICTURE_EXT;
 		String pictureName = "";
 
 		int suffix = 1;
@@ -900,13 +1007,49 @@ public class Painter extends Activity {
     }
     
     private void open() {
+    	if(!this.isStorageAvailable()){
+    		return;
+    	}
+    	
+    	if(this.mCanvas.isChanged()){ 
+    		this.showDialog(Painter.DIALOG_OPEN);
+    	}
+    	else {
+    		this.startOpenActivity();
+    	}    	
+    }  
+    
+    private void startOpenActivity() {
     	Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-    	//File file = new File(this.getSaveDir());
-    	//intent.setDataAndType(Uri.fromFile(file), "image/*");
-        if(new File(this.mSettings.lastPicture).exists()){
-        	intent.setDataAndType(Uri.fromFile(new File(this.mSettings.lastPicture)), "image/*");
-		}
-    	startActivity(intent); 
-    }    
+    	intent.addCategory(Intent.CATEGORY_OPENABLE);
+    	intent.setDataAndType(Uri.fromFile(new File(this.getSaveDir())), Painter.PICTURE_MIME);
+    	this.startActivityForResult(Intent.createChooser(intent, 
+    			this.getString(R.string.open_prompt_title)), 
+    			Painter.REQUEST_OPEN
+    	);
+    }
+    
+    private void restart() {
+    	Intent intent = this.getIntent();
+        this.overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        this.finish();
+
+        this.overridePendingTransition(0, 0);
+        this.startActivity(intent);
+    }
+    
+    public String getRealPathFromURI(Uri contentUri) {
+		// can post image
+		String [] proj={MediaStore.Images.Media.DATA};
+		Cursor cursor = managedQuery( contentUri,
+		                proj,
+		                null, 
+		                null, 
+		                null); 
+		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		
+		return cursor.getString(column_index).replace(" ", "%20");
+    }
 }

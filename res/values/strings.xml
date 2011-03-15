@@ -34,9 +34,13 @@
     <string name="saving_to_sd">Picture is saving. Please wait...</string>
     <string name="exit_app_prompt_title">Exit</string>
 	<string name="exit_app_prompt">Do you want to save picture before the exit?</string>
-	<string name="share_app_prompt_title">Share</string>
+	<string name="share_prompt_title">Share</string>
 	<string name="share_prompt">Do you want to save image before share it?</string>
+	<string name="open_prompt_title">Open</string>
+	<string name="open_prompt">Do you want to save image before open another image?</string>
 	<string name="share_image">Share via:</string>
+	<string name="invalid_file">File format is invalid</string>
+	<string name="file_not_found">File not found</string>
 	<string name="about_text">Free, open source graphics editor.
 	\n\nDeveloping - Artur Bikmullin
 	\n\nLocalization - Olga Bikmullina
