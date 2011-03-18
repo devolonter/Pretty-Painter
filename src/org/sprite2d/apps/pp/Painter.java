@@ -313,6 +313,9 @@ public class Painter extends Activity {
     		case Painter.MENU_OPEN:
     			this.open();
     			break;
+    		case Painter.MENU_UNDO:
+    			this.mCanvas.undo();
+    			break;
     	}
     	return true; 
     } 
@@ -412,13 +415,13 @@ public class Painter extends Activity {
 								try {
 									bitmap = BitmapFactory.decodeFile(
 											picture.getAbsolutePath()
-									);									
-								} catch(Exception e) {}								
-								
-								Config bitmapConfig = bitmap.getConfig();
-								if(!bitmapConfig.equals(Bitmap.Config.ARGB_8888)) {
-									bitmap = null;
-								}
+									);	
+									
+									Config bitmapConfig = bitmap.getConfig();
+									if(!bitmapConfig.equals(Bitmap.Config.ARGB_8888)) {
+										bitmap = null;
+									}
+								} catch(Exception e) {}										
 								
 								if(bitmap != null) {
 									if(bitmap.getWidth() > bitmap.getHeight()) {
@@ -1040,7 +1043,6 @@ public class Painter extends Activity {
     }
     
     public String getRealPathFromURI(Uri contentUri) {
-		// can post image
 		String [] proj={MediaStore.Images.Media.DATA};
 		Cursor cursor = managedQuery( contentUri,
 		                proj,

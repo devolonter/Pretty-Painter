@@ -27,10 +27,12 @@ class PainterCanvas extends SurfaceView implements Callback {
 		
 	private PainterThread mThread;
 	private Bitmap mBitmap;
+	private Bitmap mActiveBitmap;
 	private BrushPreset mPreset;
 	
 	private boolean mIsSetup;
 	private boolean mIsChanged;
+	private boolean mUndo;
 
 	public static final int BLUR_TYPE_NONE = 0;
 	public static final int BLUR_TYPE_NORMAL = 1;
@@ -63,15 +65,31 @@ class PainterCanvas extends SurfaceView implements Callback {
         }
     }
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {		
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		if(this.mActiveBitmap == null) {
+			this.mActiveBitmap = Bitmap.createBitmap(
+					width, 
+					height, 
+					Bitmap.Config.ARGB_8888
+			);			
+			this.getThread().setActiveBitmap(this.mActiveBitmap, true);
+		}
+		else {
+			this.getThread().setActiveBitmap(this.mActiveBitmap, false);
+		}
+		
+		if(this.mUndo) {
+			this.getThread().undo();
+		}
+		
 		if(this.mBitmap == null) {
 			this.mBitmap = Bitmap.createBitmap(
 					width, 
 					height, 
 					Bitmap.Config.ARGB_8888
-			);			
-			this.getThread().setBitmap(this.mBitmap, true);
+			);	
 			
+			this.getThread().setBitmap(this.mBitmap, true);			
 			Painter painter = (Painter) this.getContext();			
 			Bitmap bitmap = painter.getLastPicture();
 			if(bitmap != null) {
@@ -94,7 +112,7 @@ class PainterCanvas extends SurfaceView implements Callback {
 		}
 		else {
 			this.getThread().setBitmap(this.mBitmap, false);
-		}
+		}		
 		
 		this.getThread().setPreset(this.mPreset);
 		if(!this.isSetup()){
@@ -132,6 +150,7 @@ class PainterCanvas extends SurfaceView implements Callback {
 			case MotionEvent.ACTION_DOWN: 
 				this.changed(true);
 				this.getThread().drawBegin();
+				this.mUndo = false;
 				break;
 			case MotionEvent.ACTION_MOVE: 			
 				this.getThread().draw((int)event.getX(),(int)event.getY());		
@@ -194,5 +213,16 @@ class PainterCanvas extends SurfaceView implements Callback {
 	
 	public void changed(boolean changed) {
 		this.mIsChanged = changed;
+	}
+	
+	public void undo() {
+		if(!this.mUndo) {
+			this.mUndo = true;
+			this.getThread().undo();
+		}
+		else {
+			this.mUndo = false;
+			this.getThread().redo();
+		}
 	}
 }

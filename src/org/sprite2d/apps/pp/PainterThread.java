@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.Matrix;
+import android.os.Handler;
 import android.view.SurfaceHolder;
 
 /**
@@ -65,15 +66,21 @@ class PainterThread extends Thread {
 	 */
 	private Canvas mCanvas;
 	
+	private Canvas mActiveCanvas;
+	
 	/**
 	 * Bitmap for drawing
 	 */
 	private Bitmap mBitmap;
 	
+	private Bitmap mActiveBitmap;
+	
 	/**
 	 * True if application is running
 	 */
 	private boolean mIsActive;
+	
+	private boolean mUndo;
 	
 	/**
 	 * Status of the running application
@@ -118,6 +125,9 @@ class PainterThread extends Thread {
                 	switch(this.mStatus) {
                 		case PainterThread.READY: {
                 			c.drawBitmap(this.mBitmap, 0, 0, null);
+                			if(!this.mUndo){
+                				c.drawBitmap(this.mActiveBitmap, 0, 0, null);
+                			}
                 			break;
                 		}
                 		case PainterThread.SETUP: {
@@ -160,7 +170,22 @@ class PainterThread extends Thread {
 	
 	public void drawBegin() {
 		this.mLastBrushPointX = -1;
-		this.mLastBrushPointY = -1;	
+		this.mLastBrushPointY = -1;			
+		this.completeDraw();
+	}
+	
+	public void completeDraw() {		
+		Handler handler = new Handler(); 
+	    handler.postDelayed(new Runnable() { 
+			public void run() { 
+				if(!PainterThread.this.mUndo) {
+					 PainterThread.this.mCanvas.drawBitmap(
+							 PainterThread.this.mActiveBitmap, 0, 0, null);			
+				}
+				PainterThread.this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
+				PainterThread.this.redo();
+			} 
+	    }, 10);
 	}
 	
 	public void drawEnd() {
@@ -174,7 +199,7 @@ class PainterThread extends Thread {
 				return false;
 			}
 			
-			this.mCanvas.drawLine(
+			this.mActiveCanvas.drawLine(
 					x, 
 					y, 
 					this.mLastBrushPointX, 
@@ -183,7 +208,7 @@ class PainterThread extends Thread {
 			);
 		}
 		else {
-			this.mCanvas.drawCircle(
+			this.mActiveCanvas.drawCircle(
 					x, 
 					y, 
 					this.mBrushSize*.5f, 
@@ -200,9 +225,18 @@ class PainterThread extends Thread {
 		this.mBitmap = bitmap;
 		if(clear){
 			this.mBitmap.eraseColor(this.mCanvasBgColor);
+		}	
+		
+		this.mCanvas = new Canvas(this.mBitmap);
+	}
+	
+	public void setActiveBitmap(Bitmap bitmap, boolean clear) {
+		this.mActiveBitmap = bitmap;
+		if(clear){
+			this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
 		}
 		
-		this.mCanvas = new Canvas(this.mBitmap);			
+		this.mActiveCanvas = new Canvas(this.mActiveBitmap);
 	}
 	
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
@@ -211,9 +245,11 @@ class PainterThread extends Thread {
 	
 	public void clearBitmap() {
 		this.mBitmap.eraseColor(this.mCanvasBgColor);
+		this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
 	}
 	
 	public Bitmap getBitmap() {
+		this.completeDraw();
 		return this.mBitmap;
 	}
 	
@@ -253,8 +289,16 @@ class PainterThread extends Thread {
 		return this.mIsActive;
 	}
 	
+	public void undo() {
+		this.mUndo = true;
+	}
+	
+	public void redo() {
+		this.mUndo = false;
+	}
+	
 	private void waitForBitmap() {
-		while (this.mBitmap == null) {
+		while (this.mBitmap == null || this.mActiveBitmap == null) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
