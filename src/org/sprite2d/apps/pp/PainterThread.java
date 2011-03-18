@@ -170,22 +170,19 @@ class PainterThread extends Thread {
 	
 	public void drawBegin() {
 		this.mLastBrushPointX = -1;
-		this.mLastBrushPointY = -1;			
-		this.completeDraw();
+		this.mLastBrushPointY = -1;
+		PainterThread.this.completeDraw();		
 	}
 	
-	public void completeDraw() {		
-		Handler handler = new Handler(); 
-	    handler.postDelayed(new Runnable() { 
-			public void run() { 
-				if(!PainterThread.this.mUndo) {
-					 PainterThread.this.mCanvas.drawBitmap(
-							 PainterThread.this.mActiveBitmap, 0, 0, null);			
-				}
-				PainterThread.this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
-				PainterThread.this.redo();
-			} 
-	    }, 10);
+	public void completeDraw() {	
+		synchronized (this.mHolder) { 
+		    if(!this.mUndo) {
+				this.mCanvas.drawBitmap(
+						 this.mActiveBitmap, 0, 0, null);			
+			}
+			this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
+			this.redo();
+		}
 	}
 	
 	public void drawEnd() {

@@ -171,8 +171,10 @@ class PainterCanvas extends SurfaceView implements Callback {
 	}
 	
 	public void saveBitmap(String pictureName) throws FileNotFoundException {
-		FileOutputStream fos = new FileOutputStream(pictureName);
-		this.getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
+		synchronized (this.getHolder()){
+			FileOutputStream fos = new FileOutputStream(pictureName);
+			this.getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
+		}
 	}
 	
 	public BrushPreset getCurrentPreset() {
