@@ -35,6 +35,7 @@ import android.provider.MediaStore;
 import android.text.util.Linkify;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -55,7 +56,7 @@ import android.widget.Toast;
  *
  */
 public class Painter extends Activity {
-	private static final short MENU_BRUSH = 0x1000;
+	/*private static final short MENU_BRUSH = 0x1000;
 	private static final short MENU_CLEAR = 0x1001;
 	private static final short MENU_SAVE = 0x1002;	
 	private static final short MENU_SHARE = 0x1003;
@@ -63,7 +64,7 @@ public class Painter extends Activity {
 	private static final short MENU_ABOUT = 0x1005;
 	private static final short MENU_UNDO = 0x1006;
 	private static final short MENU_OPEN = 0x1007;
-	private static final short MENU_PREFERENCES = 0x1008;
+	private static final short MENU_PREFERENCES = 0x1008;*/
 	
 	private static final int DIALOG_CLEAR = 1;
 	private static final int DIALOG_EXIT = 2;
@@ -227,67 +228,21 @@ public class Painter extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		menu.add(Menu.NONE, 
-				Painter.MENU_BRUSH,
-				Menu.NONE,
-				R.string.brush)
-			.setIcon(android.R.drawable.ic_menu_edit);		
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_SAVE,
-				Menu.NONE,
-				R.string.save)
-			.setIcon(android.R.drawable.ic_menu_save);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_CLEAR,
-				Menu.NONE,
-				R.string.clear)
-			.setIcon(android.R.drawable.ic_menu_delete);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_UNDO,
-				Menu.NONE,
-				R.string.undo)
-			.setIcon(android.R.drawable.ic_menu_revert);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_SHARE,
-				Menu.NONE,
-				R.string.share)
-			.setIcon(android.R.drawable.ic_menu_share);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_OPEN,
-				Menu.NONE,
-				R.string.open)
-			.setIcon(android.R.drawable.ic_menu_upload);		
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_ROTATE,
-				Menu.NONE,
-				R.string.rotate)
-			.setIcon(android.R.drawable.ic_menu_rotate);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_PREFERENCES,
-				Menu.NONE,
-				R.string.preferences)
-			.setIcon(android.R.drawable.ic_menu_preferences);
-		
-		menu.add(Menu.NONE, 
-				Painter.MENU_ABOUT,
-				Menu.NONE,
-				R.string.about)
-			.setIcon(android.R.drawable.ic_menu_info_details);
-
+		MenuInflater inflater = this.getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
 		return true;
     }	
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    		case Painter.MENU_CLEAR:
+    	switch(item.getItemId()) {    		
+    		case R.id.menu_brush:   			
+    			this.enterBrushSetup(); 
+    		    break;    		
+    		case R.id.menu_save: 
+    			this.savePicture(Painter.ACTION_SAVE_AND_RETURN);
+    			break; 
+    		case R.id.menu_clear:
     			if(this.mCanvas.isChanged()) {
     				this.showDialog(Painter.DIALOG_CLEAR);    
     			}
@@ -295,25 +250,19 @@ public class Painter extends Activity {
     				this.clear();
     			}
     			break;
-    		case Painter.MENU_BRUSH:   			
-    			this.enterBrushSetup(); 
-    		    break;    		
-    		case Painter.MENU_SAVE: 
-    			this.savePicture(Painter.ACTION_SAVE_AND_RETURN);
-    			break;    		
-    		case Painter.MENU_SHARE: 
+    		case R.id.menu_share: 
     			this.share();
     			break;
-    		case Painter.MENU_ROTATE: 
+    		case R.id.menu_rotate: 
     			this.rotate();
     			break; 
-    		case Painter.MENU_ABOUT: 
+    		case R.id.menu_about: 
     			this.showDialog(Painter.DIALOG_ABOUT);
     			break; 
-    		case Painter.MENU_OPEN:
+    		case R.id.menu_open:
     			this.open();
     			break;
-    		case Painter.MENU_UNDO:
+    		case R.id.menu_undo:
     			this.mCanvas.undo();
     			break;
     	}
@@ -593,9 +542,9 @@ public class Painter extends Activity {
     
     private Dialog createDialogClear() {
     	AlertDialog.Builder alert =  new AlertDialog.Builder(this);
-		alert.setMessage(R.string.clear_bitmap_alert);
+		alert.setMessage(R.string.clear_bitmap_prompt);
 		alert.setCancelable(false);
-		alert.setTitle(R.string.clear_prompt_title);
+		alert.setTitle(R.string.clear_bitmap_prompt_title);
 		
 		alert.setPositiveButton(R.string.yes, 
 				new DialogInterface.OnClickListener() {
@@ -798,7 +747,7 @@ public class Painter extends Activity {
 		i.setType(Painter.PICTURE_MIME);
 		i.putExtra(Intent.EXTRA_STREAM, uri);
 		startActivity(Intent.createChooser(i,
-				getString(R.string.share_image)));
+				getString(R.string.share_image_title)));
     }
     
     private void updateBlurSpinner(long blur_style) {    	

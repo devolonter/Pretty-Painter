@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.Matrix;
-import android.os.Handler;
 import android.view.SurfaceHolder;
 
 /**

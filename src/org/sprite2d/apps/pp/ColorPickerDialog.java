@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 public class ColorPickerDialog extends Dialog {
 
 	public interface OnColorChangedListener {
@@ -237,6 +236,6 @@ public class ColorPickerDialog extends Dialog {
 		};
 
 		setContentView(new ColorPickerView(getContext(), l, mInitialColor));
-		setTitle(R.string.pick_a_color);
+		setTitle(R.string.color_pick);
 	}
 }

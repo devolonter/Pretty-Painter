@@ -40,7 +40,7 @@
 			<LinearLayout style="@style/BrushProperties.Controls" >
 				<TextView style="@style/BrushProperties.Label"
 					android:text="@string/brush_color"/>
-				<ImageButton android:src="@drawable/color_picker"
+				<ImageButton android:src="@drawable/ic_menu_colors"					
 					android:onClick="changeBrushColor"
 					style="@style/BrushProperties.Control.Image"	/>				
 			</LinearLayout>
@@ -60,7 +60,7 @@
 				<TextView style="@style/BrushProperties.Label"
 					android:text="@string/blur_style" />
 				<org.sprite2d.apps.pp.BlurStyleSpinner android:id="@+id/brush_blur_style"
-					android:prompt="@string/blur_prompt"
+					android:prompt="@string/blur_type_select"
 					android:entries="@array/blur_types"
 					style="@style/BrushProperties.Control" />			
 			</LinearLayout>

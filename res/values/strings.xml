@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!--  app -->
     <string name="app_name">Pretty Painter</string>
+    <string name="about_text">Free, open source graphics editor.
+	\n\nDeveloping - Artur Bikmullin
+	\n\nLocalization - Olga Bikmullina
+	\n\nApplication icon - Paul Gucolav
+	\n\nTools icons - Guenther Beyer, Jack Cai, Everaldo Coelho, eponas-deeway, 
+Beauticons
+	\n\nSource code: http://github.com/devolonter
+	</string>
+    
+    <!--  dialog -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="brush">Brush</string>
-    <string name="rotate">Rotate</string>
-    <string name="clear">Clear</string>
-    <string name="save">Save</string>
-    <string name="share">Share</string>
-    <string name="about">About</string>
-    <string name="undo">Undo</string>
-    <string name="redo">Redo</string>
-    <string name="open">Open</string>
-    <string name="preferences">Preferences</string>
+    <string name="clear_bitmap_prompt_title">Clear</string>
+    <string name="clear_bitmap_prompt">Do you want to clear canvas?</string>    
+    <string name="saving_title">Saving</string>
+    <string name="saving_to_sd">Picture is saving. Please wait...</string>
+    <string name="exit_app_prompt_title">Exit</string>
+	<string name="exit_app_prompt">Do you want to save picture before the exit?</string>
+	<string name="share_prompt_title">Share</string>
+	<string name="share_prompt">Do you want to save image before share it?</string>
+	<string name="open_prompt_title">Open via</string>
+	<string name="open_prompt">Do you want to save image before open another file?</string>
+	<string name="share_image_title">Share via:</string>
+    
+    <!-- menu -->
+    <string name="menu_brush">Brush</string>
+    <string name="menu_rotate">Rotate</string>
+    <string name="menu_clear">Clear</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_about">About</string>
+    <string name="menu_undo">Undo</string>
+    <string name="menu_redo">Redo</string>
+    <string name="menu_open">Open</string>
+    <string name="menu_preferences">Preferences</string>
+    
+    <!--  brush setup -->
     <string name="brush_size">Brush size</string>
     <string name="blur_radius">Blur radius</string>
     <string name="blur_style">Blur style</string>
-    <string name="blur_prompt">Select blur type</string>
+    <string name="blur_type_select">Select blur type</string>
     <string-array name="blur_types">
         <item>None</item>
         <item>Normal</item>
@@ -25,28 +51,11 @@
         <item>Inner</item>
     </string-array>
     <string name="brush_color">Brush color</string>
-    <string name="pick_a_color">Pick a color</string>
-    <string name="clear_app_prompt_title">Clear</string>
-    <string name="clear_bitmap_alert">Do you want to clear canvas?</string>
-    <string name="sd_card_not_writeable">SD card not available for recording</string>
-    <string name="sd_card_not_available">SD card not available</string>
-    <string name="saving_title">Saving</string>
-    <string name="saving_to_sd">Picture is saving. Please wait...</string>
-    <string name="exit_app_prompt_title">Exit</string>
-	<string name="exit_app_prompt">Do you want to save picture before the exit?</string>
-	<string name="share_prompt_title">Share</string>
-	<string name="share_prompt">Do you want to save image before share it?</string>
-	<string name="open_prompt_title">Open</string>
-	<string name="open_prompt">Do you want to save image before open another image?</string>
-	<string name="share_image">Share via:</string>
+    <string name="color_pick">Pick a color</string> 
+    
+    <!-- toasts -->      	
 	<string name="invalid_file">File format is invalid</string>
 	<string name="file_not_found">File not found</string>
-	<string name="about_text">Free, open source graphics editor.
-	\n\nDeveloping - Artur Bikmullin
-	\n\nLocalization - Olga Bikmullina
-	\n\nApplication icon - Paul Gucolav
-	\n\nTools icons - Guenther Beyer, Jack Cai, Everaldo Coelho, eponas-deeway, 
-Beauticons
-	\n\nSource code: http://github.com/devolonter
-	</string>
+	<string name="sd_card_not_writeable">SD card not available for recording</string>
+    <string name="sd_card_not_available">SD card not available</string>	
 </resources>
