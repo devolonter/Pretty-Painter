@@ -31,7 +31,7 @@ class PainterCanvas extends SurfaceView implements Callback {
 	private BrushPreset mPreset;
 	
 	private boolean mIsSetup;
-	private boolean mIsChanged;
+	private int countChanges;
 	private boolean mUndo;
 
 	public static final int BLUR_TYPE_NONE = 0;
@@ -148,7 +148,7 @@ class PainterCanvas extends SurfaceView implements Callback {
 		switch(event.getAction()) 
 		{ 			
 			case MotionEvent.ACTION_DOWN: 
-				this.changed(true);
+				this.countChanges+= 1;
 				this.getThread().drawBegin();
 				this.mUndo = false;
 				break;
@@ -210,21 +210,42 @@ class PainterCanvas extends SurfaceView implements Callback {
 	}
 	
 	public boolean isChanged() {
-		return this.mIsChanged;
+		return (this.countChanges > 0);
 	}
 	
 	public void changed(boolean changed) {
-		this.mIsChanged = changed;
+		if(!changed) {
+			this.countChanges = 0;
+		}
+		else {
+			this.countChanges+= 1;
+		}		
 	}
 	
 	public void undo() {
 		if(!this.mUndo) {
 			this.mUndo = true;
 			this.getThread().undo();
+			this.countChanges-= 1;
 		}
 		else {
 			this.mUndo = false;
 			this.getThread().redo();
+			this.countChanges+= 1;
 		}
+	}
+	
+	public boolean canUndo() {
+		if(this.isChanged() && !this.mUndo) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canRedo() {
+		if(this.mUndo) {
+			return true;
+		}
+		return false;
 	}
 }

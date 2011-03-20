@@ -269,6 +269,27 @@ public class Painter extends Activity {
     	return true; 
     } 
     
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	super.onPrepareOptionsMenu(menu);
+    	
+    	MenuItem undo = menu.findItem(R.id.menu_undo);
+    	if(this.mCanvas.canUndo()) {
+    		undo.setTitle(R.string.menu_undo);
+    		undo.setEnabled(true);
+    	}
+    	else if(this.mCanvas.canRedo()) {
+    		undo.setTitle(R.string.menu_redo);
+    		undo.setEnabled(true);
+    	}
+    	else {
+    		undo.setTitle(R.string.menu_undo);
+    		undo.setEnabled(false);
+    	}    	
+    	
+    	return true;
+    }
+    
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	switch(keyCode) {
