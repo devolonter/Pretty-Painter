@@ -49,7 +49,7 @@
         <item>Внутреннее</item>
     </string-array>
     <string name="brush_color">Цвет кисти</string>
-    <string name="color_pick">Цвет</string> 
+    <string name="color_pick">Выберите цвет</string> 
     
 	<!-- toasts -->      	
 	<string name="invalid_file">Неверный формат файла</string>

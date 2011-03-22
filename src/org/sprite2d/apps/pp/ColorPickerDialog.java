@@ -26,8 +26,10 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -47,7 +49,7 @@ public class ColorPickerDialog extends Dialog {
 
 		private Paint mGradientPaint;
 		private int[] mLinearColors;
-
+	
 		ColorPickerView(Context c, OnColorChangedListener l, int color) {
 			super(c);
 			mListener = l;
@@ -61,7 +63,7 @@ public class ColorPickerDialog extends Dialog {
 			mPaint.setStrokeWidth(32);
 
 			mLinearColors = getColors(color);
-			Shader shader = new LinearGradient(0, 0, CENTER_X * 2, 0,
+			Shader shader = new LinearGradient(0, 0, Center_X * 2, 0,
 					mLinearColors, null, Shader.TileMode.CLAMP);
 
 			mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -91,10 +93,10 @@ public class ColorPickerDialog extends Dialog {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			float r = CENTER_X - mPaint.getStrokeWidth() * 0.5f;
+			float r = COLOR_CIRCLE - mPaint.getStrokeWidth() * 0.5f;
 
-			canvas.translate(CENTER_X, CENTER_X);
-
+			canvas.translate(Center_X, COLOR_CIRCLE);
+			
 			canvas.drawOval(new RectF(-r, -r, r, r), mPaint);
 			canvas.drawCircle(0, 0, CENTER_RADIUS, mCenterPaint);
 
@@ -116,22 +118,27 @@ public class ColorPickerDialog extends Dialog {
 
 			int color = mRadialPaint.getColor();
 			mLinearColors = getColors(color);
-			Shader shader = new LinearGradient(0, 0, CENTER_X * 2, 0,
+			Shader shader = new LinearGradient(0, 0, Center_X * 2, 0,
 					mLinearColors, null, Shader.TileMode.CLAMP);
 			mGradientPaint.setShader(shader);
 
-			canvas.translate(-CENTER_X, 0);
-			canvas.drawLine(0, r + 50, CENTER_X * 2, r + 50, mGradientPaint);
+			canvas.translate(-Center_X, 0);
+			canvas.drawLine(0, r + 70, Center_X * 2, r + 70, mGradientPaint);
 		}
 
 		@Override
-		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-			setMeasuredDimension(CENTER_X * 2, CENTER_Y * 2 + 70);
+		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {			
+			int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+		    int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+		    setMeasuredDimension(parentWidth, parentHeight);
+			Center_X = (int) Math.ceil(parentWidth*.5);
+			Center_Y = (int) Math.ceil(parentHeight*.5);
 		}
 
-		private static final int CENTER_X = 100;
-		private static final int CENTER_Y = 100;
+		private static int Center_X = 0;
+		private static int Center_Y = 0;
 		private static final int CENTER_RADIUS = 32;
+		private static final int COLOR_CIRCLE = 100;
 
 		private int ave(int s, int d, float p) {
 			return s + java.lang.Math.round(p * (d - s));
@@ -164,10 +171,10 @@ public class ColorPickerDialog extends Dialog {
 
 		@Override
 		public boolean onTouchEvent(MotionEvent event) {
-			float x = event.getX() - CENTER_X;
-			float y = event.getY() - CENTER_Y;
+			float x = event.getX() - Center_X;
+			float y = event.getY() - COLOR_CIRCLE;
 			boolean inCenter = Math.sqrt(x * x + y * y) <= CENTER_RADIUS;
-			boolean outOfRadialGradient = y > CENTER_X;
+			boolean outOfRadialGradient = y > COLOR_CIRCLE;
 
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
@@ -185,9 +192,9 @@ public class ColorPickerDialog extends Dialog {
 						invalidate();
 					}
 				} else if (mTrackingLinGradient) {
-					float unit = Math.max(0, Math.min(CENTER_X * 2, x
-							+ CENTER_X))
-							/ (CENTER_X * 2);
+					float unit = Math.max(0, Math.min(Center_X * 2, x
+							+ Center_X))
+							/ (Center_X * 2);
 					mCenterPaint.setColor(interpColor(mLinearColors, unit));
 					invalidate();
 				} else {
@@ -233,9 +240,24 @@ public class ColorPickerDialog extends Dialog {
 				mListener.colorChanged(color);
 				dismiss();
 			}
-		};
+		};	
+		
 
-		setContentView(new ColorPickerView(getContext(), l, mInitialColor));
-		setTitle(R.string.color_pick);
+		this.setContentView(new ColorPickerView(this.getContext(), l, mInitialColor));
+		this.setTitle(R.string.color_pick);		
+		
+		Display display = this.getWindow().getWindowManager().getDefaultDisplay();
+		if(display.getWidth() < display.getHeight()) {
+			this.getWindow().setLayout(
+					LayoutParams.FILL_PARENT, 
+					(int) Math.ceil(display.getHeight()*.7f)
+			);
+		}
+		else {
+			this.getWindow().setLayout(					
+					(int) Math.ceil(display.getWidth()*.7f),
+					LayoutParams.FILL_PARENT
+			);
+		}
 	}
 }
