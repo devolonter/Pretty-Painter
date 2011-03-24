@@ -1,12 +1,7 @@
 package org.sprite2d.apps.pp;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URI;
 
 import org.sprite2d.apps.pp.R;
@@ -18,12 +13,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -55,17 +50,7 @@ import android.widget.Toast;
  * @version 1.0 
  *
  */
-public class Painter extends Activity {
-	/*private static final short MENU_BRUSH = 0x1000;
-	private static final short MENU_CLEAR = 0x1001;
-	private static final short MENU_SAVE = 0x1002;	
-	private static final short MENU_SHARE = 0x1003;
-	private static final short MENU_ROTATE = 0x1004;
-	private static final short MENU_ABOUT = 0x1005;
-	private static final short MENU_UNDO = 0x1006;
-	private static final short MENU_OPEN = 0x1007;
-	private static final short MENU_PREFERENCES = 0x1008;*/
-	
+public class Painter extends Activity {	
 	private static final int DIALOG_CLEAR = 1;
 	private static final int DIALOG_EXIT = 2;
 	private static final int DIALOG_SHARE = 3;	
@@ -788,28 +773,11 @@ public class Painter extends Activity {
     	}
     }
     
-    private void setBlur() {
-    	Blur blur;
-    	
-		switch((int) this.mBrushBlurStyle.getSelectedItemId()) {
-			case 1: 
-				blur = Blur.NORMAL;
-				break;
-			case 2: 				
-				blur = Blur.SOLID;
-				break;			
-			case 3: 
-				blur = Blur.OUTER;
-				break;
-			case 4: 				
-				blur = Blur.INNER;
-				break;
-			default: 
-				blur = Blur.NORMAL;				
-				break;
-		}
-		
-		this.mCanvas.setPresetBlur(blur, mBrushBlurRadius.getProgress());
+    private void setBlur() {		
+		this.mCanvas.setPresetBlur(
+				(int) this.mBrushBlurStyle.getSelectedItemId(), 
+				mBrushBlurRadius.getProgress()
+		);
     }      
     
     private void setActivePreset(int preset){
@@ -902,40 +870,42 @@ public class Painter extends Activity {
 	}
     
     private void loadSettings() {
-    	PainterSettings settings = new PainterSettings();
+    	this.mSettings = new PainterSettings();    	
+    	SharedPreferences settings = this.getSharedPreferences(
+    			Painter.SETTINGS_STRORAGE, 
+    			Context.MODE_PRIVATE
+    	);       	
+
+    	this.mSettings.orientation = settings.getInt(
+    			"orientation", 
+    			ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    	);
     	
-    	try {
-    		FileInputStream fis = this.openFileInput(
-    				Painter.SETTINGS_STRORAGE
+    	if(this.getRequestedOrientation() != this.mSettings.orientation) {
+			this.setRequestedOrientation(this.mSettings.orientation);		    					
+		}
+    	
+    	this.mSettings.lastPicture = settings.getString("last_picture", null);    
+    	
+    	int type = settings.getInt("brush_type", BrushPreset.PEN);
+    	if(type == BrushPreset.CUSTOM) {
+	    	this.mSettings.preset = new BrushPreset(
+	    			settings.getFloat("brush_size", 2), 
+	    			settings.getInt("brush_color", Color.BLACK), 
+	    			settings.getInt("brush_blur_style", 0), 
+	    			settings.getInt("brush_blur_radius", 0)
+	    	);    	
+	    	this.mSettings.preset.setType(type);
+    	}
+    	else {
+    		this.mSettings.preset = new BrushPreset(
+    				type, 
+    				settings.getInt("brush_color", Color.BLACK)
     		);
-    		if(fis != null) {    			
-    			try {   
-    				ObjectInputStream oin = new ObjectInputStream(fis);
-    				
-    				try { 
-    					settings = (PainterSettings) oin.readObject();
-    				} catch(ClassNotFoundException e) {}
-    				
-    				if(settings != null) {    
-						if(this.getRequestedOrientation() != settings.orientation) {
-	    					this.setRequestedOrientation(settings.orientation);		    					
-    					}		    				
-    					if(settings.preset != null) {
-    						this.mCanvas.setPreset(settings.preset);
-    					}
-    				}
-    				else {
-    					settings = new PainterSettings();
-    					settings.preset = new BrushPreset(BrushPreset.PEN, Color.BLACK);
-    					this.mCanvas.setPreset(settings.preset);    					
-    				}
-    			} catch(IOException e){}
-    		}
-    	} catch (FileNotFoundException e) {}
+    	}
     	
-    	this.mSettings = settings;
-    }
-    
+    	this.mCanvas.setPreset(this.mSettings.preset);
+    }    
     
     private String getSaveDir() {
 		String path = Environment.getExternalStorageDirectory()
@@ -959,18 +929,26 @@ public class Painter extends Activity {
 		}
 	}
     
-    private void saveSettings() {    	
-		try {
-			FileOutputStream fos = openFileOutput(
-					Painter.SETTINGS_STRORAGE, 
-					Context.MODE_PRIVATE
-			);			
-			try {
-				ObjectOutputStream oos = new ObjectOutputStream(fos);				
-				oos.writeObject(this.mSettings);
-				oos.close();
-			} catch(IOException e) {}			
-		} catch(FileNotFoundException e) {}			
+    private void saveSettings() {   
+    	SharedPreferences settings = this.getSharedPreferences(
+    			Painter.SETTINGS_STRORAGE, 
+    			Context.MODE_PRIVATE
+    	);
+    	
+    	SharedPreferences.Editor editor = settings.edit();
+    	editor.putInt("orientation", this.mSettings.orientation);
+    	editor.putString("last_picture", this.mSettings.lastPicture);
+    	
+    	editor.putFloat("brush_size", this.mSettings.preset.size);
+    	editor.putInt("brush_color", this.mSettings.preset.color);
+    	editor.putInt(
+    			"brush_blur_style", 
+    			(this.mSettings.preset.blurStyle != null) ? this.mSettings.preset.blurStyle.ordinal()+1 : 0
+    	);
+    	editor.putInt("brush_blur_radius", this.mSettings.preset.blurRadius);
+    	editor.putInt("brush_type", this.mSettings.preset.type);    	
+
+    	editor.commit();
     }
     
     

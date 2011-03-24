@@ -196,6 +196,11 @@ class PainterCanvas extends SurfaceView implements Callback {
 		this.getThread().setPreset(this.mPreset);
 	}
 	
+	public void setPresetBlur(int blurStyle, int blurRadius) {
+		this.mPreset.setBlur(blurStyle, blurRadius);
+		this.getThread().setPreset(this.mPreset);
+	}
+	
 	public void setPreset(BrushPreset preset) {
 		this.mPreset = preset;
 		this.getThread().setPreset(this.mPreset);

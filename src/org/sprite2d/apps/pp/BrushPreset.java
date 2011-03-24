@@ -27,6 +27,11 @@ class BrushPreset implements Serializable{
 	public static final int PEN = 4;
 	public static final int CUSTOM = 5;
 	
+	public static final int BLUR_NORMAL = 1;
+	public static final int BLUR_SOLID = 2;
+	public static final int BLUR_OUTER = 3;
+	public static final int BLUR_INNER = 4;
+	
 	public BrushPreset() {}
 	
 	public BrushPreset(int type, int color){
@@ -42,6 +47,9 @@ class BrushPreset implements Serializable{
 				break;
 			case BrushPreset.PEN: 
 				this.set(2, color);
+				break;
+			case BrushPreset.CUSTOM:
+				this.setColor(color);
 				break;
 		}
 		
@@ -60,7 +68,15 @@ class BrushPreset implements Serializable{
 		this.set(size, blurStyle, blurRadius);
 	}
 	
+	public BrushPreset(float size, int blurStyle, int blurRadius){
+		this.set(size, blurStyle, blurRadius);
+	}
+	
 	public BrushPreset(float size, int color, Blur blurStyle, int blurRadius){
+		this.set(size, color, blurStyle, blurRadius);
+	}
+	
+	public BrushPreset(float size, int color, int blurStyle, int blurRadius){
 		this.set(size, color, blurStyle, blurRadius);
 	}
 	
@@ -78,7 +94,18 @@ class BrushPreset implements Serializable{
 		this.setBlur(blurStyle, blurRadius);
 	}
 	
+	public void set(float size, int blurStyle, int blurRadius){
+		this.setSize(size);
+		this.setBlur(blurStyle, blurRadius);
+	}
+	
 	public void set(float size, int color, Blur blurStyle, int blurRadius){
+		this.setSize(size);
+		this.setBlur(blurStyle, blurRadius);
+		this.setColor(color);
+	}
+	
+	public void set(float size, int color, int blurStyle, int blurRadius){
 		this.setSize(size);
 		this.setBlur(blurStyle, blurRadius);
 		this.setColor(color);
@@ -107,6 +134,32 @@ class BrushPreset implements Serializable{
 			this.setType(BrushPreset.CUSTOM);
 		}
 		this.blurStyle = blurStyle;
+		this.blurRadius = blurRadius;
+	}
+	
+	public void setBlur(int blurStyle, int blurRadius) {
+		int style = (this.blurStyle != null) ? this.blurStyle.ordinal()+1 : 0;
+		if(style != blurStyle || this.blurRadius != blurRadius){
+			this.setType(BrushPreset.CUSTOM);
+		}
+
+		switch(blurStyle) {
+			case BrushPreset.BLUR_NORMAL: 
+				this.blurStyle = Blur.NORMAL;
+				break;
+			case BrushPreset.BLUR_SOLID: 				
+				this.blurStyle = Blur.SOLID;
+				break;			
+			case BrushPreset.BLUR_OUTER: 
+				this.blurStyle = Blur.OUTER;
+				break;
+			case BrushPreset.BLUR_INNER: 				
+				this.blurStyle = Blur.INNER;
+				break;
+			default: 
+				this.blurStyle = null;				
+				break;
+		}
 		this.blurRadius = blurRadius;
 	}
 }
