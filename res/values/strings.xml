@@ -57,5 +57,15 @@ Beauticons
 	<string name="invalid_file">File format is invalid</string>
 	<string name="file_not_found">File not found</string>
 	<string name="sd_card_not_writeable">SD card not available for recording</string>
-    <string name="sd_card_not_available">SD card not available</string>	
+    <string name="sd_card_not_available">SD card not available</string>
+    
+    <!-- settings -->
+    <string name="settings_version">version</string>	
+    <string name="settings_orientation">orientation</string>
+    <string name="settings_last_picture">lastPicture</string>
+    <string name="settings_brush_size">brushSize</string>
+    <string name="settings_brush_color">brushColor</string>
+    <string name="settings_brush_blur_style">brushBlurStyle</string>
+    <string name="settings_brush_blur_radius">brushBlurRadius</string>
+    <string name="settings_brush_type">brushType</string>
 </resources>

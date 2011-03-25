@@ -1,7 +1,5 @@
 package org.sprite2d.apps.pp;
 
-import java.io.Serializable;
-
 import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Color;
 
@@ -12,9 +10,7 @@ import android.graphics.Color;
  * @version 1.0 
  *
  */
-class BrushPreset implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+class BrushPreset {	
 	public float size = 2;
 	public int color = Color.BLACK;
 	public Blur blurStyle = null;

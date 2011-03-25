@@ -15,6 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -877,7 +879,7 @@ public class Painter extends Activity {
     	);       	
 
     	this.mSettings.orientation = settings.getInt(
-    			"orientation", 
+    			this.getString(R.string.settings_orientation), 
     			ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     	);
     	
@@ -885,22 +887,44 @@ public class Painter extends Activity {
 			this.setRequestedOrientation(this.mSettings.orientation);		    					
 		}
     	
-    	this.mSettings.lastPicture = settings.getString("last_picture", null);    
+    	this.mSettings.lastPicture = settings.getString(
+    			this.getString(R.string.settings_last_picture), 
+    			null
+    	); 
     	
-    	int type = settings.getInt("brush_type", BrushPreset.PEN);
+    	int type = settings.getInt(
+    			this.getString(R.string.settings_brush_type), 
+    			BrushPreset.PEN
+    	);
+    	
     	if(type == BrushPreset.CUSTOM) {
 	    	this.mSettings.preset = new BrushPreset(
-	    			settings.getFloat("brush_size", 2), 
-	    			settings.getInt("brush_color", Color.BLACK), 
-	    			settings.getInt("brush_blur_style", 0), 
-	    			settings.getInt("brush_blur_radius", 0)
+	    			settings.getFloat(
+	    					this.getString(R.string.settings_brush_size), 
+	    					2
+	    			), 
+	    			settings.getInt(
+	    					this.getString(R.string.settings_brush_color), 
+	    					Color.BLACK
+	    			), 
+	    			settings.getInt(
+	    					this.getString(R.string.settings_brush_blur_style), 
+	    					0
+	    			), 
+	    			settings.getInt(
+	    					this.getString(R.string.settings_brush_blur_radius), 
+	    					0
+	    			)
 	    	);    	
 	    	this.mSettings.preset.setType(type);
     	}
     	else {
     		this.mSettings.preset = new BrushPreset(
     				type, 
-    				settings.getInt("brush_color", Color.BLACK)
+    				settings.getInt(
+    						this.getString(R.string.settings_brush_color), 
+    						Color.BLACK
+    				)
     		);
     	}
     	
@@ -936,17 +960,47 @@ public class Painter extends Activity {
     	);
     	
     	SharedPreferences.Editor editor = settings.edit();
-    	editor.putInt("orientation", this.mSettings.orientation);
-    	editor.putString("last_picture", this.mSettings.lastPicture);
     	
-    	editor.putFloat("brush_size", this.mSettings.preset.size);
-    	editor.putInt("brush_color", this.mSettings.preset.color);
+    	try {
+	    	PackageInfo pack = this.getPackageManager().getPackageInfo(
+	    			this.getPackageName(), 
+	    			0
+	    	);
+	    	editor.putInt(
+	    			this.getString(R.string.settings_version), 
+	    			pack.versionCode
+	    	);
+    	}
+    	catch (NameNotFoundException e) {}
+    	
     	editor.putInt(
-    			"brush_blur_style", 
+    			this.getString(R.string.settings_orientation), 
+    			this.mSettings.orientation
+    	);
+    	editor.putString(
+    			this.getString(R.string.settings_last_picture), 
+    			this.mSettings.lastPicture
+    	);    	
+    	editor.putFloat(
+    			this.getString(R.string.settings_brush_size), 
+    			this.mSettings.preset.size
+    	);    	
+    	editor.putInt(
+    			this.getString(R.string.settings_brush_color),
+    			this.mSettings.preset.color
+    	);    	
+    	editor.putInt(
+    			this.getString(R.string.settings_brush_blur_style), 
     			(this.mSettings.preset.blurStyle != null) ? this.mSettings.preset.blurStyle.ordinal()+1 : 0
     	);
-    	editor.putInt("brush_blur_radius", this.mSettings.preset.blurRadius);
-    	editor.putInt("brush_type", this.mSettings.preset.type);    	
+    	editor.putInt(
+    			this.getString(R.string.settings_brush_blur_radius), 
+    			this.mSettings.preset.blurRadius
+    	);
+    	editor.putInt(
+    			this.getString(R.string.settings_brush_type), 
+    			this.mSettings.preset.type
+    	);    	
 
     	editor.commit();
     }
