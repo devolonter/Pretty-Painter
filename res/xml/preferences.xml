@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference android:summary="@string/preferences_tooltips_summary" android:key="@string/preferences_tooltips" android:title="@string/preferences_tooltips_title" android:defaultValue="1"></CheckBoxPreference>
+    <CheckBoxPreference android:summary="@string/preferences_shake_summary" android:key="@string/preferences_shake" android:title="@string/preferences_shake_title" android:defaultValue="1"></CheckBoxPreference>
+</PreferenceScreen>
