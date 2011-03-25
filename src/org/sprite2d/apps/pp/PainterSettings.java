@@ -9,7 +9,7 @@ import android.content.pm.ActivityInfo;
  * @version 1.0 
  *
  */
-class PainterSettings {	
+public class PainterSettings {	
 	public BrushPreset preset = null;
 	public String lastPicture = null;
 	public int orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;

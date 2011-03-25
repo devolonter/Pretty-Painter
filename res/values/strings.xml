@@ -68,4 +68,13 @@ Beauticons
     <string name="settings_brush_blur_style">brushBlurStyle</string>
     <string name="settings_brush_blur_radius">brushBlurRadius</string>
     <string name="settings_brush_type">brushType</string>
+    
+    <!-- preferences -->
+    <string name="preferences_tooltips">preferencesTooltips</string>
+    <string name="preferences_tooltips_title">Show tooltips</string>
+    <string name="preferences_tooltips_summary">Show tricks and tips on startup</string>
+    
+    <string name="preferences_shake">preferencesShake</string>
+    <string name="preferences_shake_title">Shake to clear</string>
+    <string name="preferences_shake_summary">Clear canvas during device shaking</string>
 </resources>

@@ -252,6 +252,9 @@ public class Painter extends Activity {
     		case R.id.menu_undo:
     			this.mCanvas.undo();
     			break;
+    		case R.id.menu_preferences:
+    			this.showPreferences();
+    			break;
     	}
     	return true; 
     } 
@@ -1055,5 +1058,11 @@ public class Painter extends Activity {
 		cursor.moveToFirst();
 		
 		return cursor.getString(column_index).replace(" ", "%20");
+    }
+    
+    private void showPreferences() {
+    	Intent intent = new Intent();
+    	intent.setClass(this, PainterPreferences.class);
+    	startActivity(intent);
     }
 }

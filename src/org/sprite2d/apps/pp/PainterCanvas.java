@@ -23,7 +23,7 @@ import android.view.SurfaceHolder.Callback;
  * @version 1.0 
  *
  */
-class PainterCanvas extends SurfaceView implements Callback {	
+public class PainterCanvas extends SurfaceView implements Callback {	
 		
 	private PainterThread mThread;
 	private Bitmap mBitmap;

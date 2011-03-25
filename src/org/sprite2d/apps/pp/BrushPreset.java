@@ -10,7 +10,7 @@ import android.graphics.Color;
  * @version 1.0 
  *
  */
-class BrushPreset {	
+public class BrushPreset {	
 	public float size = 2;
 	public int color = Color.BLACK;
 	public Blur blurStyle = null;
