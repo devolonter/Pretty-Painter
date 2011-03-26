@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference android:summary="@string/preferences_tooltips_summary" android:key="@string/preferences_tooltips" android:title="@string/preferences_tooltips_title" android:defaultValue="1"></CheckBoxPreference>
-    <CheckBoxPreference android:summary="@string/preferences_shake_summary" android:key="@string/preferences_shake" android:title="@string/preferences_shake_title" android:defaultValue="1"></CheckBoxPreference>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/preferences_main_category">
+		<ListPreference 
+			android:key="@string/preferences_language"
+			android:title="@string/preferences_language_title"
+			android:summary="@string/preferences_language_summary"
+			android:entries="@array/languages"
+			android:entryValues="@array/locales"
+			android:dialogTitle="@string/select_language_title" />
+		<CheckBoxPreference 
+	    	android:summary="@string/preferences_last_file_summary" 
+	    	android:key="@string/preferences_last_file" 
+	    	android:title="@string/preferences_last_file_title" 
+	    	android:defaultValue="1" />
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/preferences_other_category">
+	    <CheckBoxPreference 
+	    	android:summary="@string/preferences_tooltips_summary" 
+	    	android:key="@string/preferences_tooltips" 
+	    	android:title="@string/preferences_tooltips_title" 
+	    	android:defaultValue="1" />
+	    <CheckBoxPreference 
+	    	android:summary="@string/preferences_shake_summary" 
+	    	android:title="@string/preferences_shake_title" 
+	    	android:key="@string/preferences_shake" 
+	    	android:defaultValue="1" />
+	</PreferenceCategory>
 </PreferenceScreen>

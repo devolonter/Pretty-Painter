@@ -3,6 +3,7 @@ package org.sprite2d.apps.pp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
+import java.util.Locale;
 
 import org.sprite2d.apps.pp.R;
 
@@ -17,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -28,6 +30,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.util.Linkify;
 import android.view.KeyEvent;
@@ -83,6 +86,8 @@ public class Painter extends Activity {
 	
 	private PainterSettings mSettings;
 	private boolean mIsNewFile = true;
+	
+	private boolean mOpenLastFile = true;
 	
 	private class SaveTask extends AsyncTask<Void, Void, String> {
 		private ProgressDialog dialog = ProgressDialog.show(
@@ -210,6 +215,29 @@ public class Painter extends Activity {
         this.updateControls();
         this.setActivePreset(this.mCanvas.getCurrentPreset().type);
     }	
+	
+	@Override 
+	protected void onResume() {
+		super.onResume();
+		SharedPreferences preferences = 
+			PreferenceManager.getDefaultSharedPreferences(this);
+		
+		String lang = preferences.getString(
+				this.getString(R.string.preferences_language), 
+				null);
+		
+		if(lang != null) {
+			Locale locale = new Locale(lang);
+			Locale.setDefault(locale);
+			Configuration config = new Configuration();
+			config.locale = locale;
+			this.getBaseContext().getResources().updateConfiguration(config, null);
+		}
+		
+		this.mOpenLastFile = preferences.getBoolean(
+				this.getString(R.string.preferences_last_file), 
+				true);
+	}
  
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -428,6 +456,14 @@ public class Painter extends Activity {
     
     public Bitmap getLastPicture() {
     	Bitmap savedBitmap = null;
+    	
+    	if(!this.mOpenLastFile && !this.mSettings.forceOpenFile) {
+    		this.mSettings.lastPicture = null;
+    		this.mIsNewFile = true;
+    		return savedBitmap;
+    	}
+    	
+    	this.mSettings.forceOpenFile = false;
     	
     	if(this.mSettings.lastPicture != null) {
     		if(new File(this.mSettings.lastPicture).exists()){
@@ -808,7 +844,9 @@ public class Painter extends Activity {
 		this.updateControls();
     }
     
-    private void rotate() {    	
+    private void rotate() {  
+    	this.mSettings.forceOpenFile = true;
+    	
     	if(!this.mIsNewFile || this.mCanvas.isChanged()){
 			this.savePicture(Painter.ACTION_SAVE_AND_ROTATE);
 		}
@@ -932,6 +970,11 @@ public class Painter extends Activity {
     	}
     	
     	this.mCanvas.setPreset(this.mSettings.preset);
+    	
+    	this.mSettings.forceOpenFile = settings.getBoolean(
+    			this.getString(R.string.settings_force_open_file), 
+    			false
+    	);
     }    
     
     private String getSaveDir() {
@@ -1003,7 +1046,11 @@ public class Painter extends Activity {
     	editor.putInt(
     			this.getString(R.string.settings_brush_type), 
     			this.mSettings.preset.type
-    	);    	
+    	);  
+    	editor.putBoolean(
+    			this.getString(R.string.settings_force_open_file), 
+    			this.mSettings.forceOpenFile
+    	);
 
     	editor.commit();
     }
@@ -1018,6 +1065,8 @@ public class Painter extends Activity {
     	if(!this.isStorageAvailable()){
     		return;
     	}
+    	
+    	this.mSettings.forceOpenFile = true;
     	
     	if(this.mCanvas.isChanged()){ 
     		this.showDialog(Painter.DIALOG_OPEN);

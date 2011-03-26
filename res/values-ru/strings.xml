@@ -22,7 +22,8 @@
 	<string name="share_prompt">Сохранить изображение перед отправкой?</string>
 	<string name="open_prompt_title">Открыть с помощью</string>
 	<string name="open_prompt">Сохранить изображение перед открытием другого файла?</string>
-	<string name="share_image_title">Отправить с помощью:</string>
+	<string name="share_image_title">Отправить с помощью</string>
+	<string name="select_language_title">Выберите язык</string>
 	
 	<!-- menu -->
     <string name="menu_brush">Кисть</string>
@@ -55,5 +56,21 @@
 	<string name="invalid_file">Неверный формат файла</string>
 	<string name="file_not_found">Файл не найден</string>
 	<string name="sd_card_not_writeable">Карта памяти недоступна для записи</string>
-    <string name="sd_card_not_available">Карта памяти недоступна</string>	
+    <string name="sd_card_not_available">Карта памяти недоступна</string>
+    
+    <!-- preferences -->
+    <string name="preferences_main_category">Основные настройки</string>
+    <string name="preferences_other_category">Дополнительные настройки</string>
+    
+    <string name="preferences_language_title">Язык</string>
+    <string name="preferences_language_summary">Установить язык приложения. Требуется перезапуск</string>
+    
+    <string name="preferences_last_file_title">Открывать последний файл</string>
+    <string name="preferences_last_file_summary">Открывать последний рабочий файл при старте приложения</string>
+    
+    <string name="preferences_tooltips_title">Показывать подсказки</string>
+    <string name="preferences_tooltips_summary">Показывать трюки и советы при старте приложения</string>
+    
+    <string name="preferences_shake_title">Потрясти чтобы очистить</string>
+    <string name="preferences_shake_summary">Очищать холст при тряске устройства</string>
 </resources>

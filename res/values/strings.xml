@@ -24,7 +24,8 @@ Beauticons
 	<string name="share_prompt">Do you want to save image before share it?</string>
 	<string name="open_prompt_title">Open via</string>
 	<string name="open_prompt">Do you want to save image before open another file?</string>
-	<string name="share_image_title">Share via:</string>
+	<string name="share_image_title">Share via</string>
+	<string name="select_language_title">Select language</string>
     
     <!-- menu -->
     <string name="menu_brush">Brush</string>
@@ -68,8 +69,30 @@ Beauticons
     <string name="settings_brush_blur_style">brushBlurStyle</string>
     <string name="settings_brush_blur_radius">brushBlurRadius</string>
     <string name="settings_brush_type">brushType</string>
+    <string name="settings_force_open_file">forceOpenFile</string>
+    
+    <!-- language -->
+    <string-array name="languages">
+    	<item>English</item>
+        <item>Русский</item>
+    </string-array>
+    <string-array name="locales">
+    	<item>en</item>
+        <item>ru</item>
+    </string-array>
     
     <!-- preferences -->
+    <string name="preferences_main_category">Main preferences</string>
+    <string name="preferences_other_category">Other preferences</string>
+    
+    <string name="preferences_language">preferencesLanguage</string>
+    <string name="preferences_language_title">Language</string>
+    <string name="preferences_language_summary">Set interface language. Restart needed</string>
+    
+    <string name="preferences_last_file">lastFile</string>
+    <string name="preferences_last_file_title">Open last file</string>
+    <string name="preferences_last_file_summary">Open last working file on startup</string>
+    
     <string name="preferences_tooltips">preferencesTooltips</string>
     <string name="preferences_tooltips_title">Show tooltips</string>
     <string name="preferences_tooltips_summary">Show tricks and tips on startup</string>
