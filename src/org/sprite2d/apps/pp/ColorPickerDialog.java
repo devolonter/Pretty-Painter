@@ -137,7 +137,7 @@ public class ColorPickerDialog extends Dialog {
 		}
 
 		private static int Center_X = 110;
-		private static int Center_Y = 110;
+		private static int Center_Y = 100;
 		private static final int CENTER_RADIUS = 32;
 		private static final int COLOR_CIRCLE = 100;
 

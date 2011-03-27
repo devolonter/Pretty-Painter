@@ -108,9 +108,6 @@ public class BrushPreset {
 	}
 	
 	public void setColor(int color) {
-		if(this.color != color){
-			this.setType(BrushPreset.CUSTOM);
-		}
 		this.color = color;	
 	}
 	
