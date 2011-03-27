@@ -15,7 +15,7 @@
 	    	android:defaultValue="1" />
 	</PreferenceCategory>
 	
-	<PreferenceCategory android:title="@string/preferences_other_category">
+	<!-- <PreferenceCategory android:title="@string/preferences_other_category">
 	    <CheckBoxPreference 
 	    	android:summary="@string/preferences_tooltips_summary" 
 	    	android:key="@string/preferences_tooltips" 
@@ -26,5 +26,5 @@
 	    	android:title="@string/preferences_shake_title" 
 	    	android:key="@string/preferences_shake" 
 	    	android:defaultValue="1" />
-	</PreferenceCategory>
+	</PreferenceCategory> -->
 </PreferenceScreen>

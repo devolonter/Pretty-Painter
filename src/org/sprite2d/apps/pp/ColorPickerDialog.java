@@ -26,10 +26,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -123,20 +121,23 @@ public class ColorPickerDialog extends Dialog {
 			mGradientPaint.setShader(shader);
 
 			canvas.translate(-Center_X, 0);
-			canvas.drawLine(0, r + 70, Center_X * 2, r + 70, mGradientPaint);
+			canvas.drawLine(0, r + 50, Center_X * 2, r + 50, mGradientPaint);
 		}
 
 		@Override
-		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {			
+		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {	
+			/*super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 			int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
 		    int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
 		    setMeasuredDimension(parentWidth, parentHeight);
 			Center_X = (int) Math.ceil(parentWidth*.5);
-			Center_Y = (int) Math.ceil(parentHeight*.5);
+			Center_Y = (int) Math.ceil(parentHeight*.5);*/
+			
+			setMeasuredDimension(Center_X * 2, Center_Y * 2 + 70);
 		}
 
-		private static int Center_X = 0;
-		private static int Center_Y = 0;
+		private static int Center_X = 110;
+		private static int Center_Y = 110;
 		private static final int CENTER_RADIUS = 32;
 		private static final int COLOR_CIRCLE = 100;
 
@@ -244,9 +245,9 @@ public class ColorPickerDialog extends Dialog {
 		
 
 		this.setContentView(new ColorPickerView(this.getContext(), l, mInitialColor));
-		this.setTitle(R.string.color_pick);		
+		this.setTitle(R.string.color_pick);	
 		
-		Display display = this.getWindow().getWindowManager().getDefaultDisplay();
+		/*Display display = this.getWindow().getWindowManager().getDefaultDisplay();
 		if(display.getWidth() < display.getHeight()) {
 			this.getWindow().setLayout(
 					LayoutParams.FILL_PARENT, 
@@ -258,6 +259,6 @@ public class ColorPickerDialog extends Dialog {
 					(int) Math.ceil(display.getWidth()*.7f),
 					LayoutParams.FILL_PARENT
 			);
-		}
+		}*/
 	}
 }
