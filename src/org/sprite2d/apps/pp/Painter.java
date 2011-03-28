@@ -747,7 +747,7 @@ public class Painter extends Activity {
 						Handler handler = new Handler(); 
 					    handler.postDelayed(new Runnable() { 
 					         public void run() {    
-					        	 Painter.this.mSettingsLayout.setVisibility(View.INVISIBLE);
+					        	 Painter.this.mSettingsLayout.setVisibility(View.GONE);
 					         } 
 					    }, 10);						
 					}
