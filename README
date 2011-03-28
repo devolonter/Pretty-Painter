@@ -1,33 +1,33 @@
-Pretty Painter — application  for drawing and entertainment!
+Pretty Painter - application  for drawing and entertainment!
 Create your masterpieces or  make simple sketches! It's a great way to spend your free time!
 
 Application features:
-— Size, color and type tool setting
-— Work result saving
-— Opening of the previously created files
-— Undo the last action
-— Sending a file via Twitter, Facebook, email, etc. (Client-application must be installed)
+- Size, color and type tool setting
+- Work result saving
+- Opening of the previously created files
+- Undo the last action
+- Sending a file via Twitter, Facebook, email, etc. (Client-application must be installed)
 
 Versions history:
 -----------------
 ***** v1.1 *****
-— File open function added (only png supported)
-— Undo function added 
-— Settings added
-— Permissions changed
-— Application main icon changed
-— Tools icons changed
-— A lot of small modifications
+- File open function added (only png supported)
+- Undo function added 
+- Settings added
+- Permissions changed
+- Application main icon changed
+- Tools icons changed
+- A lot of small modifications
 
 ***** v1.02 *****
-— Fixed a bug in the brush settings window. Options did not display in Android 2.3.3 (Thanks to Rinat (RendeRR)) 
-— Fixed screen flicker when entering and leaving the brush installations window in Android 2.1 
-— Fixed a bug causing a discharge of the brush in the setup window 
-— Fixed bug of blur mismatch (inner and outer) to menu items 
-— Fixed a bug when you turn the new, changed, but not saved file, resulting in data loss
+- Fixed a bug in the brush settings window. Options did not display in Android 2.3.3 (Thanks to Rinat (RendeRR)) 
+- Fixed screen flicker when entering and leaving the brush installations window in Android 2.1 
+- Fixed a bug causing a discharge of the brush in the setup window 
+- Fixed bug of blur mismatch (inner and outer) to menu items 
+- Fixed a bug when you turn the new, changed, but not saved file, resulting in data loss
 
 ***** v1.01 *****
-— Fixed bug when sharing a new, unmodified file, that causes the crash application
+- Fixed bug when sharing a new, unmodified file, that causes the crash application
 
 ***** v1.0 *****
-— Release
+- Release
