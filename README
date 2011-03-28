@@ -6,10 +6,16 @@ Application features:
 - Work result saving
 - Opening of the previously created files
 - Undo the last action
-- Sending a file via Twitter, Facebook, email, etc. (Client-application must be installed)
+- Sending a file via Twitter, Facebook, email, etc. (Client application must be installed)
 
 Versions history:
 -----------------
+***** v1.11 *****
+- Scale added with opening large files
+- Blank screen bug fixed in brush settings window, after cleaning canvas in Android 2.3.3
+- Double save after screen rotation removed
+- Graphics interface optimize
+
 ***** v1.1 *****
 - File open function added (only png supported)
 - Undo function added 

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BlurMaskFilter.Blur;
@@ -91,21 +92,56 @@ public class PainterCanvas extends SurfaceView implements Callback {
 			
 			this.getThread().setBitmap(this.mBitmap, true);			
 			Painter painter = (Painter) this.getContext();			
-			Bitmap bitmap = painter.getLastPicture();
+			Bitmap bitmap = painter.getLastPicture();			
+			
 			if(bitmap != null) {
+				float bitmapWidth = bitmap.getWidth();
+				float bitmapHeight = bitmap.getHeight();
+				float scale = 1.0f;
+				
 				Matrix matrix = new Matrix();
-				if(width != bitmap.getWidth() || height != bitmap.getHeight()) {
-					matrix.preTranslate(
-							width/2 - bitmap.getWidth()/2, 
-							height/2 - bitmap.getHeight()/2
-					);
-					if(width > bitmap.getWidth()) {						
-						matrix.postRotate(-90, width/2, height/2);						
+				if(width != bitmapWidth || height != bitmapHeight) {					
+					if(width == bitmapHeight || height == bitmapWidth){
+						if(width > height) {						
+							matrix.postRotate(-90, width/2, height/2);						
+						}
+						else {
+							matrix.postRotate(90, width/2, height/2);		
+						}
 					}
 					else {
-						matrix.postRotate(90, width/2, height/2);		
+						if(painter.getRequestedOrientation() == 
+							ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+							if(bitmapWidth > bitmapHeight && bitmapWidth > width) {
+								scale = (float) width / bitmapWidth ;								
+							}
+							else if(bitmapHeight > bitmapWidth && bitmapHeight > height) {
+								scale = (float) height / bitmapHeight;
+							}
+						}
+						else {							
+							if(bitmapHeight > bitmapWidth && bitmapHeight > height) {
+								scale = (float) height / bitmapHeight;
+							}
+							else if(bitmapWidth > bitmapHeight && bitmapWidth > width) {
+								scale = (float) width / bitmapWidth ;
+							}
+						}
 					}
-					painter.savePicture(Painter.ACTION_SAVE_AND_RETURN);
+					
+					if(scale == 1.0f) {
+						matrix.preTranslate(
+								width/2 - bitmapWidth/2, 
+								height/2 - bitmapHeight/2
+						);	
+					}
+					else {
+						matrix.postScale(scale, scale, bitmapWidth/2, bitmapHeight/2);
+						matrix.postTranslate(
+								width/2 - bitmapWidth/2, 
+								height/2 - bitmapHeight/2
+						);	
+					}
 				}
 				this.getThread().restoreBitmap(bitmap, matrix);
 			}			

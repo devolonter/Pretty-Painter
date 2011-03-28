@@ -236,7 +236,7 @@ public class PainterThread extends Thread {
 	}
 	
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
-		this.mCanvas.drawBitmap(bitmap, matrix, null);
+		this.mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
 	}
 	
 	public void clearBitmap() {
