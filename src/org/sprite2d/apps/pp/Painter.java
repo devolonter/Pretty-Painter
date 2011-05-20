@@ -283,6 +283,9 @@ public class Painter extends Activity {
     		case R.id.menu_preferences:
     			this.showPreferences();
     			break;
+    		case R.id.menu_set_wallpaper:			
+    			this.mCanvas.setCanvasAsWallpaper();
+    			break;
     	}
     	return true; 
     } 
