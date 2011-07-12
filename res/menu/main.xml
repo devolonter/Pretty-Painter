@@ -10,4 +10,6 @@
     <item android:id="@+id/menu_rotate" android:orderInCategory="70" android:title="@string/menu_rotate" android:icon="@android:drawable/ic_menu_rotate"></item>
     <item android:id="@+id/menu_preferences" android:orderInCategory="80" android:title="@string/menu_preferences" android:icon="@android:drawable/ic_menu_preferences"></item>
     <item android:id="@+id/menu_about" android:orderInCategory="90" android:title="@string/menu_about" android:icon="@android:drawable/ic_menu_info_details"></item>
+    <item android:id="@+id/menu_set_wallpaper" android:orderInCategory="90" android:title="@string/menu_set_wallpaper" android:icon="@android:drawable/ic_menu_info_details"></item>
+    
 </menu>
