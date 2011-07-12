@@ -2,7 +2,9 @@ package org.sprite2d.apps.pp;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -288,5 +290,18 @@ public class PainterCanvas extends SurfaceView implements Callback {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setCanvasAsWallpaper() {
+		// TODO Auto-generated method stub
+		synchronized (this.getHolder()){
+			  WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
+	          try {
+				wallpaperManager.setBitmap(this.getThread().getBitmap());
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
 	}
 }
