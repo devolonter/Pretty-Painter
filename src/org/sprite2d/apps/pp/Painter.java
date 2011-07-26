@@ -61,6 +61,10 @@ import android.widget.Toast;
  */
 public class Painter extends Activity {
 
+	public static final int BACKUP_OPENED_ONLY_FROM_OTHER = 1;
+	public static final int BACKUP_OPENED_ALWAYS = 2;
+	public static final int BACKUP_OPENED_NEVER = 3;
+
 	public static final int ACTION_SAVE_AND_EXIT = 1;
 	public static final int ACTION_SAVE_AND_RETURN = 2;
 	public static final int ACTION_SAVE_AND_SHARE = 3;
@@ -69,11 +73,11 @@ public class Painter extends Activity {
 
 	public static final int REQUEST_OPEN = 1;
 
-	private static final String SETTINGS_STRORAGE = "settings";
+	private static final String SETTINGS_STORAGE = "settings";
 
-	private static final String PICTURE_MIME = "image/png";
-	private static final String PICTURE_PREFIX = "picture_";
-	private static final String PICTURE_EXT = ".png";
+	public static final String PICTURE_MIME = "image/png";
+	public static final String PICTURE_PREFIX = "picture_";
+	public static final String PICTURE_EXT = ".png";
 
 	private PainterCanvas mCanvas;
 	private SeekBar mBrushSize;
@@ -145,9 +149,9 @@ public class Painter extends Activity {
 
 			wallpaperCanvas.drawColor(Painter.this.mCanvas.getThread()
 					.getBackgroundColor());
-			wallpaperCanvas.drawBitmap(currentBitmap, (wallpaperWidth
-					- currentBitmap.getWidth()) / 2, (wallpaperHeight
-					- currentBitmap.getHeight()) / 2, null);
+			wallpaperCanvas.drawBitmap(currentBitmap,
+					(wallpaperWidth - currentBitmap.getWidth()) / 2,
+					(wallpaperHeight - currentBitmap.getHeight()) / 2, null);
 
 			try {
 				wallpaperManager.setBitmap(wallpaperBitmap);
@@ -442,6 +446,8 @@ public class Painter extends Activity {
 		switch (requestCode) {
 		case Painter.REQUEST_OPEN:
 			if (resultCode == Activity.RESULT_OK) {
+				this.mSettings.lastPicture = "";
+
 				Uri uri = intent.getData();
 				String path = "";
 
@@ -449,7 +455,7 @@ public class Painter extends Activity {
 					if (uri.toString().toLowerCase().startsWith("content://")) {
 						path = "file://" + this.getRealPathFromURI(uri);
 					} else {
-						path = uri.toString().toLowerCase();
+						path = uri.toString();
 					}
 					URI file_uri = URI.create(path);
 
@@ -477,8 +483,53 @@ public class Painter extends Activity {
 								} else {
 									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 								}
-								this.mSettings.lastPicture = picture
-										.getAbsolutePath();
+
+								SharedPreferences preferences = PreferenceManager
+										.getDefaultSharedPreferences(this);
+
+								int backupOption = Integer
+										.parseInt(preferences.getString(
+												this.getString(R.string.preferences_backup_openeded_file),
+												String.valueOf(BACKUP_OPENED_ONLY_FROM_OTHER)));
+
+								switch (backupOption) {
+								case BACKUP_OPENED_ONLY_FROM_OTHER:
+									if (!picture
+											.getParentFile()
+											.getName()
+											.equals(this
+													.getString(R.string.app_name))) {
+										this.mSettings.lastPicture = FileSystem
+												.copyFile(
+														picture.getAbsolutePath(),
+														this.getSaveDir()
+																+ picture
+																		.getName());
+									} else {
+										this.mSettings.lastPicture = picture
+												.getAbsolutePath();
+									}
+									break;
+
+								case BACKUP_OPENED_ALWAYS:
+									this.mSettings.lastPicture = FileSystem
+											.copyFile(
+													picture.getAbsolutePath(),
+													this.getSaveDir()
+															+ picture.getName());
+									break;
+
+								case BACKUP_OPENED_NEVER:
+									this.mSettings.lastPicture = picture
+											.getAbsolutePath();
+									break;
+								}
+
+								if (this.mSettings.lastPicture == null) {
+									Toast.makeText(this,
+											R.string.file_not_found,
+											Toast.LENGTH_SHORT).show();
+								}
 
 								this.saveSettings();
 								this.restart();
@@ -943,7 +994,7 @@ public class Painter extends Activity {
 	private void loadSettings() {
 		this.mSettings = new PainterSettings();
 		SharedPreferences settings = this.getSharedPreferences(
-				Painter.SETTINGS_STRORAGE, Context.MODE_PRIVATE);
+				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
 		this.mSettings.orientation = settings.getInt(
 				this.getString(R.string.settings_orientation),
@@ -1010,7 +1061,7 @@ public class Painter extends Activity {
 
 	private void saveSettings() {
 		SharedPreferences settings = this.getSharedPreferences(
-				Painter.SETTINGS_STRORAGE, Context.MODE_PRIVATE);
+				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
 		SharedPreferences.Editor editor = settings.edit();
 
@@ -1046,7 +1097,7 @@ public class Painter extends Activity {
 
 	private void clearSettings() {
 		this.mSettings.lastPicture = null;
-		this.deleteFile(Painter.SETTINGS_STRORAGE);
+		this.deleteFile(Painter.SETTINGS_STORAGE);
 	}
 
 	private void open() {

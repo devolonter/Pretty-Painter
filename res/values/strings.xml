@@ -25,6 +25,7 @@
 	<string name="open_prompt">Do you want to save image before open another file?</string>
 	<string name="share_image_title">Share via</string>
 	<string name="select_language_title">Select language</string>
+	<string name="copy_file_title">Copy files</string>
     
     <!-- menu -->
     <string name="menu_brush">Brush</string>
@@ -84,8 +85,21 @@
         <item>ru</item>
     </string-array>
     
+    <!-- backup options -->
+    <string-array name="backup_opened_options">
+    	<item>Only from other folders</item>
+        <item>Always</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="backup_opened_options_codes">
+    	<item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
     <!-- preferences -->
-    <string name="preferences_main_category">Main preferences</string>
+    <string name="preferences_interface_category">Interface</string>
+    <string name="preferences_backup_category">Backup</string>
     <string name="preferences_other_category">Other preferences</string>
     
     <string name="preferences_language">preferencesLanguage</string>
@@ -95,6 +109,10 @@
     <string name="preferences_last_file">lastFile</string>
     <string name="preferences_last_file_title">Open last file</string>
     <string name="preferences_last_file_summary">Open last working file on startup</string>
+    
+    <string name="preferences_backup_openeded_file">backupOpenningFile</string>
+    <string name="preferences_backup_openeded_file_title">Opened files backup</string>
+    <string name="preferences_backup_openeded_file_summary">Copy opened files in the application folder</string>
     
     <string name="preferences_tooltips">preferencesTooltips</string>
     <string name="preferences_tooltips_title">Show tooltips</string>

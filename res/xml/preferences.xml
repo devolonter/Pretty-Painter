@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/preferences_main_category">
+	<PreferenceCategory android:title="@string/preferences_interface_category">
 		<ListPreference 
 			android:key="@string/preferences_language"
 			android:title="@string/preferences_language_title"
@@ -13,6 +13,17 @@
 	    	android:key="@string/preferences_last_file" 
 	    	android:title="@string/preferences_last_file_title" 
 	    	android:defaultValue="1" />
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/preferences_backup_category">
+		<ListPreference 
+			android:key="@string/preferences_backup_openeded_file"
+			android:title="@string/preferences_backup_openeded_file_title"
+			android:summary="@string/preferences_backup_openeded_file_summary"
+			android:entries="@array/backup_opened_options"
+			android:entryValues="@array/backup_opened_options_codes"
+			android:dialogTitle="@string/copy_file_title"
+			android:defaultValue="1" />
 	</PreferenceCategory>
 	
 	<!-- <PreferenceCategory android:title="@string/preferences_other_category">

@@ -24,6 +24,7 @@
 	<string name="open_prompt">Сохранить изображение перед открытием другого файла?</string>
 	<string name="share_image_title">Отправить с помощью</string>
 	<string name="select_language_title">Выберите язык</string>
+	<string name="copy_file_title">Копировать файлы</string>
 	
 	<!-- menu -->
     <string name="menu_brush">Кисть</string>
@@ -62,15 +63,26 @@
     <string name="wallpaper_setted">Обои успешно установлены</string>
     <string name="wallpaper_error">Обои не установлены. Произошла ошибка</string>
     
+    <!-- backup options -->
+    <string-array name="backup_opened_options">
+    	<item>Только из других папок</item>
+        <item>Всегда</item>
+        <item>Никогда</item>
+    </string-array>
+    
     <!-- preferences -->
-    <string name="preferences_main_category">Основные настройки</string>
-    <string name="preferences_other_category">Дополнительные настройки</string>
+    <string name="preferences_interface_category">Интерфейс</string>
+    <string name="preferences_backup_category">Резервное копирование</string>
+    <string name="preferences_other_category">Прочее</string>
     
     <string name="preferences_language_title">Язык</string>
     <string name="preferences_language_summary">Установить язык приложения. Требуется перезапуск</string>
     
     <string name="preferences_last_file_title">Открывать последний файл</string>
     <string name="preferences_last_file_summary">Открывать последний рабочий файл при старте приложения</string>
+    
+    <string name="preferences_backup_openeded_file_title">Копировать открываемые файлы</string>
+    <string name="preferences_backup_openeded_file_summary">Копировать открываемые файлы в папку с приложением</string>
     
     <string name="preferences_tooltips_title">Показывать подсказки</string>
     <string name="preferences_tooltips_summary">Показывать трюки и советы при старте приложения</string>
