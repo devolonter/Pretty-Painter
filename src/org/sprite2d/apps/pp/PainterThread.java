@@ -293,6 +293,10 @@ public class PainterThread extends Thread {
 		this.mUndo = false;
 	}
 	
+	public int getBackgroundColor() {
+		return this.mCanvasBgColor;
+	}
+	
 	private void waitForBitmap() {
 		while (this.mBitmap == null || this.mActiveBitmap == null) {
 			try {

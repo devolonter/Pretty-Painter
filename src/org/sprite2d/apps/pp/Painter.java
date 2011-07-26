@@ -2,6 +2,7 @@ package org.sprite2d.apps.pp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Locale;
 
@@ -11,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -33,6 +36,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.util.Linkify;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,6 +112,63 @@ public class Painter extends Activity {
 			dialog.hide();
 			Painter.this.mCanvas.getThread().activate();
 		}
+	}
+
+	private class SetWallpaperTask extends AsyncTask<Void, Void, Boolean> {
+
+		private ProgressDialog mDialog = ProgressDialog.show(Painter.this,
+				Painter.this.getString(R.string.wallpaper_title),
+				Painter.this.getString(R.string.aply_wallpaper), true);
+
+		protected Boolean doInBackground(Void... none) {
+			WallpaperManager wallpaperManager = WallpaperManager
+					.getInstance(Painter.this);
+			Display display = getWindowManager().getDefaultDisplay();
+
+			int wallpaperWidth = display.getWidth() * 2;
+			int wallpaperHeight = display.getHeight();
+
+			Bitmap currentBitmap = Painter.this.mCanvas.getThread().getBitmap();
+
+			Bitmap wallpaperBitmap = Bitmap.createBitmap(wallpaperWidth,
+					wallpaperHeight, Bitmap.Config.ARGB_8888);
+			// wait bitmap
+			while (wallpaperBitmap == null) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					return false;
+				}
+			}
+
+			final Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
+
+			wallpaperCanvas.drawColor(Painter.this.mCanvas.getThread()
+					.getBackgroundColor());
+			wallpaperCanvas.drawBitmap(currentBitmap, (wallpaperWidth
+					- currentBitmap.getWidth()) / 2, (wallpaperHeight
+					- currentBitmap.getHeight()) / 2, null);
+
+			try {
+				wallpaperManager.setBitmap(wallpaperBitmap);
+				return true;
+			} catch (IOException e) {
+				return false;
+			}
+		}
+
+		protected void onPostExecute(Boolean success) {
+			this.mDialog.hide();
+
+			if (success) {
+				Toast.makeText(Painter.this, R.string.wallpaper_setted,
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(Painter.this, R.string.wallpaper_error,
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+
 	}
 
 	@Override
@@ -281,7 +342,7 @@ public class Painter extends Activity {
 			this.showPreferences();
 			break;
 		case R.id.menu_set_wallpaper:
-			this.mCanvas.setCanvasAsWallpaper();
+			new SetWallpaperTask().execute();
 			break;
 		}
 		return true;

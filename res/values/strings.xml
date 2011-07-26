@@ -15,6 +15,8 @@
     <string name="clear_bitmap_prompt">Do you want to clear canvas?</string>    
     <string name="saving_title">Saving</string>
     <string name="saving_to_sd">Picture is saving. Please wait...</string>
+    <string name="wallpaper_title">Wallpaper</string>
+    <string name="aply_wallpaper">Apply wallpaper. Please wait...</string>
     <string name="exit_app_prompt_title">Exit</string>
 	<string name="exit_app_prompt">Do you want to save picture before the exit?</string>
 	<string name="share_prompt_title">Share</string>
@@ -36,6 +38,7 @@
     <string name="menu_open">Open</string>
     <string name="menu_preferences">Preferences</string>
     <string name="menu_set_wallpaper">Set as Wallpaper</string>
+    <string name="menu_file">File</string>
     
     <!--  brush setup -->
     <string name="brush_size">Brush size</string>
@@ -57,6 +60,8 @@
 	<string name="file_not_found">File not found</string>
 	<string name="sd_card_not_writeable">SD card not available for recording</string>
     <string name="sd_card_not_available">SD card not available</string>
+    <string name="wallpaper_setted">Wallpaper was successfully setted</string>
+    <string name="wallpaper_error">Wallpaper was not setted. Error occured</string>
     
     <!-- settings -->
     <string name="settings_version">version</string>	

@@ -14,6 +14,8 @@
     <string name="clear_bitmap_prompt">Вы действительно хотите очистить холст?</string>      
     <string name="saving_title">Сохранение</string>
     <string name="saving_to_sd">Изображение сохраняется. Пожалуйста, подождите...</string>
+    <string name="wallpaper_title">Обои</string>
+    <string name="aply_wallpaper">Установка обоев. Пожалуйста подождите...</string>
     <string name="exit_app_prompt_title">Выход</string>
 	<string name="exit_app_prompt">Сохранить изображение перед выходом?</string>
 	<string name="share_prompt_title">Отправить</string>
@@ -34,6 +36,8 @@
     <string name="menu_redo">Вернуть</string>
     <string name="menu_open">Открыть</string>
     <string name="menu_preferences">Настройки</string>
+    <string name="menu_set_wallpaper">Установить как обои</string>
+    <string name="menu_file">Файл</string>
 
 	<!--  brush setup -->
     <string name="brush_size">Размер кисти</string>
@@ -55,6 +59,8 @@
 	<string name="file_not_found">Файл не найден</string>
 	<string name="sd_card_not_writeable">Карта памяти недоступна для записи</string>
     <string name="sd_card_not_available">Карта памяти недоступна</string>
+    <string name="wallpaper_setted">Обои успешно установлены</string>
+    <string name="wallpaper_error">Обои не установлены. Произошла ошибка</string>
     
     <!-- preferences -->
     <string name="preferences_main_category">Основные настройки</string>
