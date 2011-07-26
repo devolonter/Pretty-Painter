@@ -96,8 +96,12 @@ public class PainterCanvas extends SurfaceView implements Callback {
 					if (width == bitmapHeight || height == bitmapWidth) {
 						if (width > height) {
 							matrix.postRotate(-90, width / 2, height / 2);
-						} else {
+						} else if (bitmapWidth != bitmapHeight) {
 							matrix.postRotate(90, width / 2, height / 2);
+						} else {
+							if (painter.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+								matrix.postRotate(-90, width / 2, height / 2);
+							}
 						}
 					} else {
 						if (painter.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -120,14 +124,20 @@ public class PainterCanvas extends SurfaceView implements Callback {
 					}
 
 					if (scale == 1.0f) {
-						matrix.preTranslate(width / 2 - bitmapWidth / 2, height
-								/ 2 - bitmapHeight / 2);
+						matrix.preTranslate((width - bitmapWidth) / 2,
+								(height - bitmapHeight) / 2);
 					} else {
 						matrix.postScale(scale, scale, bitmapWidth / 2,
 								bitmapHeight / 2);
-						matrix.postTranslate(width / 2 - bitmapWidth / 2,
-								height / 2 - bitmapHeight / 2);
+						matrix.postTranslate((width - bitmapWidth) / 2,
+								(height - bitmapHeight) / 2);
 					}
+				} else {
+					if (painter.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+						matrix.postRotate(-90, width / 2, height / 2);
+					}
+					matrix.preTranslate((width - bitmapWidth) / 2,
+							(height - bitmapHeight) / 2);
 				}
 				this.getThread().restoreBitmap(bitmap, matrix);
 			}

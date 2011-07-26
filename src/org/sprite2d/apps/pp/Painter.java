@@ -478,8 +478,10 @@ public class Painter extends Activity {
 							if (bitmap != null) {
 								if (bitmap.getWidth() > bitmap.getHeight()) {
 									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-								} else {
+								} else if (bitmap.getWidth() != bitmap.getHeight()) {
 									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+								} else {
+									this.mSettings.orientation = this.getRequestedOrientation();
 								}
 
 								SharedPreferences preferences = PreferenceManager

@@ -82,7 +82,7 @@
     <string name="preferences_last_file_summary">Открывать последний рабочий файл при старте приложения</string>
     
     <string name="preferences_backup_openeded_file_title">Копировать открываемые файлы</string>
-    <string name="preferences_backup_openeded_file_summary">Копировать открываемые файлы в папку с приложением</string>
+    <string name="preferences_backup_openeded_file_summary">Копировать открываемые файлы в папку приложения</string>
     
     <string name="preferences_tooltips_title">Показывать подсказки</string>
     <string name="preferences_tooltips_summary">Показывать трюки и советы при старте приложения</string>
