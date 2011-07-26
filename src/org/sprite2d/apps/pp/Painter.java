@@ -446,8 +446,6 @@ public class Painter extends Activity {
 		switch (requestCode) {
 		case Painter.REQUEST_OPEN:
 			if (resultCode == Activity.RESULT_OK) {
-				this.mSettings.lastPicture = "";
-
 				Uri uri = intent.getData();
 				String path = "";
 
@@ -491,6 +489,8 @@ public class Painter extends Activity {
 										.parseInt(preferences.getString(
 												this.getString(R.string.preferences_backup_openeded_file),
 												String.valueOf(BACKUP_OPENED_ONLY_FROM_OTHER)));
+								
+								String pictureName = null;
 
 								switch (backupOption) {
 								case BACKUP_OPENED_ONLY_FROM_OTHER:
@@ -499,20 +499,20 @@ public class Painter extends Activity {
 											.getName()
 											.equals(this
 													.getString(R.string.app_name))) {
-										this.mSettings.lastPicture = FileSystem
+										pictureName = FileSystem
 												.copyFile(
 														picture.getAbsolutePath(),
 														this.getSaveDir()
 																+ picture
 																		.getName());
 									} else {
-										this.mSettings.lastPicture = picture
+										pictureName = picture
 												.getAbsolutePath();
 									}
 									break;
 
 								case BACKUP_OPENED_ALWAYS:
-									this.mSettings.lastPicture = FileSystem
+									pictureName = FileSystem
 											.copyFile(
 													picture.getAbsolutePath(),
 													this.getSaveDir()
@@ -525,14 +525,16 @@ public class Painter extends Activity {
 									break;
 								}
 
-								if (this.mSettings.lastPicture == null) {
+								if (pictureName != null) {	
+									this.mSettings.lastPicture = pictureName;
+									
+									this.saveSettings();
+									this.restart();
+								} else {
 									Toast.makeText(this,
 											R.string.file_not_found,
 											Toast.LENGTH_SHORT).show();
-								}
-
-								this.saveSettings();
-								this.restart();
+								}								
 							} else {
 								Toast.makeText(this, R.string.invalid_file,
 										Toast.LENGTH_SHORT).show();
