@@ -81,9 +81,16 @@
         <item>Ничего не делать</item>
     </string-array>
     
+    <!-- volume shortcuts options -->
+    <string-array name="volume_buttons_options">
+    	<item>Изменить размер кисти</item>
+        <item>Отменить/Вернуть</item>
+    </string-array>
+    
     <!-- preferences -->
     <string name="preferences_interface_category">Интерфейс</string>
     <string name="preferences_behavior_category">Поведение</string>
+    <string name="preferences_shortcuts_category">Горяие клавиши</string>
     <string name="preferences_backup_category">Резервное копирование</string>    
     <string name="preferences_about_category">О программе</string>
     
@@ -107,4 +114,7 @@
     
     <string name="preferences_before_exit_title">Действие перед выходом</string>
     <string name="preferences_before_exit_summary">Действие перед выходом из приложения</string>
+    
+    <string name="preferences_volume_shortcuts_title">Кнопки громкости</string>
+    <string name="preferences_volume_shortcuts_summary">Установить действие для кнопок громкости</string>
 </resources>

@@ -67,6 +67,9 @@ public class Painter extends Activity {
 	public static final int BEFORE_EXIT_SAVE = 20;
 	public static final int BEFORE_EXIT_NO_ACTION = 100;
 
+	public static final int SHORTCUTS_VOLUME_BRUSH_SIZE = 10;
+	public static final int SHORTCUTS_VOLUME_UNDO_REDO = 20;
+
 	public static final int ACTION_SAVE_AND_EXIT = 1;
 	public static final int ACTION_SAVE_AND_RETURN = 2;
 	public static final int ACTION_SAVE_AND_SHARE = 3;
@@ -93,6 +96,8 @@ public class Painter extends Activity {
 	private boolean mIsNewFile = true;
 
 	private boolean mOpenLastFile = true;
+
+	private int mVolumeButtonsShortcuts;
 
 	private class SaveTask extends AsyncTask<Void, Void, String> {
 		private ProgressDialog dialog = ProgressDialog.show(Painter.this,
@@ -182,8 +187,8 @@ public class Painter extends Activity {
 		super.onCreate(savedInstanceState);
 
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		this.setContentView(R.layout.main);
 
+		this.setContentView(R.layout.main);
 		this.mCanvas = (PainterCanvas) this.findViewById(R.id.canvas);
 
 		this.loadSettings();
@@ -302,6 +307,10 @@ public class Painter extends Activity {
 
 		this.mOpenLastFile = preferences.getBoolean(
 				this.getString(R.string.preferences_last_file), true);
+
+		this.mVolumeButtonsShortcuts = Integer.parseInt(preferences.getString(
+				this.getString(R.string.preferences_volume_shortcuts),
+				String.valueOf(SHORTCUTS_VOLUME_BRUSH_SIZE)));
 	}
 
 	@Override
@@ -387,10 +396,9 @@ public class Painter extends Activity {
 				SharedPreferences preferences = PreferenceManager
 						.getDefaultSharedPreferences(this);
 
-				int beforeExit = Integer
-						.parseInt(preferences.getString(this
-								.getString(R.string.preferences_before_exit),
-								String.valueOf(BEFORE_EXIT_SUBMIT)));
+				int beforeExit = Integer.parseInt(preferences.getString(
+						this.getString(R.string.preferences_before_exit),
+						String.valueOf(BEFORE_EXIT_SUBMIT)));
 
 				if (this.mCanvas.isChanged()
 						&& beforeExit == BEFORE_EXIT_SUBMIT) {
@@ -404,31 +412,57 @@ public class Painter extends Activity {
 				return true;
 			}
 			break;
-			
+
 		case KeyEvent.KEYCODE_MENU:
 			if (this.mCanvas.isSetup()) {
 				return true;
 			}
 			break;
-			
+
 		case KeyEvent.KEYCODE_VOLUME_UP:
-			this.mCanvas
-					.setPresetSize(this.mCanvas.getCurrentPreset().size + 1);
-			if (this.mCanvas.isSetup()) {
-				this.updateControls();
+			switch (this.mVolumeButtonsShortcuts) {
+			case SHORTCUTS_VOLUME_BRUSH_SIZE:
+				this.mCanvas
+						.setPresetSize(this.mCanvas.getCurrentPreset().size + 1);
+				if (this.mCanvas.isSetup()) {
+					this.updateControls();
+				}
+				break;
+				
+			case SHORTCUTS_VOLUME_UNDO_REDO:
+				if (!this.mCanvas.isSetup()) {
+					if (this.mCanvas.canRedo()) {
+						this.mCanvas.undo();
+					}
+				}
+				break;
 			}
+
 			return true;
-			
+
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			this.mCanvas
-					.setPresetSize(this.mCanvas.getCurrentPreset().size - 1);
-			if (this.mCanvas.isSetup()) {
-				this.updateControls();
+			switch (this.mVolumeButtonsShortcuts) {
+			case SHORTCUTS_VOLUME_BRUSH_SIZE:
+				this.mCanvas
+						.setPresetSize(this.mCanvas.getCurrentPreset().size - 1);
+				if (this.mCanvas.isSetup()) {
+					this.updateControls();
+				}
+				break;
+				
+			case SHORTCUTS_VOLUME_UNDO_REDO:
+				if (!this.mCanvas.isSetup()) {
+					if (this.mCanvas.canUndo()) {
+						this.mCanvas.undo();
+					}
+				}
+				break;
 			}
+
 			return true;
-			
+
 		}
-		
+
 		return super.onKeyDown(keyCode, event);
 	}
 

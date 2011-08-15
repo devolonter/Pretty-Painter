@@ -113,9 +113,20 @@
         <item>100</item>
     </string-array>
     
+    <!-- volume shortcuts options -->
+    <string-array name="volume_buttons_options">
+    	<item>Change brush size</item>
+        <item>Undo/Redo</item>
+    </string-array>
+    <string-array name="volume_buttons_options_codes">
+    	<item>10</item>
+        <item>20</item>
+    </string-array>
+    
     <!-- preferences -->
     <string name="preferences_interface_category">Interface</string>
     <string name="preferences_behavior_category">Behavior</string>
+    <string name="preferences_shortcuts_category">Shortcuts</string>
     <string name="preferences_backup_category">Backup</string>    
     <string name="preferences_about_category">About</string>    
     
@@ -146,4 +157,8 @@
     <string name="preferences_before_exit">preferencesBeforeExit</string>
     <string name="preferences_before_exit_title">Action before exit</string>
     <string name="preferences_before_exit_summary">Action before application exit</string>
+    
+    <string name="preferences_volume_shortcuts">preferencesVolumeShortcuts</string>
+    <string name="preferences_volume_shortcuts_title">Volume buttons</string>
+    <string name="preferences_volume_shortcuts_summary">Set action for volume buttons</string>
 </resources>

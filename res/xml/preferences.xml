@@ -27,6 +27,17 @@
 			android:defaultValue="10" />	    
 	</PreferenceCategory>
 	
+	<PreferenceCategory android:title="@string/preferences_shortcuts_category">
+		<ListPreference 
+			android:key="@string/preferences_volume_shortcuts"
+			android:title="@string/preferences_volume_shortcuts_title"
+			android:summary="@string/preferences_volume_shortcuts_summary"
+			android:entries="@array/volume_buttons_options"
+			android:entryValues="@array/volume_buttons_options_codes"
+			android:dialogTitle="@string/preferences_volume_shortcuts_title"
+			android:defaultValue="10" />
+	</PreferenceCategory>
+	
 	<PreferenceCategory android:title="@string/preferences_backup_category">
 		<ListPreference 
 			android:key="@string/preferences_backup_openeded_file"
