@@ -132,12 +132,6 @@ public class PainterCanvas extends SurfaceView implements Callback {
 						matrix.postTranslate((width - bitmapWidth) / 2,
 								(height - bitmapHeight) / 2);
 					}
-				} else {
-					if (painter.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-						matrix.postRotate(-90, width / 2, height / 2);
-					}
-					matrix.preTranslate((width - bitmapWidth) / 2,
-							(height - bitmapHeight) / 2);
 				}
 				this.getThread().restoreBitmap(bitmap, matrix);
 			}

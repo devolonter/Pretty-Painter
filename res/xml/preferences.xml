@@ -15,7 +15,16 @@
 	    	android:summary="@string/preferences_last_file_summary" 
 	    	android:key="@string/preferences_last_file" 
 	    	android:title="@string/preferences_last_file_title" 
-	    	android:defaultValue="1" />	    
+	    	android:defaultValue="1" />
+	    	
+	    <ListPreference 
+			android:key="@string/preferences_before_exit"
+			android:title="@string/preferences_before_exit_title"
+			android:summary="@string/preferences_before_exit_summary"
+			android:entries="@array/before_exit_options"
+			android:entryValues="@array/before_exit_options_codes"
+			android:dialogTitle="@string/preferences_before_exit_title"
+			android:defaultValue="10" />	    
 	</PreferenceCategory>
 	
 	<PreferenceCategory android:title="@string/preferences_backup_category">
@@ -26,7 +35,7 @@
 			android:entries="@array/backup_opened_options"
 			android:entryValues="@array/backup_opened_options_codes"
 			android:dialogTitle="@string/copy_file_title"
-			android:defaultValue="1" />
+			android:defaultValue="10" />
 	</PreferenceCategory>
 	
 	<PreferenceCategory android:title="@string/preferences_about_category">

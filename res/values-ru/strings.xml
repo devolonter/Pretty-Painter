@@ -74,6 +74,13 @@
         <item>Никогда</item>
     </string-array>
     
+    <!-- exit options -->
+    <string-array name="before_exit_options">
+    	<item>Предложить сохранить</item>
+        <item>Сохранить файл</item>
+        <item>Ничего не делать</item>
+    </string-array>
+    
     <!-- preferences -->
     <string name="preferences_interface_category">Интерфейс</string>
     <string name="preferences_behavior_category">Поведение</string>
@@ -97,4 +104,7 @@
     
     <string name="preferences_about_title">О программе</string>
     <string name="preferences_about_summary">Информация о программе</string>
+    
+    <string name="preferences_before_exit_title">Действие перед выходом</string>
+    <string name="preferences_before_exit_summary">Действие перед выходом из приложения</string>
 </resources>

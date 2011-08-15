@@ -59,9 +59,13 @@ import android.widget.Toast;
  */
 public class Painter extends Activity {
 
-	public static final int BACKUP_OPENED_ONLY_FROM_OTHER = 1;
-	public static final int BACKUP_OPENED_ALWAYS = 2;
-	public static final int BACKUP_OPENED_NEVER = 3;
+	public static final int BACKUP_OPENED_ONLY_FROM_OTHER = 10;
+	public static final int BACKUP_OPENED_ALWAYS = 20;
+	public static final int BACKUP_OPENED_NEVER = 100;
+
+	public static final int BEFORE_EXIT_SUBMIT = 10;
+	public static final int BEFORE_EXIT_SAVE = 20;
+	public static final int BEFORE_EXIT_NO_ACTION = 100;
 
 	public static final int ACTION_SAVE_AND_EXIT = 1;
 	public static final int ACTION_SAVE_AND_RETURN = 2;
@@ -379,19 +383,34 @@ public class Painter extends Activity {
 
 				this.mSettings.preset = this.mCanvas.getCurrentPreset();
 				this.saveSettings();
-				if (this.mCanvas.isChanged() && !this.mIsNewFile) {
+
+				SharedPreferences preferences = PreferenceManager
+						.getDefaultSharedPreferences(this);
+
+				int beforeExit = Integer
+						.parseInt(preferences.getString(this
+								.getString(R.string.preferences_before_exit),
+								String.valueOf(BEFORE_EXIT_SUBMIT)));
+
+				if (this.mCanvas.isChanged()
+						&& beforeExit == BEFORE_EXIT_SUBMIT) {
 					this.showDialog(R.id.dialog_exit);
-				} else {
+				} else if (beforeExit == BEFORE_EXIT_SAVE) {
 					this.savePicture(Painter.ACTION_SAVE_AND_EXIT);
+				} else {
+					return super.onKeyDown(keyCode, event);
 				}
+
 				return true;
 			}
 			break;
+			
 		case KeyEvent.KEYCODE_MENU:
 			if (this.mCanvas.isSetup()) {
 				return true;
 			}
 			break;
+			
 		case KeyEvent.KEYCODE_VOLUME_UP:
 			this.mCanvas
 					.setPresetSize(this.mCanvas.getCurrentPreset().size + 1);
@@ -399,6 +418,7 @@ public class Painter extends Activity {
 				this.updateControls();
 			}
 			return true;
+			
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
 			this.mCanvas
 					.setPresetSize(this.mCanvas.getCurrentPreset().size - 1);
@@ -406,7 +426,9 @@ public class Painter extends Activity {
 				this.updateControls();
 			}
 			return true;
+			
 		}
+		
 		return super.onKeyDown(keyCode, event);
 	}
 
@@ -415,19 +437,19 @@ public class Painter extends Activity {
 		switch (id) {
 		case R.id.dialog_clear:
 			return this.createDialogClear();
-			
+
 		case R.id.dialog_exit:
 			return this.createDialogExit();
-			
+
 		case R.id.dialog_share:
 			return this.createDialogShare();
-			
+
 		case R.id.dialog_open:
 			return this.createDialogOpen();
-		
+
 		default:
 			return super.onCreateDialog(id);
-			
+
 		}
 	}
 
@@ -476,10 +498,12 @@ public class Painter extends Activity {
 							if (bitmap != null) {
 								if (bitmap.getWidth() > bitmap.getHeight()) {
 									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-								} else if (bitmap.getWidth() != bitmap.getHeight()) {
+								} else if (bitmap.getWidth() != bitmap
+										.getHeight()) {
 									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 								} else {
-									this.mSettings.orientation = this.getRequestedOrientation();
+									this.mSettings.orientation = this
+											.getRequestedOrientation();
 								}
 
 								SharedPreferences preferences = PreferenceManager
@@ -489,7 +513,7 @@ public class Painter extends Activity {
 										.parseInt(preferences.getString(
 												this.getString(R.string.preferences_backup_openeded_file),
 												String.valueOf(BACKUP_OPENED_ONLY_FROM_OTHER)));
-								
+
 								String pictureName = null;
 
 								switch (backupOption) {
@@ -499,24 +523,20 @@ public class Painter extends Activity {
 											.getName()
 											.equals(this
 													.getString(R.string.app_name))) {
-										pictureName = FileSystem
-												.copyFile(
-														picture.getAbsolutePath(),
-														this.getSaveDir()
-																+ picture
-																		.getName());
+										pictureName = FileSystem.copyFile(
+												picture.getAbsolutePath(),
+												this.getSaveDir()
+														+ picture.getName());
 									} else {
-										pictureName = picture
-												.getAbsolutePath();
+										pictureName = picture.getAbsolutePath();
 									}
 									break;
 
 								case BACKUP_OPENED_ALWAYS:
-									pictureName = FileSystem
-											.copyFile(
-													picture.getAbsolutePath(),
-													this.getSaveDir()
-															+ picture.getName());
+									pictureName = FileSystem.copyFile(
+											picture.getAbsolutePath(),
+											this.getSaveDir()
+													+ picture.getName());
 									break;
 
 								case BACKUP_OPENED_NEVER:
@@ -525,16 +545,16 @@ public class Painter extends Activity {
 									break;
 								}
 
-								if (pictureName != null) {	
+								if (pictureName != null) {
 									this.mSettings.lastPicture = pictureName;
-									
+
 									this.saveSettings();
 									this.restart();
 								} else {
 									Toast.makeText(this,
 											R.string.file_not_found,
 											Toast.LENGTH_SHORT).show();
-								}								
+								}
 							} else {
 								Toast.makeText(this, R.string.invalid_file,
 										Toast.LENGTH_SHORT).show();
@@ -764,7 +784,7 @@ public class Painter extends Activity {
 				});
 
 		return alert.create();
-	}	
+	}
 
 	private void updateControls() {
 		this.mBrushSize.setProgress((int) this.mCanvas.getCurrentPreset().size);

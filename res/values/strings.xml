@@ -96,9 +96,21 @@
         <item>Never</item>
     </string-array>
     <string-array name="backup_opened_options_codes">
-    	<item>1</item>
-        <item>2</item>
-        <item>3</item>
+    	<item>10</item>
+        <item>20</item>
+        <item>100</item>
+    </string-array>
+    
+    <!-- exit options -->
+    <string-array name="before_exit_options">
+    	<item>Submit to save file</item>
+        <item>Save working file</item>
+        <item>No action</item>
+    </string-array>
+    <string-array name="before_exit_options_codes">
+    	<item>10</item>
+        <item>20</item>
+        <item>100</item>
     </string-array>
     
     <!-- preferences -->
@@ -130,4 +142,8 @@
     <string name="preferences_about">preferencesAbout</string>
     <string name="preferences_about_title">About</string>
     <string name="preferences_about_summary">Information about application</string>
+    
+    <string name="preferences_before_exit">preferencesBeforeExit</string>
+    <string name="preferences_before_exit_title">Action before exit</string>
+    <string name="preferences_before_exit_summary">Action before application exit</string>
 </resources>
