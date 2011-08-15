@@ -2,11 +2,15 @@ package org.sprite2d.apps.pp;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.text.util.Linkify;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 public class PainterPreferences extends PreferenceActivity implements
@@ -23,16 +27,16 @@ public class PainterPreferences extends PreferenceActivity implements
 		this.getPreferenceScreen().findPreference(this.mAboutPreferenceKey)
 				.setOnPreferenceClickListener(this);
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		switch (id) {			
+		switch (id) {
 		case R.id.dialog_about:
-			return this.createDialogAbout();			
-		
+			return this.createDialogAbout();
+
 		default:
 			return super.onCreateDialog(id);
-			
+
 		}
 	}
 
@@ -44,21 +48,37 @@ public class PainterPreferences extends PreferenceActivity implements
 
 		return false;
 	}
-	
+
+	public void forkMe(View v) {
+		this.dismissDialog(R.id.dialog_about);
+		
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri
+				.parse(this.getString(R.string.repo_url)));
+		this.startActivity(intent);		
+	}
+
 	private Dialog createDialogAbout() {
-		final TextView message = new TextView(this);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-		message.setAutoLinkMask(Linkify.ALL);
-		message.setText(R.string.about_text);
-		message.setPadding(20, 10, 20, 10);
+		LayoutInflater inflater = this.getLayoutInflater();
+		View dialogView = inflater.inflate(R.layout.dialog_about, null);
+		dialogBuilder.setView(dialogView);
 
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setCancelable(false);
-		alert.setTitle(R.string.app_name);
-		alert.setView(message);
-		alert.setPositiveButton(android.R.string.ok, null);
+		try {
+			((TextView) dialogView.findViewById(R.id.version)).setText(this
+					.getString(
+							R.string.app_version,
+							this.getPackageManager().getPackageInfo(
+									this.getPackageName(),
+									PackageManager.GET_META_DATA).versionName));
+		} catch (Exception e) {
+		}
 
-		return alert.create();
+		dialogBuilder.setCancelable(true);
+		dialogBuilder.setPositiveButton(android.R.string.ok, null);
+
+		return dialogBuilder.create();
 	}
 
 }

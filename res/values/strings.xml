@@ -2,11 +2,15 @@
 <resources>
 	<!--  app -->
     <string name="app_name">Pretty Painter</string>
-    <string name="about_text">Free, open source graphics editor.
-	\n\nDeveloping - Artur Bikmullin
-	\n\nLocalization - Olga Bikmullina
-	\n\nSource code: http://github.com/devolonter
-	</string>
+    <string name="app_version">Version: %1$s</string>
+    <string name="about_text">Free open source graphics
+    editor under MIT License</string>
+    <string name="app_developers">Developer:
+    \nArthur Bikmullin (@devolonter)
+    \n\Co-developers:
+    \nConstantine Chartomatzis
+    \n\nLocalization: 
+    \nOlga Bikmullina (@AhNinniah)</string>
     
     <!--  dialog -->
     <string name="yes">Yes</string>

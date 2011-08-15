@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!--  app -->
-    <string name="about_text">Бесплатый, графический  редактор с открытым исходным кодом.
-	\n\nРазработка - Артур Бикмуллин
-	\n\nЛокализация - Ольга Бикмуллина
-	\n\nИсходный код: http://github.com/devolonter
-	</string>
+	<string name="app_version">Версия: %1$s</string>
+    <string name="about_text">Бесплатный графический редактор с открытым
+    исходным кодом под лицензией MIT</string>
+    <string name="app_developers">Разрабочик:
+    \nАртур Бикмуллин (@devolonter)
+    \n\nСоразработчики:
+    \nConstantine Chartomatzis
+    \n\nЛокализация: 
+    \nОльга Бикмуллина (@AhNinniah)</string>
 	
 	<!--  dialog -->
     <string name="yes">Да</string>
