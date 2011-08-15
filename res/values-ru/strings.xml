@@ -72,8 +72,9 @@
     
     <!-- preferences -->
     <string name="preferences_interface_category">Интерфейс</string>
-    <string name="preferences_backup_category">Резервное копирование</string>
-    <string name="preferences_other_category">Прочее</string>
+    <string name="preferences_behavior_category">Поведение</string>
+    <string name="preferences_backup_category">Резервное копирование</string>    
+    <string name="preferences_about_category">О программе</string>
     
     <string name="preferences_language_title">Язык</string>
     <string name="preferences_language_summary">Установить язык приложения. Требуется перезапуск</string>
@@ -89,4 +90,7 @@
     
     <string name="preferences_shake_title">Потрясти чтобы очистить</string>
     <string name="preferences_shake_summary">Очищать холст при тряске устройства</string>
+    
+    <string name="preferences_about_title">О программе</string>
+    <string name="preferences_about_summary">Информация о программе</string>
 </resources>

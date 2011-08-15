@@ -35,7 +35,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.text.util.Linkify;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -49,7 +48,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -333,9 +331,6 @@ public class Painter extends Activity {
 		case R.id.menu_rotate:
 			this.rotate();
 			break;
-		case R.id.menu_about:
-			this.showDialog(R.id.dialog_about);
-			break;
 		case R.id.menu_open:
 			this.open();
 			break;
@@ -420,17 +415,20 @@ public class Painter extends Activity {
 		switch (id) {
 		case R.id.dialog_clear:
 			return this.createDialogClear();
+			
 		case R.id.dialog_exit:
 			return this.createDialogExit();
+			
 		case R.id.dialog_share:
 			return this.createDialogShare();
-		case R.id.dialog_about:
-			return this.createDialogAbout();
+			
 		case R.id.dialog_open:
 			return this.createDialogOpen();
+		
+		default:
+			return super.onCreateDialog(id);
+			
 		}
-
-		return null;
 	}
 
 	@Override
@@ -766,23 +764,7 @@ public class Painter extends Activity {
 				});
 
 		return alert.create();
-	}
-
-	private Dialog createDialogAbout() {
-		final TextView message = new TextView(this);
-
-		message.setAutoLinkMask(Linkify.ALL);
-		message.setText(R.string.about_text);
-		message.setPadding(20, 10, 20, 10);
-
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setCancelable(false);
-		alert.setTitle(R.string.app_name);
-		alert.setView(message);
-		alert.setPositiveButton(android.R.string.ok, null);
-
-		return alert.create();
-	}
+	}	
 
 	private void updateControls() {
 		this.mBrushSize.setProgress((int) this.mCanvas.getCurrentPreset().size);
