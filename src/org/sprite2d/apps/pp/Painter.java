@@ -460,7 +460,6 @@ public class Painter extends Activity {
 			}
 
 			return true;
-
 		}
 
 		return super.onKeyDown(keyCode, event);
@@ -574,7 +573,7 @@ public class Painter extends Activity {
 									break;
 
 								case BACKUP_OPENED_NEVER:
-									this.mSettings.lastPicture = picture
+									pictureName = picture
 											.getAbsolutePath();
 									break;
 								}
