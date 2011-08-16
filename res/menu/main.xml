@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_brush" android:title="@string/menu_brush" android:orderInCategory="10" android:icon="@drawable/ic_menu_brush"></item>
-    <item android:id="@+id/menu_save" android:icon="@android:drawable/ic_menu_save" android:title="@string/menu_save" android:orderInCategory="20"></item>
-    <item android:id="@+id/menu_clear" android:orderInCategory="30" android:title="@string/menu_clear" android:icon="@android:drawable/ic_menu_delete"></item>
-    <item android:id="@+id/menu_undo" android:enabled="false" android:orderInCategory="40" android:title="@string/menu_undo" android:icon="@android:drawable/ic_menu_revert"></item>
-    <item android:id="@+id/menu_open" android:title="@string/menu_open" android:icon="@drawable/ic_menu_import" android:orderInCategory="60"></item>
-    <item android:id="@+id/menu_share" android:title="@string/menu_share" android:icon="@android:drawable/ic_menu_share" android:orderInCategory="50"></item>
-    <item android:id="@+id/menu_rotate" android:orderInCategory="70" android:title="@string/menu_rotate" android:icon="@android:drawable/ic_menu_rotate"></item>
-    <item android:id="@+id/menu_preferences" android:orderInCategory="80" android:title="@string/menu_preferences" android:icon="@android:drawable/ic_menu_preferences"></item>
-    <item android:id="@+id/menu_about" android:orderInCategory="90" android:title="@string/menu_about" android:icon="@android:drawable/ic_menu_info_details"></item>
-    <item android:id="@+id/menu_set_wallpaper" android:orderInCategory="90" android:title="@string/menu_set_wallpaper" android:icon="@android:drawable/ic_menu_info_details"></item>
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/menu_brush" android:title="@string/menu_brush"
+		android:orderInCategory="10" android:icon="@drawable/ic_menu_brush" />
+
+	<item android:id="@+id/menu_save" android:icon="@android:drawable/ic_menu_save"
+		android:title="@string/menu_save" android:orderInCategory="20" />
+
+	<item android:id="@+id/menu_clear" android:orderInCategory="30"
+		android:title="@string/menu_clear" android:icon="@android:drawable/ic_menu_delete" />
+
+	<item android:id="@+id/menu_undo" android:enabled="false"
+		android:orderInCategory="40" android:title="@string/menu_undo"
+		android:icon="@android:drawable/ic_menu_revert" />
+
+	<item android:id="@+id/menu_file" android:title="@string/menu_file"
+		android:icon="@android:drawable/ic_menu_gallery"
+		android:orderInCategory="50">
+
+		<menu>
+			<item android:id="@+id/menu_open" android:title="@string/menu_open"
+				android:orderInCategory="10" />
+
+			<item android:id="@+id/menu_share" android:title="@string/menu_share"
+				android:orderInCategory="20" />
+
+			<item android:id="@+id/menu_set_wallpaper"
+				android:orderInCategory="30" android:title="@string/menu_set_wallpaper" />
+		</menu>
+
+	</item>
+
+	<item android:id="@+id/menu_rotate" android:orderInCategory="70"
+		android:title="@string/menu_rotate" android:icon="@android:drawable/ic_menu_rotate" />
+
+	<item android:id="@+id/menu_preferences" android:orderInCategory="80"
+		android:title="@string/menu_preferences" android:icon="@android:drawable/ic_menu_preferences" />
 </menu>

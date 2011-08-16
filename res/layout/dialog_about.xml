@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:padding="10dip">
+	
+	<RelativeLayout	android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+	  
+		<ImageView android:id="@+id/icon"
+			android:src="@drawable/icon" 
+	  		android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginRight="10dip"
+	        android:layout_marginBottom="10dip" />
+	        
+		<TextView android:id="@+id/title" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:textColor="@android:color/white"
+			android:textSize="18dip"
+			android:layout_toRightOf="@id/icon"
+			android:text="@string/app_name" />
+	
+		<TextView android:id="@+id/version" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:textColor="#aaa"
+			android:textSize="12dip"
+			android:layout_toRightOf="@id/icon"
+			android:layout_below="@id/title" />
+	
+		<TextView android:id="@+id/about"
+			android:layout_below="@id/icon"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textSize="14dip"
+			android:textColor="@android:color/white"
+			android:text="@string/about_text" />
+			
+		<TextView android:id="@+id/developers"
+			android:layout_below="@id/about"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textSize="12dip"
+			android:textColor="#aaa"
+			android:layout_marginTop="10dip"
+			android:layout_marginBottom="10dip"
+			android:text="@string/app_developers" />
+			
+		<ImageView android:layout_below="@id/developers"
+			android:layout_centerHorizontal="true"
+			android:src="@drawable/fork_me" 
+		  	android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:onClick="forkMe" />
+		    	  
+	</RelativeLayout>
+</ScrollView>
