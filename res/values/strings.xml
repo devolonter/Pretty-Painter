@@ -15,6 +15,7 @@
     <!--  dialog -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="which_app">Complete action using</string>
     <string name="clear_bitmap_prompt_title">Clear</string>
     <string name="clear_bitmap_prompt">Do you want to clear canvas?</string>    
     <string name="saving_title">Saving</string>

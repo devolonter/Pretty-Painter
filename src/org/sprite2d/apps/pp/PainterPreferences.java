@@ -51,11 +51,11 @@ public class PainterPreferences extends PreferenceActivity implements
 
 	public void forkMe(View v) {
 		this.dismissDialog(R.id.dialog_about);
-		
+
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri
-				.parse(this.getString(R.string.repo_url)));
-		this.startActivity(intent);		
+		intent.setData(Uri.parse(this.getString(R.string.repo_url)));
+		this.startActivity(Intent.createChooser(intent,
+				this.getString(R.string.which_app)));
 	}
 
 	private Dialog createDialogAbout() {
