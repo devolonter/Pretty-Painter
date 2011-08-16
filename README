@@ -4,12 +4,21 @@ Create your masterpieces or  make simple sketches! It's a great way to spend you
 Application features:
 - Size, color and type tool setting
 - Work result saving
+- Setting picture as wallpaper
 - Opening of the previously created files
 - Undo the last action
 - Sending a file via Twitter, Facebook, email, etc. (Client application must be installed)
 
 Versions history:
 -----------------
+***** v1.15 *****
+- Setting picture as wallpaper ability added. Thanks Constantine Chartomatzis 
+- Added a setting behavior when exiting the application 
+- Added backup setting for opened files    
+- Added an action setting for volume control buttons
+- Improved orientation determination of opened files 
+- Fixed a bug resulting in data loss when opening the hardware keyboard
+
 ***** v1.11 *****
 - Scale added with opening large files
 - Blank screen bug fixed in brush settings window, after cleaning canvas in Android 2.3.3
