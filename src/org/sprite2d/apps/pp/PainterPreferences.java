@@ -23,8 +23,8 @@ public class PainterPreferences extends PreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.preferences);
 
-		this.mAboutPreferenceKey = this.getString(R.string.preferences_about);
-		this.getPreferenceScreen().findPreference(this.mAboutPreferenceKey)
+		mAboutPreferenceKey = this.getString(R.string.preferences_about);
+		this.getPreferenceScreen().findPreference(mAboutPreferenceKey)
 				.setOnPreferenceClickListener(this);
 	}
 
@@ -41,7 +41,7 @@ public class PainterPreferences extends PreferenceActivity implements
 	}
 
 	public boolean onPreferenceClick(Preference preference) {
-		if (this.mAboutPreferenceKey.equals(preference.getKey())) {
+		if (mAboutPreferenceKey.equals(preference.getKey())) {
 			this.showDialog(R.id.dialog_about);
 			return true;
 		}

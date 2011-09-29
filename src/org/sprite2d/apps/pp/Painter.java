@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Locale;
 
-import org.sprite2d.apps.pp.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -169,7 +167,7 @@ public class Painter extends Activity {
 		}
 
 		protected void onPostExecute(Boolean success) {
-			this.mDialog.hide();
+			mDialog.hide();
 
 			if (success) {
 				Toast.makeText(Painter.this, R.string.wallpaper_setted,
@@ -189,13 +187,12 @@ public class Painter extends Activity {
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		this.setContentView(R.layout.main);
-		this.mCanvas = (PainterCanvas) this.findViewById(R.id.canvas);
+		mCanvas = (PainterCanvas) this.findViewById(R.id.canvas);
 
 		this.loadSettings();
 
-		this.mBrushSize = (SeekBar) this.findViewById(R.id.brush_size);
-		this.mBrushSize
-				.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		mBrushSize = (SeekBar) this.findViewById(R.id.brush_size);
+		mBrushSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 					public void onStopTrackingTouch(SeekBar seekBar) {
 						if (seekBar.getProgress() > 0) {
@@ -221,10 +218,8 @@ public class Painter extends Activity {
 					}
 				});
 
-		this.mBrushBlurRadius = (SeekBar) this
-				.findViewById(R.id.brush_blur_radius);
-		this.mBrushBlurRadius
-				.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		mBrushBlurRadius = (SeekBar) this.findViewById(R.id.brush_blur_radius);
+		mBrushBlurRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 					public void onStopTrackingTouch(SeekBar seekBar) {
 						Painter.this.updateBlurSeek(seekBar.getProgress());
@@ -253,10 +248,8 @@ public class Painter extends Activity {
 					}
 				});
 
-		this.mBrushBlurStyle = (Spinner) this
-				.findViewById(R.id.brush_blur_style);
-		this.mBrushBlurStyle
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		mBrushBlurStyle = (Spinner) this.findViewById(R.id.brush_blur_style);
+		mBrushBlurStyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 					public void onItemSelected(AdapterView<?> parent, View v,
 							int position, long id) {
@@ -273,18 +266,16 @@ public class Painter extends Activity {
 					}
 				});
 
-		this.mPresetsBar = (LinearLayout) this.findViewById(R.id.presets_bar);
-		this.mPresetsBar.setVisibility(View.INVISIBLE);
+		mPresetsBar = (LinearLayout) this.findViewById(R.id.presets_bar);
+		mPresetsBar.setVisibility(View.INVISIBLE);
 
-		this.mPropertiesBar = (LinearLayout) this
-				.findViewById(R.id.properties_bar);
-		this.mPropertiesBar.setVisibility(View.INVISIBLE);
+		mPropertiesBar = (LinearLayout) this.findViewById(R.id.properties_bar);
+		mPropertiesBar.setVisibility(View.INVISIBLE);
 
-		this.mSettingsLayout = (RelativeLayout) this
-				.findViewById(R.id.settings_layout);
+		mSettingsLayout = (RelativeLayout) this.findViewById(R.id.settings_layout);
 
 		this.updateControls();
-		this.setActivePreset(this.mCanvas.getCurrentPreset().type);
+		this.setActivePreset(mCanvas.getCurrentPreset().type);
 	}
 
 	@Override
@@ -305,10 +296,10 @@ public class Painter extends Activity {
 					.updateConfiguration(config, null);
 		}
 
-		this.mOpenLastFile = preferences.getBoolean(
+		mOpenLastFile = preferences.getBoolean(
 				this.getString(R.string.preferences_last_file), true);
 
-		this.mVolumeButtonsShortcuts = Integer.parseInt(preferences.getString(
+		mVolumeButtonsShortcuts = Integer.parseInt(preferences.getString(
 				this.getString(R.string.preferences_volume_shortcuts),
 				String.valueOf(SHORTCUTS_VOLUME_BRUSH_SIZE)));
 	}
@@ -332,7 +323,7 @@ public class Painter extends Activity {
 			this.savePicture(Painter.ACTION_SAVE_AND_RETURN);
 			break;
 		case R.id.menu_clear:
-			if (this.mCanvas.isChanged()) {
+			if (mCanvas.isChanged()) {
 				this.showDialog(R.id.dialog_clear);
 			} else {
 				this.clear();
@@ -348,7 +339,7 @@ public class Painter extends Activity {
 			this.open();
 			break;
 		case R.id.menu_undo:
-			this.mCanvas.undo();
+			mCanvas.undo();
 			break;
 		case R.id.menu_preferences:
 			this.showPreferences();
@@ -365,10 +356,10 @@ public class Painter extends Activity {
 		super.onPrepareOptionsMenu(menu);
 
 		MenuItem undo = menu.findItem(R.id.menu_undo);
-		if (this.mCanvas.canUndo()) {
+		if (mCanvas.canUndo()) {
 			undo.setTitle(R.string.menu_undo);
 			undo.setEnabled(true);
-		} else if (this.mCanvas.canRedo()) {
+		} else if (mCanvas.canRedo()) {
 			undo.setTitle(R.string.menu_redo);
 			undo.setEnabled(true);
 		} else {

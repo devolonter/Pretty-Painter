@@ -94,22 +94,22 @@ public class PainterThread extends Thread {
 	 */
 	public PainterThread(SurfaceHolder surfaceHolder) {
 		//base data
-		this.mHolder = surfaceHolder;
+		mHolder = surfaceHolder;
 	
 		//defaults brush settings
-		this.mBrushSize = 2;
-		this.mBrush = new Paint();
-		this.mBrush.setAntiAlias(true);
-		this.mBrush.setColor(Color.rgb(0, 0, 0));
-		this.mBrush.setStrokeWidth(this.mBrushSize);
-		this.mBrush.setStrokeCap(Cap.ROUND);
+		mBrushSize = 2;
+		mBrush = new Paint();
+		mBrush.setAntiAlias(true);
+		mBrush.setColor(Color.rgb(0, 0, 0));
+		mBrush.setStrokeWidth(mBrushSize);
+		mBrush.setStrokeCap(Cap.ROUND);
 		
 		//default canvas settings
-		this.mCanvasBgColor = Color.WHITE;		
+		mCanvasBgColor = Color.WHITE;		
 		
 		//set negative coordinates for reset last point
-		this.mLastBrushPointX = -1;
-		this.mLastBrushPointY = -1;		
+		mLastBrushPointX = -1;
+		mLastBrushPointY = -1;		
 	}	
 	
 	@Override
@@ -119,22 +119,22 @@ public class PainterThread extends Thread {
         while (this.isRun()) {
         	Canvas c = null;
             try {
-                c = this.mHolder.lockCanvas();
-                synchronized (this.mHolder) {               	
-                	switch(this.mStatus) {
+                c = mHolder.lockCanvas();
+                synchronized (mHolder) {               	
+                	switch(mStatus) {
                 		case PainterThread.READY: {
-                			c.drawBitmap(this.mBitmap, 0, 0, null);
-                			if(!this.mUndo){
-                				c.drawBitmap(this.mActiveBitmap, 0, 0, null);
+                			c.drawBitmap(mBitmap, 0, 0, null);
+                			if(!mUndo){
+                				c.drawBitmap(mActiveBitmap, 0, 0, null);
                 			}
                 			break;
                 		}
                 		case PainterThread.SETUP: {
-                			c.drawColor(this.mCanvasBgColor);
+                			c.drawColor(mCanvasBgColor);
                 			c.drawLine(
                     				50, 
-                    				(this.mBitmap.getHeight()/100)*35, 
-                    				this.mBitmap.getWidth() - 50, 
+                    				(mBitmap.getHeight()/100)*35, 
+                    				mBitmap.getWidth() - 50, 
                     				(this.mBitmap.getHeight()/100)*35, 
                     				this.mBrush
                     		);
