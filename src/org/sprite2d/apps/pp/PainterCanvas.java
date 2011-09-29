@@ -43,22 +43,22 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public PainterCanvas(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		SurfaceHolder holder = this.getHolder();
+		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
 
 		mPreset = new BrushPreset(BrushPreset.PEN, Color.BLACK);
 
-		this.setFocusable(true);
+        setFocusable(true);
 	}
 
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
 		if (!hasWindowFocus) {
-			this.getThread().freeze();
+            getThread().freeze();
 		} else {
-			if (!this.isSetup()) {
-				this.getThread().activate();
+			if (!isSetup()) {
+                getThread().activate();
 			} else {
-				this.getThread().setup();
+                getThread().setup();
 			}
 		}
 	}
@@ -68,20 +68,20 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		if (mActiveBitmap == null) {
 			mActiveBitmap = Bitmap.createBitmap(width, height,
 					Bitmap.Config.ARGB_8888);
-			this.getThread().setActiveBitmap(mActiveBitmap, true);
+            getThread().setActiveBitmap(mActiveBitmap, true);
 		} else {
-			this.getThread().setActiveBitmap(mActiveBitmap, false);
+            getThread().setActiveBitmap(mActiveBitmap, false);
 		}
 
 		if (mUndo) {
-			this.getThread().undo();
+            getThread().undo();
 		}
 
 		if (mBitmap == null) {
 			mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
-			this.getThread().setBitmap(mBitmap, true);
-			Painter painter = (Painter) this.getContext();
+            getThread().setBitmap(mBitmap, true);
+			Painter painter = (Painter) getContext();
 			Bitmap bitmap = painter.getLastPicture();
 
 			if (bitmap != null) {
@@ -131,31 +131,31 @@ public class PainterCanvas extends SurfaceView implements Callback {
 								(height - bitmapHeight) / 2);
 					}
 				}
-				this.getThread().restoreBitmap(bitmap, matrix);
+                getThread().restoreBitmap(bitmap, matrix);
 			}
 		} else {
-			this.getThread().setBitmap(mBitmap, false);
+            getThread().setBitmap(mBitmap, false);
 		}
 
-		this.getThread().setPreset(mPreset);
-		if (!this.isSetup()) {
-			this.getThread().activate();
+        getThread().setPreset(mPreset);
+		if (!isSetup()) {
+            getThread().activate();
 		} else {
-			this.getThread().setup();
+            getThread().setup();
 		}
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		this.getThread().on();
-		this.getThread().start();
+        getThread().on();
+        getThread().start();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
-		this.getThread().off();
+        getThread().off();
 		while (retry) {
 			try {
-				this.getThread().join();
+                getThread().join();
 				retry = false;
 			} catch (InterruptedException e) {
 			}
@@ -165,22 +165,22 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
-		if (!this.getThread().isReady()) {
+		if (!getThread().isReady()) {
 			return false;
 		}
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			countChanges += 1;
-			this.getThread().drawBegin();
+            getThread().drawBegin();
 			mUndo = false;
 			break;
 		case MotionEvent.ACTION_MOVE:
-			this.getThread().draw((int) event.getX(), (int) event.getY());
+            getThread().draw((int) event.getX(), (int) event.getY());
 			break;
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
-			this.getThread().drawEnd();
+            getThread().drawEnd();
 			break;
 		}
 		return true;
@@ -188,15 +188,15 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	public PainterThread getThread() {
 		if (mThread == null) {
-			mThread = new PainterThread(this.getHolder());
+			mThread = new PainterThread(getHolder());
 		}
 		return mThread;
 	}
 
 	public void saveBitmap(String pictureName) throws FileNotFoundException {
-		synchronized (this.getHolder()) {
+		synchronized (getHolder()) {
 			FileOutputStream fos = new FileOutputStream(pictureName);
-			this.getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
+            getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
 		}
 	}
 
@@ -206,27 +206,27 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	public void setPresetColor(int color) {
 		mPreset.setColor(color);
-		this.getThread().setPreset(mPreset);
+        getThread().setPreset(mPreset);
 	}
 
 	public void setPresetSize(float size) {
 		mPreset.setSize(size);
-		this.getThread().setPreset(mPreset);
+        getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(Blur blurStyle, int blurRadius) {
 		mPreset.setBlur(blurStyle, blurRadius);
-		this.getThread().setPreset(mPreset);
+        getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(int blurStyle, int blurRadius) {
 		mPreset.setBlur(blurStyle, blurRadius);
-		this.getThread().setPreset(mPreset);
+        getThread().setPreset(mPreset);
 	}
 
 	public void setPreset(BrushPreset preset) {
 		mPreset = preset;
-		this.getThread().setPreset(mPreset);
+        getThread().setPreset(mPreset);
 	}
 
 	public boolean isSetup() {
@@ -252,17 +252,17 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public void undo() {
 		if (!mUndo) {
 			mUndo = true;
-			this.getThread().undo();
+            getThread().undo();
 			countChanges -= 1;
 		} else {
 			mUndo = false;
-			this.getThread().redo();
+            getThread().redo();
 			countChanges += 1;
 		}
 	}
 
 	public boolean canUndo() {
-		if (this.isChanged() && !mUndo) {
+		if (isChanged() && !mUndo) {
 			return true;
 		}
 		return false;

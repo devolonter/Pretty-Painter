@@ -241,11 +241,11 @@ public class ColorPickerDialog extends Dialog {
 				mListener.colorChanged(color);
 				dismiss();
 			}
-		};	
-		
+		};
 
-		this.setContentView(new ColorPickerView(this.getContext(), l, mInitialColor));
-		this.setTitle(R.string.color_pick);	
+
+        setContentView(new ColorPickerView(getContext(), l, mInitialColor));
+        setTitle(R.string.color_pick);
 		
 		/*Display display = this.getWindow().getWindowManager().getDefaultDisplay();
 		if(display.getWidth() < display.getHeight()) {

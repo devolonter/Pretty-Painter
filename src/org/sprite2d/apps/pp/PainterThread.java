@@ -114,9 +114,9 @@ public class PainterThread extends Thread {
 	
 	@Override
 	public void run() {
-		this.waitForBitmap();
+        waitForBitmap();
 		
-        while (this.isRun()) {
+        while (isRun()) {
         	Canvas c = null;
             try {
                 c = mHolder.lockCanvas();
@@ -144,7 +144,7 @@ public class PainterThread extends Thread {
                 if (c != null) {
                     mHolder.unlockCanvasAndPost(c);
                 }
-                if(this.isFreeze()) {
+                if(isFreeze()) {
                 	try {
     					Thread.sleep(100);
     				} catch (InterruptedException e) {}
@@ -168,30 +168,30 @@ public class PainterThread extends Thread {
 	public void drawBegin() {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
-		PainterThread.this.completeDraw();		
+        completeDraw();
 	}
 	
-	public void completeDraw() {	
+	public void completeDraw() {
 		synchronized (mHolder) { 
 		    if(!mUndo) {
-				mCanvas.drawBitmap(mActiveBitmap, 0, 0, null);			
+				mCanvas.drawBitmap(mActiveBitmap, 0, 0, null);
 			}
 			mActiveBitmap.eraseColor(Color.TRANSPARENT);
-			this.redo();
+            redo();
 		}
 	}
 	
 	public void drawEnd() {
 		mLastBrushPointX = -1;
-		mLastBrushPointY = -1;	
+		mLastBrushPointY = -1;
 	}
 	
-	public boolean draw(int x, int y) {	
-		if(mLastBrushPointX > 0){			
+	public boolean draw(int x, int y) {
+		if(mLastBrushPointX > 0){
 			if(mLastBrushPointX - x == 0 && mLastBrushPointY - y == 0) {
 				return false;
 			}
-			
+
 			mActiveCanvas.drawLine(
 					x, 
 					y, 
@@ -210,16 +210,16 @@ public class PainterThread extends Thread {
 		}
 		
 		mLastBrushPointX = x;
-		mLastBrushPointY = y;	
+		mLastBrushPointY = y;
 		return true;
 	}
-	
+
 	public void setBitmap(Bitmap bitmap, boolean clear) {
 		mBitmap = bitmap;
 		if(clear){
 			mBitmap.eraseColor(mCanvasBgColor);
-		}	
-		
+		}
+
 		mCanvas = new Canvas(mBitmap);
 	}
 	
@@ -228,10 +228,10 @@ public class PainterThread extends Thread {
 		if(clear){
 			mActiveBitmap.eraseColor(Color.TRANSPARENT);
 		}
-		
+
 		mActiveCanvas = new Canvas(mActiveBitmap);
 	}
-	
+
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
 		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
 	}
@@ -242,10 +242,10 @@ public class PainterThread extends Thread {
 	}
 	
 	public Bitmap getBitmap() {
-		this.completeDraw();
+        completeDraw();
 		return mBitmap;
 	}
-	
+
 	public void on() {
 		mIsActive = true;
 	}

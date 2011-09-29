@@ -99,35 +99,34 @@ public class Painter extends Activity {
 
 	private class SaveTask extends AsyncTask<Void, Void, String> {
 		private ProgressDialog dialog = ProgressDialog.show(Painter.this,
-				Painter.this.getString(R.string.saving_title),
-				Painter.this.getString(R.string.saving_to_sd), true);
+                getString(R.string.saving_title),
+                getString(R.string.saving_to_sd), true);
 
 		protected String doInBackground(Void... none) {
-			Painter.this.mCanvas.getThread().freeze();
-			String pictureName = Painter.this.getUniquePictureName(Painter.this
-					.getSaveDir());
-			Painter.this.saveBitmap(pictureName);
-			Painter.this.mSettings.preset = Painter.this.mCanvas
+            mCanvas.getThread().freeze();
+			String pictureName = getUniquePictureName(getSaveDir());
+            saveBitmap(pictureName);
+            mSettings.preset = mCanvas
 					.getCurrentPreset();
-			Painter.this.saveSettings();
+            saveSettings();
 			return pictureName;
 		}
 
 		protected void onPostExecute(String pictureName) {
 			Uri uri = Uri.fromFile(new File(pictureName));
-			Painter.this.sendBroadcast(new Intent(
+            sendBroadcast(new Intent(
 					Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
 
 			dialog.hide();
-			Painter.this.mCanvas.getThread().activate();
+            mCanvas.getThread().activate();
 		}
 	}
 
 	private class SetWallpaperTask extends AsyncTask<Void, Void, Boolean> {
 
 		private ProgressDialog mDialog = ProgressDialog.show(Painter.this,
-				Painter.this.getString(R.string.wallpaper_title),
-				Painter.this.getString(R.string.aply_wallpaper), true);
+                getString(R.string.wallpaper_title),
+                getString(R.string.aply_wallpaper), true);
 
 		protected Boolean doInBackground(Void... none) {
 			WallpaperManager wallpaperManager = WallpaperManager
@@ -137,7 +136,7 @@ public class Painter extends Activity {
 			int wallpaperWidth = display.getWidth() * 2;
 			int wallpaperHeight = display.getHeight();
 
-			Bitmap currentBitmap = Painter.this.mCanvas.getThread().getBitmap();
+			Bitmap currentBitmap = mCanvas.getThread().getBitmap();
 
 			Bitmap wallpaperBitmap = Bitmap.createBitmap(wallpaperWidth,
 					wallpaperHeight, Bitmap.Config.ARGB_8888);
@@ -152,7 +151,7 @@ public class Painter extends Activity {
 
 			final Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
 
-			wallpaperCanvas.drawColor(Painter.this.mCanvas.getThread()
+			wallpaperCanvas.drawColor(mCanvas.getThread()
 					.getBackgroundColor());
 			wallpaperCanvas.drawBitmap(currentBitmap,
 					(wallpaperWidth - currentBitmap.getWidth()) / 2,
@@ -184,81 +183,81 @@ public class Painter extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		this.setContentView(R.layout.main);
-		mCanvas = (PainterCanvas) this.findViewById(R.id.canvas);
+        setContentView(R.layout.main);
+		mCanvas = (PainterCanvas) findViewById(R.id.canvas);
 
-		this.loadSettings();
+        loadSettings();
 
-		mBrushSize = (SeekBar) this.findViewById(R.id.brush_size);
+		mBrushSize = (SeekBar) findViewById(R.id.brush_size);
 		mBrushSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 					public void onStopTrackingTouch(SeekBar seekBar) {
 						if (seekBar.getProgress() > 0) {
-							Painter.this.mCanvas.setPresetSize(seekBar
-									.getProgress());
+                            mCanvas.setPresetSize(seekBar
+                                    .getProgress());
 						}
 					}
 
 					public void onStartTrackingTouch(SeekBar seekBar) {
-						Painter.this.resetPresets();
+                        resetPresets();
 					}
 
 					public void onProgressChanged(SeekBar seekBar,
 							int progress, boolean fromUser) {
 						if (progress > 0) {
 							if (fromUser) {
-								Painter.this.mCanvas.setPresetSize(seekBar
-										.getProgress());
+                                mCanvas.setPresetSize(seekBar
+                                        .getProgress());
 							}
 						} else {
-							Painter.this.mBrushSize.setProgress(1);
+                            mBrushSize.setProgress(1);
 						}
 					}
 				});
 
-		mBrushBlurRadius = (SeekBar) this.findViewById(R.id.brush_blur_radius);
+		mBrushBlurRadius = (SeekBar) findViewById(R.id.brush_blur_radius);
 		mBrushBlurRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 					public void onStopTrackingTouch(SeekBar seekBar) {
-						Painter.this.updateBlurSeek(seekBar.getProgress());
+                        updateBlurSeek(seekBar.getProgress());
 
 						if (seekBar.getProgress() > 0) {
-							Painter.this.setBlur();
+                            setBlur();
 						} else {
-							Painter.this.mCanvas.setPresetBlur(null, 0);
+                            mCanvas.setPresetBlur(null, 0);
 						}
 					}
 
 					public void onStartTrackingTouch(SeekBar seekBar) {
-						Painter.this.resetPresets();
+                        resetPresets();
 					}
 
 					public void onProgressChanged(SeekBar seekBar,
 							int progress, boolean fromUser) {
 						if (fromUser) {
-							Painter.this.updateBlurSeek(progress);
+                            updateBlurSeek(progress);
 							if (progress > 0) {
-								Painter.this.setBlur();
+                                setBlur();
 							} else {
-								Painter.this.mCanvas.setPresetBlur(null, 0);
+                                mCanvas.setPresetBlur(null, 0);
 							}
 						}
 					}
 				});
 
-		mBrushBlurStyle = (Spinner) this.findViewById(R.id.brush_blur_style);
+		mBrushBlurStyle = (Spinner) findViewById(R.id.brush_blur_style);
 		mBrushBlurStyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 					public void onItemSelected(AdapterView<?> parent, View v,
 							int position, long id) {
 						if (id > 0) {
-							Painter.this.updateBlurSpinner(id);
-							Painter.this.setBlur();
+                            updateBlurSpinner(id);
+                            setBlur();
 						} else {
-							Painter.this.mBrushBlurRadius.setProgress(0);
-							Painter.this.mCanvas.setPresetBlur(null, 0);
+                            mBrushBlurRadius.setProgress(0);
+                            mCanvas.setPresetBlur(null, 0);
 						}
 					}
 
@@ -266,16 +265,16 @@ public class Painter extends Activity {
 					}
 				});
 
-		mPresetsBar = (LinearLayout) this.findViewById(R.id.presets_bar);
+		mPresetsBar = (LinearLayout) findViewById(R.id.presets_bar);
 		mPresetsBar.setVisibility(View.INVISIBLE);
 
-		mPropertiesBar = (LinearLayout) this.findViewById(R.id.properties_bar);
+		mPropertiesBar = (LinearLayout) findViewById(R.id.properties_bar);
 		mPropertiesBar.setVisibility(View.INVISIBLE);
 
-		mSettingsLayout = (RelativeLayout) this.findViewById(R.id.settings_layout);
+		mSettingsLayout = (RelativeLayout) findViewById(R.id.settings_layout);
 
-		this.updateControls();
-		this.setActivePreset(mCanvas.getCurrentPreset().type);
+        updateControls();
+        setActivePreset(mCanvas.getCurrentPreset().type);
 	}
 
 	@Override
@@ -285,22 +284,22 @@ public class Painter extends Activity {
 				.getDefaultSharedPreferences(this);
 
 		String lang = preferences.getString(
-				this.getString(R.string.preferences_language), null);
+                getString(R.string.preferences_language), null);
 
 		if (lang != null) {
 			Locale locale = new Locale(lang);
 			Locale.setDefault(locale);
 			Configuration config = new Configuration();
 			config.locale = locale;
-			this.getBaseContext().getResources()
+            getBaseContext().getResources()
 					.updateConfiguration(config, null);
 		}
 
 		mOpenLastFile = preferences.getBoolean(
-				this.getString(R.string.preferences_last_file), true);
+                getString(R.string.preferences_last_file), true);
 
 		mVolumeButtonsShortcuts = Integer.parseInt(preferences.getString(
-				this.getString(R.string.preferences_volume_shortcuts),
+                getString(R.string.preferences_volume_shortcuts),
 				String.valueOf(SHORTCUTS_VOLUME_BRUSH_SIZE)));
 	}
 
@@ -308,7 +307,7 @@ public class Painter extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
-		MenuInflater inflater = this.getMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
@@ -317,32 +316,32 @@ public class Painter extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_brush:
-			this.enterBrushSetup();
+            enterBrushSetup();
 			break;
 		case R.id.menu_save:
-			this.savePicture(Painter.ACTION_SAVE_AND_RETURN);
+            savePicture(Painter.ACTION_SAVE_AND_RETURN);
 			break;
 		case R.id.menu_clear:
 			if (mCanvas.isChanged()) {
-				this.showDialog(R.id.dialog_clear);
+                showDialog(R.id.dialog_clear);
 			} else {
-				this.clear();
+                clear();
 			}
 			break;
 		case R.id.menu_share:
-			this.share();
+            share();
 			break;
 		case R.id.menu_rotate:
-			this.rotate();
+            rotate();
 			break;
 		case R.id.menu_open:
-			this.open();
+            open();
 			break;
 		case R.id.menu_undo:
 			mCanvas.undo();
 			break;
 		case R.id.menu_preferences:
-			this.showPreferences();
+            showPreferences();
 			break;
 		case R.id.menu_set_wallpaper:
 			new SetWallpaperTask().execute();
@@ -375,27 +374,27 @@ public class Painter extends Activity {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
 			if (mCanvas.isSetup()) {
-				this.exitBrushSetup();
+                exitBrushSetup();
 				return true;
 			} else if (mCanvas.isChanged()
 					|| (!mIsNewFile && !new File(
 							mSettings.lastPicture).exists())) {
 
 				mSettings.preset = mCanvas.getCurrentPreset();
-				this.saveSettings();
+                saveSettings();
 
 				SharedPreferences preferences = PreferenceManager
 						.getDefaultSharedPreferences(this);
 
 				int beforeExit = Integer.parseInt(preferences.getString(
-						this.getString(R.string.preferences_before_exit),
+                        getString(R.string.preferences_before_exit),
 						String.valueOf(BEFORE_EXIT_SUBMIT)));
 
 				if (mCanvas.isChanged()
 						&& beforeExit == BEFORE_EXIT_SUBMIT) {
-					this.showDialog(R.id.dialog_exit);
+                    showDialog(R.id.dialog_exit);
 				} else if (beforeExit == BEFORE_EXIT_SAVE) {
-					this.savePicture(Painter.ACTION_SAVE_AND_EXIT);
+                    savePicture(Painter.ACTION_SAVE_AND_EXIT);
 				} else {
 					return super.onKeyDown(keyCode, event);
 				}
@@ -416,7 +415,7 @@ public class Painter extends Activity {
 				mCanvas
 						.setPresetSize(mCanvas.getCurrentPreset().size + 1);
 				if (mCanvas.isSetup()) {
-					this.updateControls();
+                    updateControls();
 				}
 				break;
 				
@@ -436,7 +435,7 @@ public class Painter extends Activity {
 			case SHORTCUTS_VOLUME_BRUSH_SIZE:
 				mCanvas.setPresetSize(mCanvas.getCurrentPreset().size - 1);
 				if (mCanvas.isSetup()) {
-					this.updateControls();
+                    updateControls();
 				}
 				break;
 				
@@ -459,16 +458,16 @@ public class Painter extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case R.id.dialog_clear:
-			return this.createDialogClear();
+			return createDialogClear();
 
 		case R.id.dialog_exit:
-			return this.createDialogExit();
+			return createDialogExit();
 
 		case R.id.dialog_share:
-			return this.createDialogShare();
+			return createDialogShare();
 
 		case R.id.dialog_open:
-			return this.createDialogOpen();
+			return createDialogOpen();
 
 		default:
 			return super.onCreateDialog(id);
@@ -479,7 +478,7 @@ public class Painter extends Activity {
 	@Override
 	protected void onStop() {
 		mSettings.preset = mCanvas.getCurrentPreset();
-		this.saveSettings();
+        saveSettings();
 		super.onStop();
 	}
 
@@ -494,7 +493,7 @@ public class Painter extends Activity {
 
 				if (uri != null) {
 					if (uri.toString().toLowerCase().startsWith("content://")) {
-						path = "file://" + this.getRealPathFromURI(uri);
+						path = "file://" + getRealPathFromURI(uri);
 					} else {
 						path = uri.toString();
 					}
@@ -525,8 +524,7 @@ public class Painter extends Activity {
 										.getHeight()) {
 									mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 								} else {
-									mSettings.orientation = this
-											.getRequestedOrientation();
+									mSettings.orientation = getRequestedOrientation();
 								}
 
 								SharedPreferences preferences = PreferenceManager
@@ -534,7 +532,7 @@ public class Painter extends Activity {
 
 								int backupOption = Integer
 										.parseInt(preferences.getString(
-												this.getString(R.string.preferences_backup_openeded_file),
+                                                getString(R.string.preferences_backup_openeded_file),
 												String.valueOf(BACKUP_OPENED_ONLY_FROM_OTHER)));
 
 								String pictureName = null;
@@ -544,11 +542,10 @@ public class Painter extends Activity {
 									if (!picture
 											.getParentFile()
 											.getName()
-											.equals(this
-													.getString(R.string.app_name))) {
+											.equals(getString(R.string.app_name))) {
 										pictureName = FileSystem.copyFile(
 												picture.getAbsolutePath(),
-												this.getSaveDir()
+                                                getSaveDir()
 														+ picture.getName());
 									} else {
 										pictureName = picture.getAbsolutePath();
@@ -558,7 +555,7 @@ public class Painter extends Activity {
 								case BACKUP_OPENED_ALWAYS:
 									pictureName = FileSystem.copyFile(
 											picture.getAbsolutePath(),
-											this.getSaveDir()
+                                            getSaveDir()
 													+ picture.getName());
 									break;
 
@@ -571,8 +568,8 @@ public class Painter extends Activity {
 								if (pictureName != null) {
 									mSettings.lastPicture = pictureName;
 
-									this.saveSettings();
-									this.restart();
+                                    saveSettings();
+                                    restart();
 								} else {
 									Toast.makeText(this,
 											R.string.file_not_found,
@@ -597,9 +594,9 @@ public class Painter extends Activity {
 		new ColorPickerDialog(this,
 				new ColorPickerDialog.OnColorChangedListener() {
 					public void colorChanged(int color) {
-						Painter.this.mCanvas.setPresetColor(color);
+                        mCanvas.setPresetColor(color);
 					}
-				}, Painter.this.mCanvas.getCurrentPreset().color).show();
+				}, mCanvas.getCurrentPreset().color).show();
 	}
 
 	public Bitmap getLastPicture() {
@@ -646,9 +643,9 @@ public class Painter extends Activity {
 			break;
 		}
 
-		this.resetPresets();
-		this.setActivePreset(v);
-		this.updateControls();
+        resetPresets();
+        setActivePreset(v);
+        updateControls();
 	}
 
 	public void resetPresets() {
@@ -659,7 +656,7 @@ public class Painter extends Activity {
 	}
 
 	public void savePicture(int action) {
-		if (!this.isStorageAvailable()) {
+		if (!isStorageAvailable()) {
 			return;
 		}
 
@@ -667,23 +664,23 @@ public class Painter extends Activity {
 
 		new SaveTask() {
 			protected void onPostExecute(String pictureName) {
-				Painter.this.mIsNewFile = false;
+                mIsNewFile = false;
 
 				if (taskAction == Painter.ACTION_SAVE_AND_SHARE) {
-					Painter.this.startShareActivity(pictureName);
+                    startShareActivity(pictureName);
 				}
 
 				if (taskAction == Painter.ACTION_SAVE_AND_OPEN) {
-					Painter.this.startOpenActivity();
+                    startOpenActivity();
 				}
 
 				super.onPostExecute(pictureName);
 
 				if (taskAction == Painter.ACTION_SAVE_AND_EXIT) {
-					Painter.this.finish();
+                    finish();
 				}
 				if (taskAction == Painter.ACTION_SAVE_AND_ROTATE) {
-					Painter.this.rotateScreen();
+                    rotateScreen();
 				}
 			}
 		}.execute();
@@ -694,12 +691,12 @@ public class Painter extends Activity {
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
-				Painter.this.mCanvas.setVisibility(View.INVISIBLE);
-				Painter.this.setPanelVerticalSlide(mPresetsBar, -1.0f, 0.0f,
+                mCanvas.setVisibility(View.INVISIBLE);
+                setPanelVerticalSlide(mPresetsBar, -1.0f, 0.0f,
 						300);
-				Painter.this.setPanelVerticalSlide(mPropertiesBar, 1.0f, 0.0f,
+                setPanelVerticalSlide(mPropertiesBar, 1.0f, 0.0f,
 						300, true);
-				Painter.this.mCanvas.setup(true);
+                mCanvas.setup(true);
 			}
 		}, 10);
 	}
@@ -709,12 +706,12 @@ public class Painter extends Activity {
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
-				Painter.this.mCanvas.setVisibility(View.INVISIBLE);
-				Painter.this.setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f,
+                mCanvas.setVisibility(View.INVISIBLE);
+                setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f,
 						300);
-				Painter.this.setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f,
+                setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f,
 						300, true);
-				Painter.this.mCanvas.setup(false);
+                mCanvas.setup(false);
 			}
 		}, 10);
 	}
@@ -729,7 +726,7 @@ public class Painter extends Activity {
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.clear();
+                        clear();
 					}
 				});
 		alert.setNegativeButton(R.string.no, null);
@@ -746,14 +743,14 @@ public class Painter extends Activity {
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.savePicture(Painter.ACTION_SAVE_AND_EXIT);
+                        savePicture(Painter.ACTION_SAVE_AND_EXIT);
 					}
 				});
 		alert.setNegativeButton(R.string.no,
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.finish();
+                        finish();
 					}
 				});
 
@@ -770,14 +767,14 @@ public class Painter extends Activity {
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.savePicture(Painter.ACTION_SAVE_AND_OPEN);
+                        savePicture(Painter.ACTION_SAVE_AND_OPEN);
 					}
 				});
 		alert.setNegativeButton(R.string.no,
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.startOpenActivity();
+                        startOpenActivity();
 					}
 				});
 
@@ -794,15 +791,14 @@ public class Painter extends Activity {
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this.savePicture(Painter.ACTION_SAVE_AND_SHARE);
+                        savePicture(Painter.ACTION_SAVE_AND_SHARE);
 					}
 				});
 		alert.setNegativeButton(R.string.no,
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						Painter.this
-								.startShareActivity(Painter.this.mSettings.lastPicture);
+                        startShareActivity(mSettings.lastPicture);
 					}
 				});
 
@@ -825,7 +821,7 @@ public class Painter extends Activity {
 
 	private void setPanelVerticalSlide(LinearLayout layout, float from,
 			float to, int duration) {
-		this.setPanelVerticalSlide(layout, from, to, duration, false);
+        setPanelVerticalSlide(layout, from, to, duration, false);
 	}
 
 	private void setPanelVerticalSlide(LinearLayout layout, float from,
@@ -860,22 +856,22 @@ public class Painter extends Activity {
 				if (listenerFrom < listenerTo) {
 					listenerLayout.setVisibility(View.INVISIBLE);
 					if (listenerLast) {
-						Painter.this.mCanvas.setVisibility(View.VISIBLE);
+                        mCanvas.setVisibility(View.VISIBLE);
 						Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
 							public void run() {
-								Painter.this.mSettingsLayout
+                                mSettingsLayout
 										.setVisibility(View.GONE);
 							}
 						}, 10);
 					}
 				} else {
 					if (listenerLast) {
-						Painter.this.mCanvas.setVisibility(View.VISIBLE);
+                        mCanvas.setVisibility(View.VISIBLE);
 						Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
 							public void run() {
-								Painter.this.mSettingsLayout
+                                mSettingsLayout
 										.setBackgroundColor(Color.TRANSPARENT);
 							}
 						}, 10);
@@ -888,18 +884,18 @@ public class Painter extends Activity {
 	}
 
 	private void share() {
-		if (!this.isStorageAvailable()) {
+		if (!isStorageAvailable()) {
 			return;
 		}
 
 		if (mCanvas.isChanged() || mIsNewFile) {
 			if (mIsNewFile) {
-				this.savePicture(Painter.ACTION_SAVE_AND_SHARE);
+                savePicture(Painter.ACTION_SAVE_AND_SHARE);
 			} else {
-				this.showDialog(R.id.dialog_share);
+                showDialog(R.id.dialog_share);
 			}
 		} else {
-			this.startShareActivity(mSettings.lastPicture);
+            startShareActivity(mSettings.lastPicture);
 		}
 	}
 
@@ -939,12 +935,12 @@ public class Painter extends Activity {
 		if (preset > 0 && preset != BrushPreset.CUSTOM) {
 			LinearLayout wrapper = (LinearLayout) mPresetsBar
 					.getChildAt(0);
-			this.highlightActivePreset(wrapper.getChildAt(preset - 1));
+            highlightActivePreset(wrapper.getChildAt(preset - 1));
 		}
 	}
 
 	private void setActivePreset(View v) {
-		this.highlightActivePreset(v);
+        highlightActivePreset(v);
 	}
 
 	private void highlightActivePreset(View v) {
@@ -954,32 +950,32 @@ public class Painter extends Activity {
 	private void clear() {
 		mCanvas.getThread().clearBitmap();
 		mCanvas.changed(false);
-		this.clearSettings();
+        clearSettings();
 		mIsNewFile = true;
-		this.updateControls();
+        updateControls();
 	}
 
 	private void rotate() {
 		mSettings.forceOpenFile = true;
 
 		if (!mIsNewFile || mCanvas.isChanged()) {
-			this.savePicture(Painter.ACTION_SAVE_AND_ROTATE);
+            savePicture(Painter.ACTION_SAVE_AND_ROTATE);
 		} else {
-			this.rotateScreen();
+            rotateScreen();
 		}
 	}
 
 	private void rotateScreen() {
-		if (this.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+		if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
 			mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-			this.saveSettings();
+            saveSettings();
 
-			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-			this.saveSettings();
+            saveSettings();
 
-			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 	}
 
@@ -1022,53 +1018,53 @@ public class Painter extends Activity {
 
 	private void loadSettings() {
 		mSettings = new PainterSettings();
-		SharedPreferences settings = this.getSharedPreferences(
+		SharedPreferences settings = getSharedPreferences(
 				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
 		mSettings.orientation = settings.getInt(
-				this.getString(R.string.settings_orientation),
+                getString(R.string.settings_orientation),
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		if (this.getRequestedOrientation() != mSettings.orientation) {
-			this.setRequestedOrientation(mSettings.orientation);
+		if (getRequestedOrientation() != mSettings.orientation) {
+            setRequestedOrientation(mSettings.orientation);
 		}
 
 		mSettings.lastPicture = settings.getString(
-				this.getString(R.string.settings_last_picture), null);
+                getString(R.string.settings_last_picture), null);
 
 		int type = settings.getInt(
-				this.getString(R.string.settings_brush_type), BrushPreset.PEN);
+                getString(R.string.settings_brush_type), BrushPreset.PEN);
 
 		if (type == BrushPreset.CUSTOM) {
 			mSettings.preset = new BrushPreset(
 					settings.getFloat(
-							this.getString(R.string.settings_brush_size), 2),
+                            getString(R.string.settings_brush_size), 2),
 					settings.getInt(
-							this.getString(R.string.settings_brush_color),
+                            getString(R.string.settings_brush_color),
 							Color.BLACK),
 					settings.getInt(
-							this.getString(R.string.settings_brush_blur_style),
+                            getString(R.string.settings_brush_blur_style),
 							0),
 					settings.getInt(
-							this.getString(R.string.settings_brush_blur_radius),
+                            getString(R.string.settings_brush_blur_radius),
 							0));
 			mSettings.preset.setType(type);
 		} else {
 			mSettings.preset = new BrushPreset(type, settings.getInt(
-					this.getString(R.string.settings_brush_color), Color.BLACK));
+                    getString(R.string.settings_brush_color), Color.BLACK));
 		}
 
 		mCanvas.setPreset(mSettings.preset);
 
 		mSettings.forceOpenFile = settings.getBoolean(
-				this.getString(R.string.settings_force_open_file), false);
+                getString(R.string.settings_force_open_file), false);
 	}
 
 	private String getSaveDir() {
 		String path = Environment.getExternalStorageDirectory()
 				.getAbsolutePath()
 				+ "/"
-				+ this.getString(R.string.app_name)
+				+ getString(R.string.app_name)
 				+ "/";
 
 		File file = new File(path);
@@ -1089,36 +1085,36 @@ public class Painter extends Activity {
 	}
 
 	private void saveSettings() {
-		SharedPreferences settings = this.getSharedPreferences(
+		SharedPreferences settings = getSharedPreferences(
 				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
 		SharedPreferences.Editor editor = settings.edit();
 
 		try {
-			PackageInfo pack = this.getPackageManager().getPackageInfo(
-					this.getPackageName(), 0);
-			editor.putInt(this.getString(R.string.settings_version),
+			PackageInfo pack = getPackageManager().getPackageInfo(
+                    getPackageName(), 0);
+			editor.putInt(getString(R.string.settings_version),
 					pack.versionCode);
 		} catch (NameNotFoundException e) {
 		}
 
-		editor.putInt(this.getString(R.string.settings_orientation),
+		editor.putInt(getString(R.string.settings_orientation),
 				mSettings.orientation);
-		editor.putString(this.getString(R.string.settings_last_picture),
+		editor.putString(getString(R.string.settings_last_picture),
 				mSettings.lastPicture);
-		editor.putFloat(this.getString(R.string.settings_brush_size),
+		editor.putFloat(getString(R.string.settings_brush_size),
 				mSettings.preset.size);
-		editor.putInt(this.getString(R.string.settings_brush_color),
+		editor.putInt(getString(R.string.settings_brush_color),
 				mSettings.preset.color);
 		editor.putInt(
-				this.getString(R.string.settings_brush_blur_style),
+                getString(R.string.settings_brush_blur_style),
 				(mSettings.preset.blurStyle != null) ? mSettings.preset.blurStyle
 						.ordinal() + 1 : 0);
-		editor.putInt(this.getString(R.string.settings_brush_blur_radius),
+		editor.putInt(getString(R.string.settings_brush_blur_radius),
 				mSettings.preset.blurRadius);
-		editor.putInt(this.getString(R.string.settings_brush_type),
+		editor.putInt(getString(R.string.settings_brush_type),
 				mSettings.preset.type);
-		editor.putBoolean(this.getString(R.string.settings_force_open_file),
+		editor.putBoolean(getString(R.string.settings_force_open_file),
 				mSettings.forceOpenFile);
 
 		editor.commit();
@@ -1126,42 +1122,42 @@ public class Painter extends Activity {
 
 	private void clearSettings() {
 		mSettings.lastPicture = null;
-		this.deleteFile(Painter.SETTINGS_STORAGE);
+        deleteFile(Painter.SETTINGS_STORAGE);
 	}
 
 	private void open() {
-		if (!this.isStorageAvailable()) {
+		if (!isStorageAvailable()) {
 			return;
 		}
 
 		mSettings.forceOpenFile = true;
 
 		if (mCanvas.isChanged()) {
-			this.showDialog(R.id.dialog_open);
+            showDialog(R.id.dialog_open);
 		} else {
-			this.startOpenActivity();
+            startOpenActivity();
 		}
 	}
 
 	private void startOpenActivity() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setDataAndType(Uri.fromFile(new File(this.getSaveDir())),
+		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())),
 				Painter.PICTURE_MIME);
-		this.startActivityForResult(
+        startActivityForResult(
 				Intent.createChooser(intent,
-						this.getString(R.string.open_prompt_title)),
+                        getString(R.string.open_prompt_title)),
 				Painter.REQUEST_OPEN);
 	}
 
 	private void restart() {
-		Intent intent = this.getIntent();
-		this.overridePendingTransition(0, 0);
+		Intent intent = getIntent();
+        overridePendingTransition(0, 0);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-		this.finish();
+        finish();
 
-		this.overridePendingTransition(0, 0);
-		this.startActivity(intent);
+        overridePendingTransition(0, 0);
+        startActivity(intent);
 	}
 
 	public String getRealPathFromURI(Uri contentUri) {

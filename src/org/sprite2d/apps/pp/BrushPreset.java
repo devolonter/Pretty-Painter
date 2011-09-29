@@ -33,78 +33,78 @@ public class BrushPreset {
 	public BrushPreset(int type, int color){
 		switch(type) {
 			case BrushPreset.PENCIL:
-				this.set(2, color, Blur.INNER, 10);
+                set(2, color, Blur.INNER, 10);
 				break;
-			case BrushPreset.BRUSH: 
-				this.set(15, color, Blur.NORMAL, 18);
+			case BrushPreset.BRUSH:
+                set(15, color, Blur.NORMAL, 18);
 				break;
-			case BrushPreset.MARKER: 
-				this.set(20, color);
+			case BrushPreset.MARKER:
+                set(20, color);
 				break;
-			case BrushPreset.PEN: 
-				this.set(2, color);
+			case BrushPreset.PEN:
+                set(2, color);
 				break;
 			case BrushPreset.CUSTOM:
-				this.setColor(color);
+                setColor(color);
 				break;
 		}
-		
-		this.setType(type);
+
+        setType(type);
 	}
 	
 	public BrushPreset(float size){
-		this.set(size);
+        set(size);
 	}
 	
 	public BrushPreset(float size, int color){
-		this.set(size, color);
+        set(size, color);
 	}
 	
 	public BrushPreset(float size, Blur blurStyle, int blurRadius){
-		this.set(size, blurStyle, blurRadius);
+        set(size, blurStyle, blurRadius);
 	}
 	
 	public BrushPreset(float size, int blurStyle, int blurRadius){
-		this.set(size, blurStyle, blurRadius);
+        set(size, blurStyle, blurRadius);
 	}
 	
 	public BrushPreset(float size, int color, Blur blurStyle, int blurRadius){
-		this.set(size, color, blurStyle, blurRadius);
+        set(size, color, blurStyle, blurRadius);
 	}
 	
 	public BrushPreset(float size, int color, int blurStyle, int blurRadius){
-		this.set(size, color, blurStyle, blurRadius);
+        set(size, color, blurStyle, blurRadius);
 	}
 	
 	public void set(float size){
-		this.setSize(size);
+        setSize(size);
 	}
 	
 	public void set(float size, int color){
-		this.setSize(size);
-		this.setColor(color);
+        setSize(size);
+        setColor(color);
 	}
 	
 	public void set(float size, Blur blurStyle, int blurRadius){
-		this.setSize(size);
-		this.setBlur(blurStyle, blurRadius);
+        setSize(size);
+        setBlur(blurStyle, blurRadius);
 	}
 	
 	public void set(float size, int blurStyle, int blurRadius){
-		this.setSize(size);
-		this.setBlur(blurStyle, blurRadius);
+        setSize(size);
+        setBlur(blurStyle, blurRadius);
 	}
 	
 	public void set(float size, int color, Blur blurStyle, int blurRadius){
-		this.setSize(size);
-		this.setBlur(blurStyle, blurRadius);
-		this.setColor(color);
+        setSize(size);
+        setBlur(blurStyle, blurRadius);
+        setColor(color);
 	}
 	
 	public void set(float size, int color, int blurStyle, int blurRadius){
-		this.setSize(size);
-		this.setBlur(blurStyle, blurRadius);
-		this.setColor(color);
+        setSize(size);
+        setBlur(blurStyle, blurRadius);
+        setColor(color);
 	}
 	
 	public void setColor(int color) {
@@ -117,14 +117,14 @@ public class BrushPreset {
 	
 	public void setSize(float size) {
 		if(this.size != size){
-			this.setType(BrushPreset.CUSTOM);
+            setType(BrushPreset.CUSTOM);
 		}
 		this.size = (size > 0) ? size : 1;
 	}
 	
 	public void setBlur(Blur blurStyle, int blurRadius) {
 		if(this.blurStyle != blurStyle || this.blurRadius != blurRadius){
-			this.setType(BrushPreset.CUSTOM);
+            setType(BrushPreset.CUSTOM);
 		}
 		this.blurStyle = blurStyle;
 		this.blurRadius = blurRadius;
@@ -133,7 +133,7 @@ public class BrushPreset {
 	public void setBlur(int blurStyle, int blurRadius) {
 		int style = (this.blurStyle != null) ? this.blurStyle.ordinal()+1 : 0;
 		if(style != blurStyle || this.blurRadius != blurRadius){
-			this.setType(BrushPreset.CUSTOM);
+            setType(BrushPreset.CUSTOM);
 		}
 
 		switch(blurStyle) {
