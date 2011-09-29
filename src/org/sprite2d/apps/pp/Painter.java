@@ -1063,9 +1063,9 @@ public class Painter extends Activity {
 	private String getSaveDir() {
 		String path = Environment.getExternalStorageDirectory()
 				.getAbsolutePath()
-				+ "/"
+				+ '/'
 				+ getString(R.string.app_name)
-				+ "/";
+				+ '/';
 
 		File file = new File(path);
 		if (!file.exists()) {

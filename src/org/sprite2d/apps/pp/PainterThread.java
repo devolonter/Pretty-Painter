@@ -186,10 +186,10 @@ public class PainterThread extends Thread {
 		mLastBrushPointY = -1;
 	}
 	
-	public boolean draw(int x, int y) {
+	public void draw(int x, int y) {
 		if(mLastBrushPointX > 0){
 			if(mLastBrushPointX - x == 0 && mLastBrushPointY - y == 0) {
-				return false;
+                return;
 			}
 
 			mActiveCanvas.drawLine(
@@ -211,8 +211,7 @@ public class PainterThread extends Thread {
 		
 		mLastBrushPointX = x;
 		mLastBrushPointY = y;
-		return true;
-	}
+    }
 
 	public void setBitmap(Bitmap bitmap, boolean clear) {
 		mBitmap = bitmap;

@@ -13,16 +13,12 @@ public class FileSystem {
 			if (destFile.exists()) {
 				int suffix = 1;
 				String fileName = FileSystem.getFileName(destFile.getName());
-				String fileExt = FileSystem
-						.getFileExtension(destFile.getName());
-				String filePath = destFile.getParentFile().getAbsolutePath()
-						+ "/";
+				String fileExt = FileSystem.getFileExtension(destFile.getName());
+				String filePath = destFile.getParentFile().getAbsolutePath() + '/';
 
-				String newFileName = filePath + fileName + "_" + suffix + "."
-						+ fileExt;
+				String newFileName = filePath + fileName + '_' + suffix + '.' + fileExt;
 				while (new File(newFileName).exists()) {
-					newFileName = filePath + fileName + "_" + suffix + "."
-							+ fileExt;
+					newFileName = filePath + fileName + '_' + suffix + '.' + fileExt;
 					suffix++;
 				}
 
