@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
-import android.graphics.Matrix;
 import android.view.SurfaceHolder;
 
 /**

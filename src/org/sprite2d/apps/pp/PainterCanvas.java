@@ -10,12 +10,11 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Color;
 import android.graphics.Matrix;
-
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
 
 /**
  * Draw surface class
