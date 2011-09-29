@@ -21,10 +21,10 @@ public class PainterPreferences extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.preferences);
 
-		this.mAboutPreferenceKey = this.getString(R.string.preferences_about);
-		this.getPreferenceScreen().findPreference(this.mAboutPreferenceKey)
+		mAboutPreferenceKey = getString(R.string.preferences_about);
+        getPreferenceScreen().findPreference(mAboutPreferenceKey)
 				.setOnPreferenceClickListener(this);
 	}
 
@@ -32,7 +32,7 @@ public class PainterPreferences extends PreferenceActivity implements
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case R.id.dialog_about:
-			return this.createDialogAbout();
+			return createDialogAbout();
 
 		default:
 			return super.onCreateDialog(id);
@@ -41,8 +41,8 @@ public class PainterPreferences extends PreferenceActivity implements
 	}
 
 	public boolean onPreferenceClick(Preference preference) {
-		if (this.mAboutPreferenceKey.equals(preference.getKey())) {
-			this.showDialog(R.id.dialog_about);
+		if (mAboutPreferenceKey.equals(preference.getKey())) {
+            showDialog(R.id.dialog_about);
 			return true;
 		}
 
@@ -50,27 +50,26 @@ public class PainterPreferences extends PreferenceActivity implements
 	}
 
 	public void forkMe(View v) {
-		this.dismissDialog(R.id.dialog_about);
+        dismissDialog(R.id.dialog_about);
 
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse(this.getString(R.string.repo_url)));
-		this.startActivity(Intent.createChooser(intent,
-				this.getString(R.string.which_app)));
+		intent.setData(Uri.parse(getString(R.string.repo_url)));
+        startActivity(Intent.createChooser(intent,
+                getString(R.string.which_app)));
 	}
 
 	private Dialog createDialogAbout() {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-		LayoutInflater inflater = this.getLayoutInflater();
+		LayoutInflater inflater = getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.dialog_about, null);
 		dialogBuilder.setView(dialogView);
 
 		try {
-			((TextView) dialogView.findViewById(R.id.version)).setText(this
-					.getString(
+			((TextView) dialogView.findViewById(R.id.version)).setText(getString(
 							R.string.app_version,
-							this.getPackageManager().getPackageInfo(
-									this.getPackageName(),
+                    getPackageManager().getPackageInfo(
+                            getPackageName(),
 									PackageManager.GET_META_DATA).versionName));
 		} catch (Exception e) {
 		}

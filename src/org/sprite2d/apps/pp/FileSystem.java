@@ -49,12 +49,12 @@ public class FileSystem {
 	}
 
 	public static String getFileExtension(String filename) {
-		int dotposition = filename.lastIndexOf(".");
+		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(dotposition + 1, filename.length());
 	}
 
 	public static String getFileName(String filename) {
-		int dotposition = filename.lastIndexOf(".");
+		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(0, dotposition);
 	}
 

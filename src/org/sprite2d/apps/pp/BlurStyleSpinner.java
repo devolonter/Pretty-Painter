@@ -28,7 +28,7 @@ public class BlurStyleSpinner extends Spinner {
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		Painter painter = (Painter) this.getContext();
+		Painter painter = (Painter) getContext();
 		painter.resetPresets();
 		super.onClick(dialog, which);		
 	}
