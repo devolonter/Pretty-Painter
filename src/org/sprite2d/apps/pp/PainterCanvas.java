@@ -210,66 +210,66 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	}
 
 	public void setPresetSize(float size) {
-		this.mPreset.setSize(size);
-		this.getThread().setPreset(this.mPreset);
+		mPreset.setSize(size);
+		this.getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(Blur blurStyle, int blurRadius) {
-		this.mPreset.setBlur(blurStyle, blurRadius);
-		this.getThread().setPreset(this.mPreset);
+		mPreset.setBlur(blurStyle, blurRadius);
+		this.getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(int blurStyle, int blurRadius) {
-		this.mPreset.setBlur(blurStyle, blurRadius);
-		this.getThread().setPreset(this.mPreset);
+		mPreset.setBlur(blurStyle, blurRadius);
+		this.getThread().setPreset(mPreset);
 	}
 
 	public void setPreset(BrushPreset preset) {
-		this.mPreset = preset;
-		this.getThread().setPreset(this.mPreset);
+		mPreset = preset;
+		this.getThread().setPreset(mPreset);
 	}
 
 	public boolean isSetup() {
-		return this.mIsSetup;
+		return mIsSetup;
 	}
 
 	public void setup(boolean setup) {
-		this.mIsSetup = setup;
+		mIsSetup = setup;
 	}
 
 	public boolean isChanged() {
-		return (this.countChanges > 0);
+		return (countChanges > 0);
 	}
 
 	public void changed(boolean changed) {
 		if (!changed) {
-			this.countChanges = 0;
+			countChanges = 0;
 		} else {
-			this.countChanges += 1;
+			countChanges += 1;
 		}
 	}
 
 	public void undo() {
-		if (!this.mUndo) {
-			this.mUndo = true;
+		if (!mUndo) {
+			mUndo = true;
 			this.getThread().undo();
-			this.countChanges -= 1;
+			countChanges -= 1;
 		} else {
-			this.mUndo = false;
+			mUndo = false;
 			this.getThread().redo();
-			this.countChanges += 1;
+			countChanges += 1;
 		}
 	}
 
 	public boolean canUndo() {
-		if (this.isChanged() && !this.mUndo) {
+		if (this.isChanged() && !mUndo) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean canRedo() {
-		if (this.mUndo) {
+		if (mUndo) {
 			return true;
 		}
 		return false;

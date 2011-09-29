@@ -135,16 +135,14 @@ public class PainterThread extends Thread {
                     				50, 
                     				(mBitmap.getHeight()/100)*35, 
                     				mBitmap.getWidth() - 50, 
-                    				(this.mBitmap.getHeight()/100)*35, 
-                    				this.mBrush
-                    		);
+                    				(mBitmap.getHeight()/100)*35, mBrush);
                 			break;
                 		}
                 	}                   	
                 }
             } finally {
                 if (c != null) {
-                    this.mHolder.unlockCanvasAndPost(c);
+                    mHolder.unlockCanvasAndPost(c);
                 }
                 if(this.isFreeze()) {
                 	try {
@@ -156,149 +154,148 @@ public class PainterThread extends Thread {
     }	
 	
 	public void setPreset(BrushPreset preset) {
-		this.mBrush.setColor(preset.color);
-		this.mBrushSize = preset.size;
-		this.mBrush.setStrokeWidth(preset.size);
+		mBrush.setColor(preset.color);
+		mBrushSize = preset.size;
+		mBrush.setStrokeWidth(preset.size);
 		if(preset.blurStyle != null && preset.blurRadius > 0){
-			this.mBrush.setMaskFilter(new BlurMaskFilter(preset.blurRadius, preset.blurStyle));
+			mBrush.setMaskFilter(new BlurMaskFilter(preset.blurRadius, preset.blurStyle));
 		}
 		else {
-			this.mBrush.setMaskFilter(null);
+			mBrush.setMaskFilter(null);
 		}
 	}	
 	
 	public void drawBegin() {
-		this.mLastBrushPointX = -1;
-		this.mLastBrushPointY = -1;
+		mLastBrushPointX = -1;
+		mLastBrushPointY = -1;
 		PainterThread.this.completeDraw();		
 	}
 	
 	public void completeDraw() {	
-		synchronized (this.mHolder) { 
-		    if(!this.mUndo) {
-				this.mCanvas.drawBitmap(
-						 this.mActiveBitmap, 0, 0, null);			
+		synchronized (mHolder) { 
+		    if(!mUndo) {
+				mCanvas.drawBitmap(mActiveBitmap, 0, 0, null);			
 			}
-			this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
+			mActiveBitmap.eraseColor(Color.TRANSPARENT);
 			this.redo();
 		}
 	}
 	
 	public void drawEnd() {
-		this.mLastBrushPointX = -1;
-		this.mLastBrushPointY = -1;	
+		mLastBrushPointX = -1;
+		mLastBrushPointY = -1;	
 	}
 	
 	public boolean draw(int x, int y) {	
-		if(this.mLastBrushPointX > 0){			
-			if(this.mLastBrushPointX - x == 0 && this.mLastBrushPointY - y == 0) {
+		if(mLastBrushPointX > 0){			
+			if(mLastBrushPointX - x == 0 && mLastBrushPointY - y == 0) {
 				return false;
 			}
 			
-			this.mActiveCanvas.drawLine(
+			mActiveCanvas.drawLine(
 					x, 
 					y, 
-					this.mLastBrushPointX, 
-					this.mLastBrushPointY,
-					this.mBrush
+					mLastBrushPointX, 
+					mLastBrushPointY,
+					mBrush
 			);
 		}
 		else {
-			this.mActiveCanvas.drawCircle(
+			mActiveCanvas.drawCircle(
 					x, 
 					y, 
-					this.mBrushSize*.5f, 
-					this.mBrush
+					mBrushSize*.5f, 
+					mBrush
 			);
 		}
 		
-		this.mLastBrushPointX = x;
-		this.mLastBrushPointY = y;	
+		mLastBrushPointX = x;
+		mLastBrushPointY = y;	
 		return true;
 	}
 	
 	public void setBitmap(Bitmap bitmap, boolean clear) {
-		this.mBitmap = bitmap;
+		mBitmap = bitmap;
 		if(clear){
-			this.mBitmap.eraseColor(this.mCanvasBgColor);
+			mBitmap.eraseColor(mCanvasBgColor);
 		}	
 		
-		this.mCanvas = new Canvas(this.mBitmap);
+		mCanvas = new Canvas(mBitmap);
 	}
 	
 	public void setActiveBitmap(Bitmap bitmap, boolean clear) {
-		this.mActiveBitmap = bitmap;
+		mActiveBitmap = bitmap;
 		if(clear){
-			this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
+			mActiveBitmap.eraseColor(Color.TRANSPARENT);
 		}
 		
-		this.mActiveCanvas = new Canvas(this.mActiveBitmap);
+		mActiveCanvas = new Canvas(mActiveBitmap);
 	}
 	
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
-		this.mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
+		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
 	}
 	
 	public void clearBitmap() {
-		this.mBitmap.eraseColor(this.mCanvasBgColor);
-		this.mActiveBitmap.eraseColor(Color.TRANSPARENT);
+		mBitmap.eraseColor(mCanvasBgColor);
+		mActiveBitmap.eraseColor(Color.TRANSPARENT);
 	}
 	
 	public Bitmap getBitmap() {
 		this.completeDraw();
-		return this.mBitmap;
+		return mBitmap;
 	}
 	
 	public void on() {
-		this.mIsActive = true;
+		mIsActive = true;
 	}
 	
 	public void off() {
-		this.mIsActive = false;
+		mIsActive = false;
 	}
 	
 	public void freeze() {
-		this.mStatus = PainterThread.SLEEP;
+		mStatus = PainterThread.SLEEP;
 	}
 	
 	public void activate() {
-		this.mStatus = PainterThread.READY;
+		mStatus = PainterThread.READY;
 	}
 	
 	public void setup() {
-		this.mStatus = PainterThread.SETUP;
+		mStatus = PainterThread.SETUP;
 	}
 	
 	public boolean isFreeze() {
-		return (this.mStatus == PainterThread.SLEEP);
+		return (mStatus == PainterThread.SLEEP);
 	}
 	
 	public boolean isSetup() {
-		return (this.mStatus == PainterThread.SETUP);
+		return (mStatus == PainterThread.SETUP);
 	}
 	
 	public boolean isReady() {
-		return (this.mStatus == PainterThread.READY);
+		return (mStatus == PainterThread.READY);
 	}
 	
 	public boolean isRun() {
-		return this.mIsActive;
+		return mIsActive;
 	}
 	
 	public void undo() {
-		this.mUndo = true;
+		mUndo = true;
 	}
 	
 	public void redo() {
-		this.mUndo = false;
+		mUndo = false;
 	}
 	
 	public int getBackgroundColor() {
-		return this.mCanvasBgColor;
+		return mCanvasBgColor;
 	}
 	
 	private void waitForBitmap() {
-		while (this.mBitmap == null || this.mActiveBitmap == null) {
+		while (mBitmap == null || mActiveBitmap == null) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

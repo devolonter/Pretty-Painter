@@ -374,14 +374,14 @@ public class Painter extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (this.mCanvas.isSetup()) {
+			if (mCanvas.isSetup()) {
 				this.exitBrushSetup();
 				return true;
-			} else if (this.mCanvas.isChanged()
-					|| (!this.mIsNewFile && !new File(
-							this.mSettings.lastPicture).exists())) {
+			} else if (mCanvas.isChanged()
+					|| (!mIsNewFile && !new File(
+							mSettings.lastPicture).exists())) {
 
-				this.mSettings.preset = this.mCanvas.getCurrentPreset();
+				mSettings.preset = mCanvas.getCurrentPreset();
 				this.saveSettings();
 
 				SharedPreferences preferences = PreferenceManager
@@ -391,7 +391,7 @@ public class Painter extends Activity {
 						this.getString(R.string.preferences_before_exit),
 						String.valueOf(BEFORE_EXIT_SUBMIT)));
 
-				if (this.mCanvas.isChanged()
+				if (mCanvas.isChanged()
 						&& beforeExit == BEFORE_EXIT_SUBMIT) {
 					this.showDialog(R.id.dialog_exit);
 				} else if (beforeExit == BEFORE_EXIT_SAVE) {
@@ -405,25 +405,25 @@ public class Painter extends Activity {
 			break;
 
 		case KeyEvent.KEYCODE_MENU:
-			if (this.mCanvas.isSetup()) {
+			if (mCanvas.isSetup()) {
 				return true;
 			}
 			break;
 
 		case KeyEvent.KEYCODE_VOLUME_UP:
-			switch (this.mVolumeButtonsShortcuts) {
+			switch (mVolumeButtonsShortcuts) {
 			case SHORTCUTS_VOLUME_BRUSH_SIZE:
-				this.mCanvas
-						.setPresetSize(this.mCanvas.getCurrentPreset().size + 1);
-				if (this.mCanvas.isSetup()) {
+				mCanvas
+						.setPresetSize(mCanvas.getCurrentPreset().size + 1);
+				if (mCanvas.isSetup()) {
 					this.updateControls();
 				}
 				break;
 				
 			case SHORTCUTS_VOLUME_UNDO_REDO:
-				if (!this.mCanvas.isSetup()) {
-					if (this.mCanvas.canRedo()) {
-						this.mCanvas.undo();
+				if (!mCanvas.isSetup()) {
+					if (mCanvas.canRedo()) {
+						mCanvas.undo();
 					}
 				}
 				break;
@@ -432,19 +432,18 @@ public class Painter extends Activity {
 			return true;
 
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			switch (this.mVolumeButtonsShortcuts) {
+			switch (mVolumeButtonsShortcuts) {
 			case SHORTCUTS_VOLUME_BRUSH_SIZE:
-				this.mCanvas
-						.setPresetSize(this.mCanvas.getCurrentPreset().size - 1);
-				if (this.mCanvas.isSetup()) {
+				mCanvas.setPresetSize(mCanvas.getCurrentPreset().size - 1);
+				if (mCanvas.isSetup()) {
 					this.updateControls();
 				}
 				break;
 				
 			case SHORTCUTS_VOLUME_UNDO_REDO:
-				if (!this.mCanvas.isSetup()) {
-					if (this.mCanvas.canUndo()) {
-						this.mCanvas.undo();
+				if (!mCanvas.isSetup()) {
+					if (mCanvas.canUndo()) {
+						mCanvas.undo();
 					}
 				}
 				break;
@@ -479,7 +478,7 @@ public class Painter extends Activity {
 
 	@Override
 	protected void onStop() {
-		this.mSettings.preset = this.mCanvas.getCurrentPreset();
+		mSettings.preset = mCanvas.getCurrentPreset();
 		this.saveSettings();
 		super.onStop();
 	}
@@ -521,12 +520,12 @@ public class Painter extends Activity {
 
 							if (bitmap != null) {
 								if (bitmap.getWidth() > bitmap.getHeight()) {
-									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+									mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 								} else if (bitmap.getWidth() != bitmap
 										.getHeight()) {
-									this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+									mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 								} else {
-									this.mSettings.orientation = this
+									mSettings.orientation = this
 											.getRequestedOrientation();
 								}
 
@@ -570,7 +569,7 @@ public class Painter extends Activity {
 								}
 
 								if (pictureName != null) {
-									this.mSettings.lastPicture = pictureName;
+									mSettings.lastPicture = pictureName;
 
 									this.saveSettings();
 									this.restart();
@@ -606,21 +605,21 @@ public class Painter extends Activity {
 	public Bitmap getLastPicture() {
 		Bitmap savedBitmap = null;
 
-		if (!this.mOpenLastFile && !this.mSettings.forceOpenFile) {
-			this.mSettings.lastPicture = null;
-			this.mIsNewFile = true;
+		if (!mOpenLastFile && mSettings.forceOpenFile) {
+			mSettings.lastPicture = null;
+			mIsNewFile = true;
 			return savedBitmap;
 		}
 
-		this.mSettings.forceOpenFile = false;
+		mSettings.forceOpenFile = false;
 
-		if (this.mSettings.lastPicture != null) {
-			if (new File(this.mSettings.lastPicture).exists()) {
+		if (mSettings.lastPicture != null) {
+			if (new File(mSettings.lastPicture).exists()) {
 				savedBitmap = BitmapFactory
-						.decodeFile(this.mSettings.lastPicture);
-				this.mIsNewFile = false;
+						.decodeFile(mSettings.lastPicture);
+				mIsNewFile = false;
 			} else {
-				this.mSettings.lastPicture = null;
+				mSettings.lastPicture = null;
 			}
 		}
 
@@ -630,20 +629,20 @@ public class Painter extends Activity {
 	public void setPreset(View v) {
 		switch (v.getId()) {
 		case R.id.preset_pencil:
-			this.mCanvas.setPreset(new BrushPreset(BrushPreset.PENCIL,
-					this.mCanvas.getCurrentPreset().color));
+			mCanvas.setPreset(new BrushPreset(BrushPreset.PENCIL,
+					mCanvas.getCurrentPreset().color));
 			break;
 		case R.id.preset_brush:
-			this.mCanvas.setPreset(new BrushPreset(BrushPreset.BRUSH,
-					this.mCanvas.getCurrentPreset().color));
+			mCanvas.setPreset(new BrushPreset(BrushPreset.BRUSH,
+					mCanvas.getCurrentPreset().color));
 			break;
 		case R.id.preset_marker:
-			this.mCanvas.setPreset(new BrushPreset(BrushPreset.MARKER,
-					this.mCanvas.getCurrentPreset().color));
+			mCanvas.setPreset(new BrushPreset(BrushPreset.MARKER,
+					mCanvas.getCurrentPreset().color));
 			break;
 		case R.id.preset_pen:
-			this.mCanvas.setPreset(new BrushPreset(BrushPreset.PEN,
-					this.mCanvas.getCurrentPreset().color));
+			mCanvas.setPreset(new BrushPreset(BrushPreset.PEN,
+					mCanvas.getCurrentPreset().color));
 			break;
 		}
 
@@ -653,7 +652,7 @@ public class Painter extends Activity {
 	}
 
 	public void resetPresets() {
-		LinearLayout wrapper = (LinearLayout) this.mPresetsBar.getChildAt(0);
+		LinearLayout wrapper = (LinearLayout) mPresetsBar.getChildAt(0);
 		for (int i = wrapper.getChildCount() - 1; i >= 0; i--) {
 			wrapper.getChildAt(i).setBackgroundColor(Color.WHITE);
 		}
@@ -691,7 +690,7 @@ public class Painter extends Activity {
 	}
 
 	private void enterBrushSetup() {
-		this.mSettingsLayout.setVisibility(View.VISIBLE);
+		mSettingsLayout.setVisibility(View.VISIBLE);
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
@@ -706,7 +705,7 @@ public class Painter extends Activity {
 	}
 
 	private void exitBrushSetup() {
-		this.mSettingsLayout.setBackgroundColor(Color.WHITE);
+		mSettingsLayout.setBackgroundColor(Color.WHITE);
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
@@ -811,16 +810,16 @@ public class Painter extends Activity {
 	}
 
 	private void updateControls() {
-		this.mBrushSize.setProgress((int) this.mCanvas.getCurrentPreset().size);
-		if (this.mCanvas.getCurrentPreset().blurStyle != null) {
-			this.mBrushBlurStyle
-					.setSelection(this.mCanvas.getCurrentPreset().blurStyle
+		mBrushSize.setProgress((int) mCanvas.getCurrentPreset().size);
+		if (mCanvas.getCurrentPreset().blurStyle != null) {
+			mBrushBlurStyle
+					.setSelection(mCanvas.getCurrentPreset().blurStyle
 							.ordinal() + 1);
-			this.mBrushBlurRadius
-					.setProgress(this.mCanvas.getCurrentPreset().blurRadius);
+			mBrushBlurRadius
+					.setProgress(mCanvas.getCurrentPreset().blurRadius);
 		} else {
-			this.mBrushBlurStyle.setSelection(0);
-			this.mBrushBlurRadius.setProgress(0);
+			mBrushBlurStyle.setSelection(0);
+		mBrushBlurRadius.setProgress(0);
 		}
 	}
 
@@ -893,14 +892,14 @@ public class Painter extends Activity {
 			return;
 		}
 
-		if (this.mCanvas.isChanged() || this.mIsNewFile) {
-			if (this.mIsNewFile) {
+		if (mCanvas.isChanged() || mIsNewFile) {
+			if (mIsNewFile) {
 				this.savePicture(Painter.ACTION_SAVE_AND_SHARE);
 			} else {
 				this.showDialog(R.id.dialog_share);
 			}
 		} else {
-			this.startShareActivity(this.mSettings.lastPicture);
+			this.startShareActivity(mSettings.lastPicture);
 		}
 	}
 
@@ -915,30 +914,30 @@ public class Painter extends Activity {
 	}
 
 	private void updateBlurSpinner(long blur_style) {
-		if (blur_style > 0 && this.mBrushBlurRadius.getProgress() < 1) {
-			this.mBrushBlurRadius.setProgress(1);
+		if (blur_style > 0 && mBrushBlurRadius.getProgress() < 1) {
+			mBrushBlurRadius.setProgress(1);
 		}
 	}
 
 	private void updateBlurSeek(int progress) {
 		if (progress > 0) {
-			if (this.mBrushBlurStyle.getSelectedItemId() < 1) {
-				this.mBrushBlurStyle.setSelection(1);
+			if (mBrushBlurStyle.getSelectedItemId() < 1) {
+				mBrushBlurStyle.setSelection(1);
 			}
 		} else {
-			this.mBrushBlurStyle.setSelection(0);
+			mBrushBlurStyle.setSelection(0);
 		}
 	}
 
 	private void setBlur() {
-		this.mCanvas.setPresetBlur(
-				(int) this.mBrushBlurStyle.getSelectedItemId(),
+		mCanvas.setPresetBlur(
+				(int) mBrushBlurStyle.getSelectedItemId(),
 				mBrushBlurRadius.getProgress());
 	}
 
 	private void setActivePreset(int preset) {
 		if (preset > 0 && preset != BrushPreset.CUSTOM) {
-			LinearLayout wrapper = (LinearLayout) this.mPresetsBar
+			LinearLayout wrapper = (LinearLayout) mPresetsBar
 					.getChildAt(0);
 			this.highlightActivePreset(wrapper.getChildAt(preset - 1));
 		}
@@ -953,17 +952,17 @@ public class Painter extends Activity {
 	}
 
 	private void clear() {
-		this.mCanvas.getThread().clearBitmap();
-		this.mCanvas.changed(false);
+		mCanvas.getThread().clearBitmap();
+		mCanvas.changed(false);
 		this.clearSettings();
-		this.mIsNewFile = true;
+		mIsNewFile = true;
 		this.updateControls();
 	}
 
 	private void rotate() {
-		this.mSettings.forceOpenFile = true;
+		mSettings.forceOpenFile = true;
 
-		if (!this.mIsNewFile || this.mCanvas.isChanged()) {
+		if (!mIsNewFile || mCanvas.isChanged()) {
 			this.savePicture(Painter.ACTION_SAVE_AND_ROTATE);
 		} else {
 			this.rotateScreen();
@@ -972,12 +971,12 @@ public class Painter extends Activity {
 
 	private void rotateScreen() {
 		if (this.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-			this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+			mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 			this.saveSettings();
 
 			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
-			this.mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+			mSettings.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 			this.saveSettings();
 
 			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -1001,8 +1000,8 @@ public class Painter extends Activity {
 	}
 
 	private String getUniquePictureName(String path) {
-		if (this.mSettings.lastPicture != null) {
-			return this.mSettings.lastPicture;
+		if (mSettings.lastPicture != null) {
+			return mSettings.lastPicture;
 		}
 
 		String prefix = Painter.PICTURE_PREFIX;
@@ -1017,31 +1016,31 @@ public class Painter extends Activity {
 			suffix++;
 		}
 
-		this.mSettings.lastPicture = pictureName;
+		mSettings.lastPicture = pictureName;
 		return pictureName;
 	}
 
 	private void loadSettings() {
-		this.mSettings = new PainterSettings();
+		mSettings = new PainterSettings();
 		SharedPreferences settings = this.getSharedPreferences(
 				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
-		this.mSettings.orientation = settings.getInt(
+		mSettings.orientation = settings.getInt(
 				this.getString(R.string.settings_orientation),
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		if (this.getRequestedOrientation() != this.mSettings.orientation) {
-			this.setRequestedOrientation(this.mSettings.orientation);
+		if (this.getRequestedOrientation() != mSettings.orientation) {
+			this.setRequestedOrientation(mSettings.orientation);
 		}
 
-		this.mSettings.lastPicture = settings.getString(
+		mSettings.lastPicture = settings.getString(
 				this.getString(R.string.settings_last_picture), null);
 
 		int type = settings.getInt(
 				this.getString(R.string.settings_brush_type), BrushPreset.PEN);
 
 		if (type == BrushPreset.CUSTOM) {
-			this.mSettings.preset = new BrushPreset(
+			mSettings.preset = new BrushPreset(
 					settings.getFloat(
 							this.getString(R.string.settings_brush_size), 2),
 					settings.getInt(
@@ -1053,15 +1052,15 @@ public class Painter extends Activity {
 					settings.getInt(
 							this.getString(R.string.settings_brush_blur_radius),
 							0));
-			this.mSettings.preset.setType(type);
+			mSettings.preset.setType(type);
 		} else {
-			this.mSettings.preset = new BrushPreset(type, settings.getInt(
+			mSettings.preset = new BrushPreset(type, settings.getInt(
 					this.getString(R.string.settings_brush_color), Color.BLACK));
 		}
 
-		this.mCanvas.setPreset(this.mSettings.preset);
+		mCanvas.setPreset(mSettings.preset);
 
-		this.mSettings.forceOpenFile = settings.getBoolean(
+		mSettings.forceOpenFile = settings.getBoolean(
 				this.getString(R.string.settings_force_open_file), false);
 	}
 
@@ -1082,8 +1081,8 @@ public class Painter extends Activity {
 
 	private void saveBitmap(String pictureName) {
 		try {
-			this.mCanvas.saveBitmap(pictureName);
-			this.mCanvas.changed(false);
+			mCanvas.saveBitmap(pictureName);
+			mCanvas.changed(false);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -1104,29 +1103,29 @@ public class Painter extends Activity {
 		}
 
 		editor.putInt(this.getString(R.string.settings_orientation),
-				this.mSettings.orientation);
+				mSettings.orientation);
 		editor.putString(this.getString(R.string.settings_last_picture),
-				this.mSettings.lastPicture);
+				mSettings.lastPicture);
 		editor.putFloat(this.getString(R.string.settings_brush_size),
-				this.mSettings.preset.size);
+				mSettings.preset.size);
 		editor.putInt(this.getString(R.string.settings_brush_color),
-				this.mSettings.preset.color);
+				mSettings.preset.color);
 		editor.putInt(
 				this.getString(R.string.settings_brush_blur_style),
-				(this.mSettings.preset.blurStyle != null) ? this.mSettings.preset.blurStyle
+				(mSettings.preset.blurStyle != null) ? mSettings.preset.blurStyle
 						.ordinal() + 1 : 0);
 		editor.putInt(this.getString(R.string.settings_brush_blur_radius),
-				this.mSettings.preset.blurRadius);
+				mSettings.preset.blurRadius);
 		editor.putInt(this.getString(R.string.settings_brush_type),
-				this.mSettings.preset.type);
+				mSettings.preset.type);
 		editor.putBoolean(this.getString(R.string.settings_force_open_file),
-				this.mSettings.forceOpenFile);
+				mSettings.forceOpenFile);
 
 		editor.commit();
 	}
 
 	private void clearSettings() {
-		this.mSettings.lastPicture = null;
+		mSettings.lastPicture = null;
 		this.deleteFile(Painter.SETTINGS_STORAGE);
 	}
 
@@ -1135,9 +1134,9 @@ public class Painter extends Activity {
 			return;
 		}
 
-		this.mSettings.forceOpenFile = true;
+		mSettings.forceOpenFile = true;
 
-		if (this.mCanvas.isChanged()) {
+		if (mCanvas.isChanged()) {
 			this.showDialog(R.id.dialog_open);
 		} else {
 			this.startOpenActivity();
