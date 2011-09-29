@@ -165,8 +165,9 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
-		if (!this.getThread().isReady())
+		if (!this.getThread().isReady()) {
 			return false;
+		}
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
