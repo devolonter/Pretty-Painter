@@ -29,6 +29,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.Math;
+
 public class ColorPickerDialog extends Dialog {
 
 	public interface OnColorChangedListener {
@@ -142,7 +144,7 @@ public class ColorPickerDialog extends Dialog {
 		private static final int COLOR_CIRCLE = 100;
 
 		private int ave(int s, int d, float p) {
-			return s + java.lang.Math.round(p * (d - s));
+			return s + Math.round(p * (d - s));
 		}
 
 		private int interpColor(int colors[], float unit) {
