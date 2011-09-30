@@ -193,10 +193,19 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		return mThread;
 	}
 
+	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
 	public void saveBitmap(String pictureName) throws FileNotFoundException {
 		synchronized (getHolder()) {
 			FileOutputStream fos = new FileOutputStream(pictureName);
             getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
+		}
+	}
+	
+	/*TODO: Make the save quality changeable (possibly with a slider on a save dialogue?)*/
+	public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
+		synchronized (getHolder()) {
+			FileOutputStream fos = new FileOutputStream(pictureName);
+			getThread().getBitmap().compress(CompressFormat.JPEG, 100, fos);
 		}
 	}
 
