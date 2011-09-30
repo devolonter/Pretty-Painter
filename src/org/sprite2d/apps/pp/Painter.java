@@ -510,8 +510,7 @@ public class Painter extends Activity {
 										.getAbsolutePath());
 
 								Config bitmapConfig = bitmap.getConfig();
-								if (!bitmapConfig
-										.equals(Bitmap.Config.ARGB_8888)) {
+								if (bitmapConfig != Config.ARGB_8888) {
 									bitmap = null;
 								}
 							} catch (Exception e) {
