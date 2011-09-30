@@ -1084,9 +1084,7 @@ public class Painter extends Activity {
 	}
 
 	private void saveSettings() {
-		SharedPreferences settings = getSharedPreferences(
-				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
-
+		SharedPreferences settings = getSharedPreferences(Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 
 		try {
@@ -1141,8 +1139,7 @@ public class Painter extends Activity {
 	private void startOpenActivity() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())),
-				Painter.PICTURE_MIME);
+		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())), Painter.PICTURE_MIME);
         startActivityForResult(
 				Intent.createChooser(intent,
                         getString(R.string.open_prompt_title)),
