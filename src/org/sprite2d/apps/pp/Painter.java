@@ -149,7 +149,7 @@ public class Painter extends Activity {
 				}
 			}
 
-			final Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
+			Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
 
 			wallpaperCanvas.drawColor(mCanvas.getThread()
 					.getBackgroundColor());
