@@ -8,7 +8,7 @@ import android.widget.Spinner;
 /**
  * Extended spinner for onclick reaction process
  * 
- * @author Artut Bikmullin (devolonter)
+ * @author Arthur Bikmullin (devolonter)
  * @version 1.0 
  *
  */

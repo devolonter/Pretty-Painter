@@ -19,7 +19,7 @@ import android.view.SurfaceView;
 /**
  * Draw surface class
  * 
- * @author Artut Bikmullin (devolonter)
+ * @author Arthur Bikmullin (devolonter)
  * @version 1.0
  * 
  */
@@ -27,11 +27,10 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	private PainterThread mThread;
 	private Bitmap mBitmap;
-	private Bitmap mActiveBitmap;
 	private BrushPreset mPreset;
 
 	private boolean mIsSetup;
-	private int countChanges;
+	private boolean mIsChanged;
 	private boolean mUndo;
 
 	public static final int BLUR_TYPE_NONE = 0;
@@ -63,20 +62,8 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		}
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-		if (mActiveBitmap == null) {
-			mActiveBitmap = Bitmap.createBitmap(width, height,
-					Bitmap.Config.ARGB_8888);
-            getThread().setActiveBitmap(mActiveBitmap, true);
-		} else {
-            getThread().setActiveBitmap(mActiveBitmap, false);
-		}
-
-		if (mUndo) {
-            getThread().undo();
-		}
-
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+	
 		if (mBitmap == null) {
 			mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
@@ -171,7 +158,7 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			countChanges += 1;
+			mIsChanged = true;
             getThread().drawBegin();
 			mUndo = false;
 			break;
@@ -247,26 +234,20 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	}
 
 	public boolean isChanged() {
-		return (countChanges > 0);
+		return mIsChanged;
 	}
 
 	public void changed(boolean changed) {
-		if (!changed) {
-			countChanges = 0;
-		} else {
-			countChanges += 1;
-		}
+		mIsChanged = changed;
 	}
 
 	public void undo() {
 		if (!mUndo) {
 			mUndo = true;
             getThread().undo();
-			countChanges -= 1;
 		} else {
 			mUndo = false;
             getThread().redo();
-			countChanges += 1;
 		}
 	}
 
@@ -275,6 +256,6 @@ public class PainterCanvas extends SurfaceView implements Callback {
     }
 
 	public boolean canRedo() {
-        return mUndo;
+        return isChanged() && mUndo;
     }
 }

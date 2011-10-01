@@ -1,5 +1,8 @@
 package org.sprite2d.apps.pp;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
@@ -12,7 +15,7 @@ import android.view.SurfaceHolder;
 /**
  * Base draw logic 
  * 
- * @author Artut Bikmullin (devolonter)
+ * @author Arthur Bikmullin (devolonter)
  * @version 1.0 
  *
  */
@@ -65,21 +68,21 @@ public class PainterThread extends Thread {
 	 */
 	private Canvas mCanvas;
 	
-	private Canvas mActiveCanvas;
 	
 	/**
 	 * Bitmap for drawing
 	 */
 	private Bitmap mBitmap;
 	
-	private Bitmap mActiveBitmap;
+	//private Bitmap mActiveBitmap;
 	
 	/**
 	 * True if application is running
 	 */
 	private boolean mIsActive;
 	
-	private boolean mUndo;
+	private byte[] mUndoBuffer = null;
+	private byte[] mRedoBuffer = null;
 	
 	/**
 	 * Status of the running application
@@ -123,10 +126,7 @@ public class PainterThread extends Thread {
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
                 		case PainterThread.READY: {
-                			c.drawBitmap(mBitmap, 0, 0, null);
-                			if(!mUndo){
-                				c.drawBitmap(mActiveBitmap, 0, 0, null);
-                			}
+                			c.drawBitmap(mBitmap, 0, 0, null);   
                 			break;
                 		}
                 		case PainterThread.SETUP: {
@@ -168,20 +168,14 @@ public class PainterThread extends Thread {
 	public void drawBegin() {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
-        completeDraw();
-	}
-	
-	public void completeDraw() {
-		synchronized (mHolder) { 
-		    if(!mUndo) {
-				mCanvas.drawBitmap(mActiveBitmap, 0, 0, null);
-			}
-			mActiveBitmap.eraseColor(Color.TRANSPARENT);
-            redo();
+
+		if (mRedoBuffer != null) {
+			mUndoBuffer = mRedoBuffer;
 		}
 	}
 	
 	public void drawEnd() {
+		mRedoBuffer = saveBuffer();
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
 	}
@@ -192,7 +186,7 @@ public class PainterThread extends Thread {
                 return;
 			}
 
-			mActiveCanvas.drawLine(
+			mCanvas.drawLine(
 					x, 
 					y, 
 					mLastBrushPointX, 
@@ -201,7 +195,7 @@ public class PainterThread extends Thread {
 			);
 		}
 		else {
-			mActiveCanvas.drawCircle(
+			mCanvas.drawCircle(
 					x, 
 					y, 
 					mBrushSize*.5f, 
@@ -222,26 +216,16 @@ public class PainterThread extends Thread {
 		mCanvas = new Canvas(mBitmap);
 	}
 	
-	public void setActiveBitmap(Bitmap bitmap, boolean clear) {
-		mActiveBitmap = bitmap;
-		if(clear){
-			mActiveBitmap.eraseColor(Color.TRANSPARENT);
-		}
-
-		mActiveCanvas = new Canvas(mActiveBitmap);
-	}
-
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
 		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
+		mUndoBuffer = saveBuffer();
 	}
 	
 	public void clearBitmap() {
 		mBitmap.eraseColor(mCanvasBgColor);
-		mActiveBitmap.eraseColor(Color.TRANSPARENT);
 	}
 	
 	public Bitmap getBitmap() {
-        completeDraw();
 		return mBitmap;
 	}
 
@@ -282,11 +266,15 @@ public class PainterThread extends Thread {
 	}
 	
 	public void undo() {
-		mUndo = true;
+		if (mUndoBuffer == null) {
+			mBitmap.eraseColor(mCanvasBgColor);
+		} else {
+			restoreBuffer(mUndoBuffer);
+		}
 	}
 	
 	public void redo() {
-		mUndo = false;
+		restoreBuffer(mRedoBuffer);
 	}
 	
 	public int getBackgroundColor() {
@@ -294,12 +282,24 @@ public class PainterThread extends Thread {
 	}
 	
 	private void waitForBitmap() {
-		while (mBitmap == null || mActiveBitmap == null) {
+		while (mBitmap == null) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private byte[] saveBuffer() {
+		byte[] buffer = new byte[mBitmap.getRowBytes() * mBitmap.getHeight()];		
+		Buffer byteBuffer = ByteBuffer.wrap(buffer);
+		mBitmap.copyPixelsToBuffer(byteBuffer);	
+		return buffer;
+	}
+
+	private void restoreBuffer(byte[] buffer) {
+		Buffer byteBuffer = ByteBuffer.wrap(buffer);
+		mBitmap.copyPixelsFromBuffer(byteBuffer);
 	}
 }
