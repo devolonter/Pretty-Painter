@@ -6,7 +6,7 @@ import android.content.pm.ActivityInfo;
  * Application settings class
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.0 
+ * @version 1.15
  *
  */
 public class PainterSettings {	

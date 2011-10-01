@@ -20,7 +20,7 @@ import android.view.SurfaceView;
  * Draw surface class
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.0
+ * @version 1.15
  * 
  */
 public class PainterCanvas extends SurfaceView implements Callback {

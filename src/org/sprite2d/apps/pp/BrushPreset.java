@@ -7,7 +7,7 @@ import android.graphics.Color;
  * Brush settings driver
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.0 
+ * @version 1.15
  *
  */
 public class BrushPreset {	
