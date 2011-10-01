@@ -53,5 +53,4 @@ public class FileSystem {
 		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(0, dotposition);
 	}
-
 }

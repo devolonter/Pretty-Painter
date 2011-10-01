@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
  * @version 1.15
  *
  */
+
 public class PainterSettings {	
 	public BrushPreset preset = null;
 	public String lastPicture = null;

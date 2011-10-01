@@ -48,7 +48,6 @@ public class BrushPreset {
                 setColor(color);
 				break;
 		}
-
         setType(type);
 	}
 	
