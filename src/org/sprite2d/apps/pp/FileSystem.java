@@ -21,7 +21,6 @@ public class FileSystem {
 					newFileName = filePath + fileName + '_' + suffix + '.' + fileExt;
 					suffix++;
 				}
-
 				to = newFileName;
 			}
 
@@ -40,15 +39,16 @@ public class FileSystem {
 		} catch (Exception e) {
 			return null;
 		}
-
 		return to;
 	}
 
+	/**Get file extension of the image file*/
 	public static String getFileExtension(String filename) {
 		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(dotposition + 1, filename.length());
 	}
 
+	/**Get the name of the image file*/
 	public static String getFileName(String filename) {
 		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(0, dotposition);
