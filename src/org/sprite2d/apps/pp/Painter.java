@@ -106,8 +106,7 @@ public class Painter extends Activity {
             mCanvas.getThread().freeze();
 			String pictureName = getUniquePictureName(getSaveDir());
             saveBitmap(pictureName);
-            mSettings.preset = mCanvas
-					.getCurrentPreset();
+            mSettings.preset = mCanvas.getCurrentPreset();
             saveSettings();
 			return pictureName;
 		}
@@ -195,8 +194,7 @@ public class Painter extends Activity {
 
 					public void onStopTrackingTouch(SeekBar seekBar) {
 						if (seekBar.getProgress() > 0) {
-                            mCanvas.setPresetSize(seekBar
-                                    .getProgress());
+                            mCanvas.setPresetSize(seekBar.getProgress());
 						}
 					}
 
@@ -208,8 +206,7 @@ public class Painter extends Activity {
 							int progress, boolean fromUser) {
 						if (progress > 0) {
 							if (fromUser) {
-                                mCanvas.setPresetSize(seekBar
-                                        .getProgress());
+                                mCanvas.setPresetSize(seekBar.getProgress());
 							}
 						} else {
                             mBrushSize.setProgress(1);
@@ -291,8 +288,7 @@ public class Painter extends Activity {
 			Locale.setDefault(locale);
 			Configuration config = new Configuration();
 			config.locale = locale;
-            getBaseContext().getResources()
-					.updateConfiguration(config, null);
+            getBaseContext().getResources().updateConfiguration(config, null);
 		}
 
 		mOpenLastFile = preferences.getBoolean(
