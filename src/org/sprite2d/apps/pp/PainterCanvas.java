@@ -62,8 +62,7 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		}
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		if (mBitmap == null) {
 			mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
@@ -180,12 +179,24 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		return mThread;
 	}
 
+	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
 	public void saveBitmap(String pictureName) throws FileNotFoundException {
 		synchronized (getHolder()) {
 			FileOutputStream fos = new FileOutputStream(pictureName);
             getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
 		}
 	}
+	
+	/*NOTE: This is commented simply because it is unused as of now. If anyone implements
+	 * JPEG save support, just uncomment this.*/
+	
+	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
+	/*public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
+		synchronized (getHolder()) {
+			FileOutputStream fos = new FileOutputStream(pictureName);
+			getThread().getBitmap().compress(CompressFormat.JPEG, 100, fos);
+		}
+	}*/
 
 	public BrushPreset getCurrentPreset() {
 		return mPreset;

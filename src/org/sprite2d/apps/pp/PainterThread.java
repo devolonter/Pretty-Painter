@@ -66,15 +66,12 @@ public class PainterThread extends Thread {
 	/**
 	 * Canvas object for drawing bitmap
 	 */
-	private Canvas mCanvas;
-	
+	private Canvas mCanvas;	
+
 	/**
 	 * Bitmap for drawing
 	 */
-	private Bitmap mBitmap;
-	
-	
-	//private Bitmap mActiveBitmap;
+	private Bitmap mBitmap;	
 	
 	/**
 	 * True if application is running
@@ -126,7 +123,7 @@ public class PainterThread extends Thread {
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
                 		case PainterThread.READY: {
-                			c.drawBitmap(mBitmap, 0, 0, null);                   			
+                			c.drawBitmap(mBitmap, 0, 0, null);
                 			break;
                 		}
                 		case PainterThread.SETUP: {
@@ -175,7 +172,6 @@ public class PainterThread extends Thread {
 	
 	public void drawEnd() {
 		mRedoBuffer = saveBuffer();
-		
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
 	}
@@ -216,8 +212,8 @@ public class PainterThread extends Thread {
 		mCanvas = new Canvas(mBitmap);
 	}
 	
-	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {		
-		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));		
+	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
+		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
 		mUndoBuffer = saveBuffer();
 	}
 	
@@ -272,7 +268,7 @@ public class PainterThread extends Thread {
 			mBitmap.eraseColor(mCanvasBgColor);
 		} else {
 			restoreBuffer(mUndoBuffer);	
-		}		
+		}
 	}
 	
 	public void redo() {

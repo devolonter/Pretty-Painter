@@ -149,7 +149,7 @@ public class Painter extends Activity {
 				}
 			}
 
-			final Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
+			Canvas wallpaperCanvas = new Canvas(wallpaperBitmap);
 
 			wallpaperCanvas.drawColor(mCanvas.getThread()
 					.getBackgroundColor());
@@ -510,8 +510,7 @@ public class Painter extends Activity {
 										.getAbsolutePath());
 
 								Config bitmapConfig = bitmap.getConfig();
-								if (!bitmapConfig
-										.equals(Bitmap.Config.ARGB_8888)) {
+								if (bitmapConfig != Config.ARGB_8888) {
 									bitmap = null;
 								}
 							} catch (Exception e) {
@@ -1085,9 +1084,7 @@ public class Painter extends Activity {
 	}
 
 	private void saveSettings() {
-		SharedPreferences settings = getSharedPreferences(
-				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
-
+		SharedPreferences settings = getSharedPreferences(Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 
 		try {
@@ -1142,8 +1139,7 @@ public class Painter extends Activity {
 	private void startOpenActivity() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())),
-				Painter.PICTURE_MIME);
+		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())), Painter.PICTURE_MIME);
         startActivityForResult(
 				Intent.createChooser(intent,
                         getString(R.string.open_prompt_title)),

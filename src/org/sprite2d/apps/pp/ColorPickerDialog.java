@@ -29,7 +29,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.lang.Math;
+
 
 public class ColorPickerDialog extends Dialog {
 
