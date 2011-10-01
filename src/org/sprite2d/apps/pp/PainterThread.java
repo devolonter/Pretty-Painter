@@ -266,7 +266,7 @@ public class PainterThread extends Thread {
 	
 	public void undo() {
 		if (mUndoBuffer == null) {
-			clearBitmap();
+			mBitmap.eraseColor(mCanvasBgColor);
 		} else {
 			restoreBuffer(mUndoBuffer);
 		}		
