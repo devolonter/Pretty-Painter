@@ -175,7 +175,6 @@ public class Painter extends Activity {
 						Toast.LENGTH_SHORT).show();
 			}
 		}
-
 	}
 
 	@Override
@@ -361,7 +360,6 @@ public class Painter extends Activity {
 			undo.setTitle(R.string.menu_undo);
 			undo.setEnabled(false);
 		}
-
 		return true;
 	}
 
@@ -372,9 +370,8 @@ public class Painter extends Activity {
 			if (mCanvas.isSetup()) {
                 exitBrushSetup();
 				return true;
-			} else if (mCanvas.isChanged()
-					|| (!mIsNewFile && !new File(
-							mSettings.lastPicture).exists())) {
+			} else if (mCanvas.isChanged() || 
+					(!mIsNewFile && !new File(mSettings.lastPicture).exists())) {
 
 				mSettings.preset = mCanvas.getCurrentPreset();
                 saveSettings();
@@ -394,7 +391,6 @@ public class Painter extends Activity {
 				} else {
 					return super.onKeyDown(keyCode, event);
 				}
-
 				return true;
 			}
 			break;
