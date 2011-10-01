@@ -126,7 +126,7 @@ public class PainterThread extends Thread {
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
                 		case PainterThread.READY: {
-                			c.drawBitmap(mBitmap, 0, 0, null);                			
+                			c.drawBitmap(mBitmap, 0, 0, null);                   			
                 			break;
                 		}
                 		case PainterThread.SETUP: {
@@ -168,7 +168,9 @@ public class PainterThread extends Thread {
 	public void drawBegin() {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
-		mUndoBuffer = mRedoBuffer;
+		if (mRedoBuffer != null) {
+			mUndoBuffer = mRedoBuffer;
+		}
 	}
 	
 	public void drawEnd() {
@@ -210,12 +212,13 @@ public class PainterThread extends Thread {
 		if(clear){
 			mBitmap.eraseColor(mCanvasBgColor);
 		}
-		
+	
 		mCanvas = new Canvas(mBitmap);
 	}
 	
-	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
-		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
+	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {		
+		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));		
+		mUndoBuffer = saveBuffer();
 	}
 	
 	public void clearBitmap() {
@@ -268,7 +271,7 @@ public class PainterThread extends Thread {
 		if (mUndoBuffer == null) {
 			mBitmap.eraseColor(mCanvasBgColor);
 		} else {
-			restoreBuffer(mUndoBuffer);
+			restoreBuffer(mUndoBuffer);	
 		}		
 	}
 	
@@ -296,7 +299,7 @@ public class PainterThread extends Thread {
 		mBitmap.copyPixelsToBuffer(byteBuffer);	
 		return buffer;
 	}
-	
+
 	private void restoreBuffer(byte[] buffer) {
 		Buffer byteBuffer = ByteBuffer.wrap(buffer);
 		mBitmap.copyPixelsFromBuffer(byteBuffer);
