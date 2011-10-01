@@ -188,13 +188,16 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		}
 	}
 	
-	/*TODO: Make the save quality changeable (possibly with a slider on a save dialogue?)*/
-	public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
+	/*NOTE: This is commented simply because it is unused as of now. If anyone implements
+	 * JPEG save support, just uncomment this.*/
+	
+	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
+	/*public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
 		synchronized (getHolder()) {
 			FileOutputStream fos = new FileOutputStream(pictureName);
 			getThread().getBitmap().compress(CompressFormat.JPEG, 100, fos);
 		}
-	}
+	}*/
 
 	public BrushPreset getCurrentPreset() {
 		return mPreset;
