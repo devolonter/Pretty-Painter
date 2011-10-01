@@ -5,7 +5,7 @@ import android.content.pm.ActivityInfo;
 /**
  * Application settings class
  * 
- * @author Artut Bikmullin (devolonter)
+ * @author Arthur Bikmullin (devolonter)
  * @version 1.0 
  *
  */

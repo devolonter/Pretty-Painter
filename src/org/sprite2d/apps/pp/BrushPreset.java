@@ -6,7 +6,7 @@ import android.graphics.Color;
 /**
  * Brush settings driver
  * 
- * @author Artut Bikmullin (devolonter)
+ * @author Arthur Bikmullin (devolonter)
  * @version 1.0 
  *
  */
