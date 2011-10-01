@@ -253,6 +253,6 @@ public class PainterCanvas extends SurfaceView implements Callback {
     }
 
 	public boolean canRedo() {
-        return mUndo;
+        return isChanged() && mUndo;
     }
 }

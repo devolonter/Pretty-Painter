@@ -220,6 +220,8 @@ public class PainterThread extends Thread {
 	
 	public void clearBitmap() {
 		mBitmap.eraseColor(mCanvasBgColor);
+		mUndoBuffer = null;
+		mRedoBuffer = null;
 	}
 	
 	public Bitmap getBitmap() {
@@ -264,7 +266,7 @@ public class PainterThread extends Thread {
 	
 	public void undo() {
 		if (mUndoBuffer == null) {
-			mBitmap.eraseColor(mCanvasBgColor);
+			clearBitmap();
 		} else {
 			restoreBuffer(mUndoBuffer);
 		}		
