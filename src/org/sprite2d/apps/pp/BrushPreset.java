@@ -7,7 +7,7 @@ import android.graphics.Color;
  * Brush settings driver
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.0 
+ * @version 1.15
  *
  */
 public class BrushPreset {	
@@ -15,7 +15,7 @@ public class BrushPreset {
 	public int color = Color.BLACK;
 	public Blur blurStyle = null;
 	public int blurRadius = 0;
-	public int type = BrushPreset.CUSTOM;
+	public int type = CUSTOM;
 	
 	public static final int PENCIL = 1;
 	public static final int BRUSH = 2;
@@ -32,23 +32,22 @@ public class BrushPreset {
 	
 	public BrushPreset(int type, int color){
 		switch(type) {
-			case BrushPreset.PENCIL:
+			case PENCIL:
                 set(2, color, Blur.INNER, 10);
 				break;
-			case BrushPreset.BRUSH:
+			case BRUSH:
                 set(15, color, Blur.NORMAL, 18);
 				break;
-			case BrushPreset.MARKER:
+			case MARKER:
                 set(20, color);
 				break;
-			case BrushPreset.PEN:
+			case PEN:
                 set(2, color);
 				break;
-			case BrushPreset.CUSTOM:
+			case CUSTOM:
                 setColor(color);
 				break;
 		}
-
         setType(type);
 	}
 	
@@ -117,14 +116,14 @@ public class BrushPreset {
 	
 	public void setSize(float size) {
 		if(this.size != size){
-            setType(BrushPreset.CUSTOM);
+            setType(CUSTOM);
 		}
 		this.size = (size > 0) ? size : 1;
 	}
 	
 	public void setBlur(Blur blurStyle, int blurRadius) {
 		if(this.blurStyle != blurStyle || this.blurRadius != blurRadius){
-            setType(BrushPreset.CUSTOM);
+            setType(CUSTOM);
 		}
 		this.blurStyle = blurStyle;
 		this.blurRadius = blurRadius;
@@ -133,20 +132,20 @@ public class BrushPreset {
 	public void setBlur(int blurStyle, int blurRadius) {
 		int style = (this.blurStyle != null) ? this.blurStyle.ordinal()+1 : 0;
 		if(style != blurStyle || this.blurRadius != blurRadius){
-            setType(BrushPreset.CUSTOM);
+            setType(CUSTOM);
 		}
 
 		switch(blurStyle) {
-			case BrushPreset.BLUR_NORMAL: 
+			case BLUR_NORMAL:
 				this.blurStyle = Blur.NORMAL;
 				break;
-			case BrushPreset.BLUR_SOLID: 				
+			case BLUR_SOLID:
 				this.blurStyle = Blur.SOLID;
 				break;			
-			case BrushPreset.BLUR_OUTER: 
+			case BLUR_OUTER:
 				this.blurStyle = Blur.OUTER;
 				break;
-			case BrushPreset.BLUR_INNER: 				
+			case BLUR_INNER:
 				this.blurStyle = Blur.INNER;
 				break;
 			default: 

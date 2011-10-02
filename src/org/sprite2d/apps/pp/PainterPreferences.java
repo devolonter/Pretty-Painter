@@ -36,7 +36,6 @@ public class PainterPreferences extends PreferenceActivity implements
 
 		default:
 			return super.onCreateDialog(id);
-
 		}
 	}
 
@@ -45,7 +44,6 @@ public class PainterPreferences extends PreferenceActivity implements
             showDialog(R.id.dialog_about);
 			return true;
 		}
-
 		return false;
 	}
 
@@ -79,5 +77,4 @@ public class PainterPreferences extends PreferenceActivity implements
 
 		return dialogBuilder.create();
 	}
-
 }
