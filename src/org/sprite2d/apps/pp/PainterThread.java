@@ -110,7 +110,7 @@ public class PainterThread extends Thread {
 
 		//set negative coordinates for reset last point
 		mLastBrushPointX = -1;
-		mLastBrushPointY = -1;		
+		mLastBrushPointY = -1;	
 	}	
 	
 	@Override
@@ -118,18 +118,18 @@ public class PainterThread extends Thread {
         waitForBitmap();
 		
         while (isRun()) {
-        	Canvas c = null;
+        	Canvas canvas = null;
             try {
-                c = mHolder.lockCanvas();
+                canvas = mHolder.lockCanvas();
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
                 		case PainterThread.READY: {
-                			c.drawBitmap(mBitmap, 0, 0, null);
+                			canvas.drawBitmap(mBitmap, 0, 0, null);
 							break;
                 		}
                 		case SETUP: {
-                			c.drawColor(mCanvasBgColor);
-                			c.drawLine(
+                			canvas.drawColor(mCanvasBgColor);
+                			canvas.drawLine(
                     				50, 
                     				(mBitmap.getHeight()/100)*35, 
                     				mBitmap.getWidth() - 50, 
@@ -139,8 +139,8 @@ public class PainterThread extends Thread {
                 	}                   	
                 }
             } finally {
-                if (c != null) {
-                    mHolder.unlockCanvasAndPost(c);
+                if (canvas != null) {
+                    mHolder.unlockCanvasAndPost(canvas);
                 }
                 if(isFreeze()) {
                 	try {
