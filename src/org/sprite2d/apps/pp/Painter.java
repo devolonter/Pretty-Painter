@@ -352,12 +352,15 @@ public class Painter extends Activity {
 		MenuItem undo = menu.findItem(R.id.menu_undo);
 		if (mCanvas.canUndo()) {
 			undo.setTitle(R.string.menu_undo);
+			undo.setIcon(R.drawable.ic_menu_undo);
 			undo.setEnabled(true);
 		} else if (mCanvas.canRedo()) {
 			undo.setTitle(R.string.menu_redo);
+			undo.setIcon(R.drawable.ic_menu_redo);
 			undo.setEnabled(true);
 		} else {
 			undo.setTitle(R.string.menu_undo);
+			undo.setIcon(R.drawable.ic_menu_undo);
 			undo.setEnabled(false);
 		}
 		return true;
