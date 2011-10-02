@@ -52,7 +52,7 @@ import android.widget.Toast;
  * Base application logic
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.15
+ * @version 1.16
  * 
  */
 public class Painter extends Activity {
