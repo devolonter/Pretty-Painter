@@ -7,13 +7,14 @@
     <string name="app_developers">Разрабочик:
     \nАртур Бикмуллин (@devolonter)
     \n\nСоразработчики:
-    \nConstantine Chartomatzis
+    \nConstantine Chartomatzis, Lioncash
     \n\nЛокализация: 
     \nОльга Бикмуллина (@AhNinniah)</string>
 	
 	<!--  dialog -->
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="more">Еще</string>
     <string name="which_app">Выполнить с помощью</string>
     <string name="clear_bitmap_prompt_title">Очистить</string>
     <string name="clear_bitmap_prompt">Вы действительно хотите очистить холст?</string>      

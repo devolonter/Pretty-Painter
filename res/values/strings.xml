@@ -8,13 +8,14 @@
     <string name="app_developers">Developer:
     \nArthur Bikmullin (@devolonter)
     \n\nCo-developers:
-    \nConstantine Chartomatzis
+    \nConstantine Chartomatzis, Lioncash
     \n\nLocalization: 
     \nOlga Bikmullina (@AhNinniah)</string>
     
     <!--  dialog -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="more">More</string>
     <string name="which_app">Complete action using</string>
     <string name="clear_bitmap_prompt_title">Clear</string>
     <string name="clear_bitmap_prompt">Do you want to clear canvas?</string>    

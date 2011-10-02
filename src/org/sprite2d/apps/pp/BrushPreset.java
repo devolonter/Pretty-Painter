@@ -7,7 +7,7 @@ import android.graphics.Color;
  * Brush settings driver
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.15
+ * @version 1.16
  *
  */
 public class BrushPreset {	
@@ -27,6 +27,8 @@ public class BrushPreset {
 	public static final int BLUR_SOLID = 2;
 	public static final int BLUR_OUTER = 3;
 	public static final int BLUR_INNER = 4;
+	
+	
 	
 	public BrushPreset() {}
 	

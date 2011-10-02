@@ -11,6 +11,11 @@ Application features:
 
 Versions history:
 -----------------
+***** v1.16 *****
+- Algorithm undo/redo operations improved
+- Fixed "just a blank screen" error on some devices
+- Changed menu icons
+
 ***** v1.15 *****
 - Setting picture as wallpaper ability added. Thanks Constantine Chartomatzis 
 - Added a setting behavior when exiting the application 

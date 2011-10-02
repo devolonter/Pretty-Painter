@@ -66,15 +66,12 @@ public class PainterThread extends Thread {
 	/**
 	 * Canvas object for drawing bitmap
 	 */
-	private Canvas mCanvas;
-	
-	
+	private Canvas mCanvas;	
+
 	/**
 	 * Bitmap for drawing
 	 */
-	private Bitmap mBitmap;
-	
-	//private Bitmap mActiveBitmap;
+	private Bitmap mBitmap;	
 	
 	/**
 	 * True if application is running
@@ -83,6 +80,7 @@ public class PainterThread extends Thread {
 	
 	private byte[] mUndoBuffer = null;
 	private byte[] mRedoBuffer = null;
+	private boolean mIsUndo = false;
 	
 	/**
 	 * Status of the running application
@@ -108,8 +106,8 @@ public class PainterThread extends Thread {
 		mBrush.setStrokeCap(Cap.ROUND);
 		
 		//default canvas settings
-		mCanvasBgColor = Color.WHITE;		
-		
+		mCanvasBgColor = Color.WHITE;
+
 		//set negative coordinates for reset last point
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;		
@@ -125,9 +123,9 @@ public class PainterThread extends Thread {
                 c = mHolder.lockCanvas();
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
-                		case READY: {
-                			c.drawBitmap(mBitmap, 0, 0, null);   
-                			break;
+                		case PainterThread.READY: {
+                			c.drawBitmap(mBitmap, 0, 0, null);
+							break;
                 		}
                 		case SETUP: {
                 			c.drawColor(mCanvasBgColor);
@@ -168,14 +166,17 @@ public class PainterThread extends Thread {
 	public void drawBegin() {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
-
-		if (mRedoBuffer != null) {
+		
+		if (mRedoBuffer != null && !mIsUndo) {
 			mUndoBuffer = mRedoBuffer;
 		}
+		
+		mIsUndo = false;
 	}
 	
 	public void drawEnd() {
 		mRedoBuffer = saveBuffer();
+		
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
 	}
@@ -212,7 +213,7 @@ public class PainterThread extends Thread {
 		if(clear){
 			mBitmap.eraseColor(mCanvasBgColor);
 		}
-
+	
 		mCanvas = new Canvas(mBitmap);
 	}
 	
@@ -223,6 +224,8 @@ public class PainterThread extends Thread {
 	
 	public void clearBitmap() {
 		mBitmap.eraseColor(mCanvasBgColor);
+		mUndoBuffer = null;
+		mRedoBuffer = null;
 	}
 	
 	public Bitmap getBitmap() {
@@ -269,12 +272,16 @@ public class PainterThread extends Thread {
 		if (mUndoBuffer == null) {
 			mBitmap.eraseColor(mCanvasBgColor);
 		} else {
-			restoreBuffer(mUndoBuffer);
+			restoreBuffer(mUndoBuffer);	
 		}
+		
+		mIsUndo = true;
 	}
 	
 	public void redo() {
 		restoreBuffer(mRedoBuffer);
+		
+		mIsUndo = false;
 	}
 	
 	public int getBackgroundColor() {
