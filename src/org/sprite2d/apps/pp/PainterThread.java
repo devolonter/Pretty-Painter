@@ -80,6 +80,7 @@ public class PainterThread extends Thread {
 	
 	private byte[] mUndoBuffer = null;
 	private byte[] mRedoBuffer = null;
+	private boolean mIsUndo = false;
 	
 	/**
 	 * Status of the running application
@@ -165,13 +166,17 @@ public class PainterThread extends Thread {
 	public void drawBegin() {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
-		if (mRedoBuffer != null) {
+		
+		if (mRedoBuffer != null && !mIsUndo) {
 			mUndoBuffer = mRedoBuffer;
 		}
+		
+		mIsUndo = false;
 	}
 	
 	public void drawEnd() {
 		mRedoBuffer = saveBuffer();
+		
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
 	}
@@ -269,10 +274,14 @@ public class PainterThread extends Thread {
 		} else {
 			restoreBuffer(mUndoBuffer);	
 		}
+		
+		mIsUndo = true;
 	}
 	
 	public void redo() {
 		restoreBuffer(mRedoBuffer);
+		
+		mIsUndo = false;
 	}
 	
 	public int getBackgroundColor() {
