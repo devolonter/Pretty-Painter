@@ -314,7 +314,7 @@ public class Painter extends Activity {
             enterBrushSetup();
 			break;
 		case R.id.menu_save:
-            savePicture(Painter.ACTION_SAVE_AND_RETURN);
+            savePicture(ACTION_SAVE_AND_RETURN);
 			break;
 		case R.id.menu_clear:
 			if (mCanvas.isChanged()) {
@@ -387,7 +387,7 @@ public class Painter extends Activity {
 						&& beforeExit == BEFORE_EXIT_SUBMIT) {
                     showDialog(R.id.dialog_exit);
 				} else if (beforeExit == BEFORE_EXIT_SAVE) {
-                    savePicture(Painter.ACTION_SAVE_AND_EXIT);
+                    savePicture(ACTION_SAVE_AND_EXIT);
 				} else {
 					return super.onKeyDown(keyCode, event);
 				}
@@ -478,7 +478,7 @@ public class Painter extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		switch (requestCode) {
-		case Painter.REQUEST_OPEN:
+		case REQUEST_OPEN:
 			if (resultCode == Activity.RESULT_OK) {
 				Uri uri = intent.getData();
 				String path = "";
@@ -881,7 +881,7 @@ public class Painter extends Activity {
 
 		if (mCanvas.isChanged() || mIsNewFile) {
 			if (mIsNewFile) {
-                savePicture(Painter.ACTION_SAVE_AND_SHARE);
+                savePicture(ACTION_SAVE_AND_SHARE);
 			} else {
                 showDialog(R.id.dialog_share);
 			}
@@ -894,7 +894,7 @@ public class Painter extends Activity {
 		Uri uri = Uri.fromFile(new File(pictureName));
 
 		Intent i = new Intent(Intent.ACTION_SEND);
-		i.setType(Painter.PICTURE_MIME);
+		i.setType(PICTURE_MIME);
 		i.putExtra(Intent.EXTRA_STREAM, uri);
 		startActivity(Intent.createChooser(i,
 				getString(R.string.share_image_title)));
@@ -950,7 +950,7 @@ public class Painter extends Activity {
 		mSettings.forceOpenFile = true;
 
 		if (!mIsNewFile || mCanvas.isChanged()) {
-            savePicture(Painter.ACTION_SAVE_AND_ROTATE);
+            savePicture(ACTION_SAVE_AND_ROTATE);
 		} else {
             rotateScreen();
 		}
@@ -991,8 +991,8 @@ public class Painter extends Activity {
 			return mSettings.lastPicture;
 		}
 
-		String prefix = Painter.PICTURE_PREFIX;
-		String ext = Painter.PICTURE_EXT;
+		String prefix = PICTURE_PREFIX;
+		String ext = PICTURE_EXT;
 		String pictureName = "";
 
 		int suffix = 1;
@@ -1010,7 +1010,7 @@ public class Painter extends Activity {
 	private void loadSettings() {
 		mSettings = new PainterSettings();
 		SharedPreferences settings = getSharedPreferences(
-				Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
+				SETTINGS_STORAGE, Context.MODE_PRIVATE);
 
 		mSettings.orientation = settings.getInt(
                 getString(R.string.settings_orientation),
@@ -1076,7 +1076,7 @@ public class Painter extends Activity {
 	}
 
 	private void saveSettings() {
-		SharedPreferences settings = getSharedPreferences(Painter.SETTINGS_STORAGE, Context.MODE_PRIVATE);
+		SharedPreferences settings = getSharedPreferences(SETTINGS_STORAGE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 
 		try {
@@ -1111,7 +1111,7 @@ public class Painter extends Activity {
 
 	private void clearSettings() {
 		mSettings.lastPicture = null;
-        deleteFile(Painter.SETTINGS_STORAGE);
+        deleteFile(SETTINGS_STORAGE);
 	}
 
 	private void open() {
@@ -1131,11 +1131,11 @@ public class Painter extends Activity {
 	private void startOpenActivity() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())), Painter.PICTURE_MIME);
+		intent.setDataAndType(Uri.fromFile(new File(getSaveDir())), PICTURE_MIME);
         startActivityForResult(
 				Intent.createChooser(intent,
                         getString(R.string.open_prompt_title)),
-				Painter.REQUEST_OPEN);
+				REQUEST_OPEN);
 	}
 
 	private void restart() {

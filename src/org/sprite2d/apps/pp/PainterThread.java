@@ -125,11 +125,11 @@ public class PainterThread extends Thread {
                 c = mHolder.lockCanvas();
                 synchronized (mHolder) {               	
                 	switch(mStatus) {
-                		case PainterThread.READY: {
+                		case READY: {
                 			c.drawBitmap(mBitmap, 0, 0, null);   
                 			break;
                 		}
-                		case PainterThread.SETUP: {
+                		case SETUP: {
                 			c.drawColor(mCanvasBgColor);
                 			c.drawLine(
                     				50, 
@@ -238,27 +238,27 @@ public class PainterThread extends Thread {
 	}
 	
 	public void freeze() {
-		mStatus = PainterThread.SLEEP;
+		mStatus = SLEEP;
 	}
 	
 	public void activate() {
-		mStatus = PainterThread.READY;
+		mStatus = READY;
 	}
 	
 	public void setup() {
-		mStatus = PainterThread.SETUP;
+		mStatus = SETUP;
 	}
 	
 	public boolean isFreeze() {
-		return (mStatus == PainterThread.SLEEP);
+		return (mStatus == SLEEP);
 	}
 	
 	public boolean isSetup() {
-		return (mStatus == PainterThread.SETUP);
+		return (mStatus == SETUP);
 	}
 	
 	public boolean isReady() {
-		return (mStatus == PainterThread.READY);
+		return (mStatus == READY);
 	}
 	
 	public boolean isRun() {
