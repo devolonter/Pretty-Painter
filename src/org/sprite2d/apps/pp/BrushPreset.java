@@ -28,6 +28,8 @@ public class BrushPreset {
 	public static final int BLUR_OUTER = 3;
 	public static final int BLUR_INNER = 4;
 	
+	
+	
 	public BrushPreset() {}
 	
 	public BrushPreset(int type, int color){

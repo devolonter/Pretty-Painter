@@ -1,5 +1,5 @@
 Pretty Painter - application  for drawing and entertainment!
-Create your masterpieces or  make simple sketches! It's a great way to spend your free time!
+Create your masterpieces or make simple sketches! It's a great way to spend your free time!
 
 Application features:
 - Size, color and type tool setting
@@ -12,12 +12,12 @@ Application features:
 Versions history:
 -----------------
 ***** v1.16 *****
-- Algorithm undo/redo operations improved
-- Fixed "just a blank screen" error on some devices
-- Changed menu icons
+- Improve the undo/redo algorithms
+- Fixed the "just a blank screen" error on some devices
+- Changed some menu icons
 
 ***** v1.15 *****
-- Setting picture as wallpaper ability added. Thanks Constantine Chartomatzis 
+- Ability to set a picture as a wallpaper added. Thanks Constantine Chartomatzis 
 - Added a setting behavior when exiting the application 
 - Added backup setting for opened files    
 - Added an action setting for volume control buttons
