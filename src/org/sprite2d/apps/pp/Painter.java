@@ -50,10 +50,10 @@ import android.widget.Toast;
 
 /**
  * Base application logic
- * 
+ *
  * @author Arthur Bikmullin (devolonter)
  * @version 1.16
- * 
+ *
  */
 public class Painter extends Activity {
 
@@ -373,7 +373,7 @@ public class Painter extends Activity {
 			if (mCanvas.isSetup()) {
                 exitBrushSetup();
 				return true;
-			} else if (mCanvas.isChanged() || 
+			} else if (mCanvas.isChanged() ||
 					(!mIsNewFile && !new File(mSettings.lastPicture).exists())) {
 
 				mSettings.preset = mCanvas.getCurrentPreset();
@@ -413,7 +413,7 @@ public class Painter extends Activity {
                     updateControls();
 				}
 				break;
-				
+
 			case SHORTCUTS_VOLUME_UNDO_REDO:
 				if (!mCanvas.isSetup()) {
 					if (mCanvas.canRedo()) {
@@ -433,7 +433,7 @@ public class Painter extends Activity {
                     updateControls();
 				}
 				break;
-				
+
 			case SHORTCUTS_VOLUME_UNDO_REDO:
 				if (!mCanvas.isSetup()) {
 					if (mCanvas.canUndo()) {

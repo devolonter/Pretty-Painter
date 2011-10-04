@@ -9,7 +9,7 @@ public class FileSystem {
 	public static String copyFile(String from, String to) {
 		try {
 			File destFile = new File(to);
-			
+
 			if (destFile.exists()) {
 				int suffix = 1;
 				String fileName = getFileName(destFile.getName());

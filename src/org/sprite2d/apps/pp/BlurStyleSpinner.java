@@ -7,7 +7,7 @@ import android.widget.Spinner;
 
 /**
  * Extended spinner for onclick reaction process
- * 
+ *
  * @author Arthur Bikmullin (devolonter)
  * @version 1.16
  *
@@ -30,6 +30,6 @@ public class BlurStyleSpinner extends Spinner {
 	public void onClick(DialogInterface dialog, int which) {
 		Painter painter = (Painter) getContext();
 		painter.resetPresets();
-		super.onClick(dialog, which);		
+		super.onClick(dialog, which);
 	}
 }
