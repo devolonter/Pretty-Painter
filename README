@@ -11,6 +11,10 @@ Application features:
 
 Versions history:
 -----------------
+***** v1.17 *****
+- Fixed incorrect work of undo/redo functions after the loss of canvas focus 
+- Graphics interface optimize
+
 ***** v1.16 *****
 - Improve the undo/redo algorithms
 - Fixed the "just a blank screen" error on some devices
