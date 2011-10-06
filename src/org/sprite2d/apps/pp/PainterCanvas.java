@@ -3,6 +3,8 @@ package org.sprite2d.apps.pp;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import org.sprite2d.apps.pp.PainterThread.State;
+
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -28,6 +30,7 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	private PainterThread mThread;
 	private Bitmap mBitmap;
 	private BrushPreset mPreset;
+	private State mThreadState;
 
 	private boolean mIsSetup;
 	private boolean mIsChanged;
@@ -46,6 +49,7 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		holder.addCallback(this);
 
 		mPreset = new BrushPreset(BrushPreset.PEN, Color.BLACK);
+		mThreadState = new State();
 
         setFocusable(true);
 	}
@@ -175,6 +179,7 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public PainterThread getThread() {
 		if (mThread == null) {
 			mThread = new PainterThread(getHolder());
+			mThread.setState(mThreadState);
 		}
 		return mThread;
 	}
@@ -260,4 +265,5 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public boolean canRedo() {
         return isChanged() && mUndo;
     }
+	
 }

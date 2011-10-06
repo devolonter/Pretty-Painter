@@ -76,16 +76,14 @@ public class PainterThread extends Thread {
 	/**
 	 * True if application is running
 	 */
-	private boolean mIsActive;
-	
-	private byte[] mUndoBuffer = null;
-	private byte[] mRedoBuffer = null;
-	private boolean mIsUndo = false;
+	private boolean mIsActive;	
 	
 	/**
 	 * Status of the running application
 	 */
 	private int mStatus;
+	
+	private State mState;
 	
 	/**
 	 * 
@@ -167,15 +165,15 @@ public class PainterThread extends Thread {
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
 		
-		if (mRedoBuffer != null && !mIsUndo) {
-			mUndoBuffer = mRedoBuffer;
+		if (mState.redoBuffer != null && !mState.isUndo) {
+			mState.undoBuffer = mState.redoBuffer;
 		}
 		
-		mIsUndo = false;
+		mState.isUndo = false;
 	}
 	
 	public void drawEnd() {
-		mRedoBuffer = saveBuffer();
+		mState.redoBuffer = saveBuffer();
 		
 		mLastBrushPointX = -1;
 		mLastBrushPointY = -1;
@@ -219,13 +217,13 @@ public class PainterThread extends Thread {
 	
 	public void restoreBitmap(Bitmap bitmap, Matrix matrix) {
 		mCanvas.drawBitmap(bitmap, matrix, new Paint(Paint.FILTER_BITMAP_FLAG));
-		mUndoBuffer = saveBuffer();
+		mState.undoBuffer = saveBuffer();
 	}
 	
 	public void clearBitmap() {
 		mBitmap.eraseColor(mCanvasBgColor);
-		mUndoBuffer = null;
-		mRedoBuffer = null;
+		mState.undoBuffer = null;
+		mState.redoBuffer = null;
 	}
 	
 	public Bitmap getBitmap() {
@@ -269,23 +267,29 @@ public class PainterThread extends Thread {
 	}
 	
 	public void undo() {
-		if (mUndoBuffer == null) {
+		if (mState.undoBuffer == null) {
 			mBitmap.eraseColor(mCanvasBgColor);
 		} else {
-			restoreBuffer(mUndoBuffer);	
+			restoreBuffer(mState.undoBuffer);	
 		}
 		
-		mIsUndo = true;
+		mState.isUndo = true;
 	}
 	
 	public void redo() {
-		restoreBuffer(mRedoBuffer);
+		if (mState.redoBuffer != null) {
+			restoreBuffer(mState.redoBuffer);
+		}
 		
-		mIsUndo = false;
+		mState.isUndo = false;
 	}
 	
 	public int getBackgroundColor() {
 		return mCanvasBgColor;
+	}
+	
+	public void setState(State state) {
+		this.mState = state;
 	}
 	
 	private void waitForBitmap() {
@@ -308,5 +312,11 @@ public class PainterThread extends Thread {
 	private void restoreBuffer(byte[] buffer) {
 		Buffer byteBuffer = ByteBuffer.wrap(buffer);
 		mBitmap.copyPixelsFromBuffer(byteBuffer);
+	}
+	
+	public static class State {
+		public byte[] undoBuffer = null;
+		public byte[] redoBuffer = null;
+		public boolean isUndo = false;
 	}
 }
