@@ -16,7 +16,7 @@ import android.view.SurfaceHolder;
  * Base draw logic 
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.15
+ * @version 1.17
  *
  */
 public class PainterThread extends Thread {

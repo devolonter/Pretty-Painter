@@ -22,7 +22,7 @@ import android.view.SurfaceView;
  * Draw surface class
  * 
  * @author Arthur Bikmullin (devolonter)
- * @version 1.16
+ * @version 1.17
  * 
  */
 public class PainterCanvas extends SurfaceView implements Callback {
@@ -191,10 +191,10 @@ public class PainterCanvas extends SurfaceView implements Callback {
             getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
 		}
 	}
-	
+
 	/*NOTE: This is commented simply because it is unused as of now. If anyone implements
 	 * JPEG save support, just uncomment this.*/
-	
+
 	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
 	/*public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
 		synchronized (getHolder()) {
@@ -265,5 +265,4 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public boolean canRedo() {
         return isChanged() && mUndo;
     }
-	
 }
