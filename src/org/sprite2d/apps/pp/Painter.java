@@ -48,13 +48,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-/**
- * Base application logic
- * 
- * @author Arthur Bikmullin (devolonter)
- * @version 1.17
- * 
- */
 public class Painter extends Activity {
 
 	public static final int BACKUP_OPENED_ONLY_FROM_OTHER = 10;

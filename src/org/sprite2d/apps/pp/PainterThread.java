@@ -12,13 +12,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.view.SurfaceHolder;
 
-/**
- * Base draw logic
- * 
- * @author Arthur Bikmullin (devolonter)
- * @version 1.17
- * 
- */
 public class PainterThread extends Thread {
 
 	/**

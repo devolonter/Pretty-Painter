@@ -3,13 +3,6 @@ package org.sprite2d.apps.pp;
 import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Color;
 
-/**
- * Brush settings driver
- * 
- * @author Arthur Bikmullin (devolonter)
- * @version 1.17
- * 
- */
 public class BrushPreset {
 	public float size = 2;
 	public int color = Color.BLACK;

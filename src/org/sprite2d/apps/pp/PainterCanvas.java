@@ -18,13 +18,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
-/**
- * Draw surface class
- * 
- * @author Arthur Bikmullin (devolonter)
- * @version 1.17
- * 
- */
 public class PainterCanvas extends SurfaceView implements Callback {
 
 	private PainterThread mThread;
