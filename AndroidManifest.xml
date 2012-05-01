@@ -17,8 +17,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".PainterPreferences" android:label="@string/app_name"
-			android:configChanges="locale">
+		<activity android:name=".PainterPreferences" android:configChanges="locale">
 		</activity>
 	</application>
 </manifest>

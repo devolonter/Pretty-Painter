@@ -26,6 +26,9 @@ public class PainterPreferences extends PreferenceActivity implements
 		mAboutPreferenceKey = getString(R.string.preferences_about);
 		getPreferenceScreen().findPreference(mAboutPreferenceKey)
 				.setOnPreferenceClickListener(this);
+
+		setTitle(getString(R.string.app_name) + " - "
+				+ getString(R.string.menu_preferences));
 	}
 
 	@Override
