@@ -4,10 +4,10 @@ import android.content.pm.ActivityInfo;
 
 /**
  * Application settings class
- *
+ * 
  * @author Arthur Bikmullin (devolonter)
  * @version 1.17
- *
+ * 
  */
 
 public class PainterSettings {
