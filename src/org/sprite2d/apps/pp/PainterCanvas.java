@@ -248,6 +248,12 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	public void setup(boolean setup) {
 		mIsSetup = setup;
+		
+		if (mIsSetup) {
+			getThread().setup();
+		} else {
+			getThread().activate();
+		}
 	}
 
 	public boolean isChanged() {

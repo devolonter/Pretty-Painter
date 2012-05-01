@@ -92,10 +92,11 @@ public class Painter extends Activity {
 
 	private PainterSettings mSettings;
 	private boolean mIsNewFile = true;
+	private boolean mIsHardwareAccelerated;
 
 	private boolean mOpenLastFile = true;
 
-	private int mVolumeButtonsShortcuts;
+	private int mVolumeButtonsShortcuts;	
 
 	private class SaveTask extends AsyncTask<Void, Void, String> {
 		private ProgressDialog dialog = ProgressDialog.show(Painter.this,
@@ -183,6 +184,12 @@ public class Painter extends Activity {
 
 		setContentView(R.layout.main);
 		mCanvas = (PainterCanvas) findViewById(R.id.canvas);
+		
+		try {
+			mIsHardwareAccelerated = mCanvas.isHardwareAccelerated();
+		} catch (NoSuchMethodError e) {
+			mIsHardwareAccelerated = false;
+		}
 
 		loadSettings();
 
@@ -680,6 +687,7 @@ public class Painter extends Activity {
 
 	private void enterBrushSetup() {
 		mSettingsLayout.setVisibility(View.VISIBLE);
+
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
@@ -693,15 +701,22 @@ public class Painter extends Activity {
 
 	private void exitBrushSetup() {
 		mSettingsLayout.setBackgroundColor(Color.WHITE);
-		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-			public void run() {
-				mCanvas.setVisibility(View.INVISIBLE);
-				setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f, 300);
-				setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f, 300, true);
-				mCanvas.setup(false);
-			}
-		}, 10);
+		
+		if (mIsHardwareAccelerated) {
+			setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f, 300);
+			setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f, 300, true);
+			mCanvas.setup(false);
+		} else {
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {
+					mCanvas.setVisibility(View.INVISIBLE);
+					setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f, 300);
+					setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f, 300, true);
+					mCanvas.setup(false);
+				}
+			}, 10);
+		}
 	}
 
 	private Dialog createDialogClear() {

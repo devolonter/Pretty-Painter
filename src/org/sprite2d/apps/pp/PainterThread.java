@@ -122,14 +122,18 @@ public class PainterThread extends Thread {
 				synchronized (mHolder) {
 					switch (mStatus) {
 					case PainterThread.READY: {
-						canvas.drawBitmap(mBitmap, 0, 0, null);
+						if (canvas != null) {
+							canvas.drawBitmap(mBitmap, 0, 0, null);
+						}
 						break;
 					}
 					case SETUP: {
-						canvas.drawColor(mCanvasBgColor);
-						canvas.drawLine(50, (mBitmap.getHeight() / 100) * 35,
-								mBitmap.getWidth() - 50,
-								(mBitmap.getHeight() / 100) * 35, mBrush);
+						if (canvas != null) {
+							canvas.drawColor(mCanvasBgColor);
+							canvas.drawLine(50, (mBitmap.getHeight() / 100) * 35,
+									mBitmap.getWidth() - 50,
+									(mBitmap.getHeight() / 100) * 35, mBrush);
+						}
 						break;
 					}
 					}
