@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="72"
+   height="72"
+   id="svg3010"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="ic_menu_file.svg"
+   inkscape:export-filename="E:\Projects\My\Android_Graphics\Pretty Paint\icons\ic_menu_file.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45">
+  <defs
+     id="defs3012" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="-18.363636"
+     inkscape:cy="32"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3015">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,8)">
+    <path
+       style="fill:#787878;fill-opacity:1;stroke:none;display:inline"
+       d="m 14,4 c -1.108,0 -2,0.892 -2,2 l 0,44 c 0,1.107893 0.892,2 2,2 l 44,0 c 1.108,0 2,-0.892107 2,-2 l 0,-32.281253 -13.687507,0 L 46.312493,4 14,4 z m 34.593747,0 0,11.406253 11.406253,0 L 48.593747,4 z m -18.437494,8 c 0.0896,-0.01933 0.1636,-0.01333 0.25,0 0.173094,0.02667 0.356454,0.1284 0.468747,0.281253 l 1.656253,2.28124 c 1.062307,-0.34064 2.234894,-0.53124 3.468747,-0.53124 1.23392,0 2.406653,0.1906 3.468747,0.53124 l 1.687506,-2.28124 c 0.2244,-0.305813 0.663014,-0.380746 0.968747,-0.156253 0.30588,0.224493 0.349493,0.662933 0.124933,0.968747 l -1.468746,2 c 2.533733,1.226653 4.15624,3.392613 4.15624,5.812506 l -17.843747,0 c 0,-2.419893 1.6226,-4.585853 4.156253,-5.812506 l -1.5,-2 c -0.224426,-0.305814 -0.149626,-0.744254 0.156254,-0.968747 0.0764,-0.0564 0.1604,-0.105733 0.25,-0.124933 z M 32.25,16.843747 c -0.58968,0.1216 -1,0.651933 -1,1.281253 0,0.71908 0.562027,1.312493 1.281253,1.312493 0.71916,0 1.28124,-0.593413 1.28124,-1.312493 0,-0.719227 -0.56208,-1.281253 -1.28124,-1.281253 -0.08987,1.3e-5 -0.197013,-0.01733 -0.281253,0 z m 7,0 c -0.597347,0.1216 -1.062507,0.651933 -1.062507,1.281253 0,0.71908 0.59328,1.312493 1.312507,1.312493 0.71908,0 1.281253,-0.593413 1.281253,-1.312493 0,-0.719227 -0.562173,-1.281253 -1.281253,-1.281253 -0.08987,1.3e-5 -0.164667,-0.01733 -0.25,0 z m -15.468747,5.343746 c 1.031267,-0.02147 1.861547,0.93288 1.843747,1.96876 l 0,8.25 C 25.639533,33.4272 24.829067,34.375 23.812493,34.375 c -1.01672,0 -1.920346,-0.9478 -1.90624,-1.968747 l 0,-8.25 c -0.01667,-1.00908 0.870454,-1.947213 1.875,-1.96876 z m 3.312494,0 17.843746,0 0,13.906254 c 0,0.5032 -0.25472,1.019146 -0.625,1.375 -0.370186,0.355786 -0.820506,0.61232 -1.343746,0.593746 l -1,0 0,4 C 41.982213,43.038813 40.699973,44 39.718747,44 38.737533,44 37.486693,43.038813 37.5,42.062493 L 37.5,38 l -2.968747,0.06253 0,4.062507 c 0.01347,0.976307 -1.202853,1.875 -2.21876,1.875 -1.01596,0 -2.263293,-0.898547 -2.25,-1.875 l 0,-4.062507 -0.937493,0 c -0.523627,0 -1.067307,-0.23796 -1.437507,-0.593746 -0.3702,-0.355854 -0.593746,-0.87188 -0.593746,-1.375 l 0,-13.906254 z m 21.062506,0 c 1.0312,-0.02147 1.986547,0.93288 1.968747,1.96876 l 0,8.25 C 50.139533,33.4272 49.204213,34.375 48.187493,34.375 c -1.016626,0 -1.79604,-0.9478 -1.78124,-1.968747 l 0,-8.25 c -0.01667,-1.00908 0.745307,-1.947213 1.75,-1.96876 z"
+       id="path18514"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\Projects\My\Android_Graphics\Pretty Paint\icons\ic_menu_file.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="72"
+   height="72"
+   id="svg3010"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="ic_menu_brush.svg"
+   inkscape:export-filename="E:\Projects\My\Android_Graphics\Pretty Paint\icons\ic_menu_brush.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45">
+  <defs
+     id="defs3012" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="6.8181818"
+     inkscape:cy="32"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3015">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,8)">
+    <path
+       inkscape:connector-curvature="0"
+       d="M 55.559722,4.0005198 C 54.550081,4.0193328 53.420457,4.5535092 52.490809,5.7928853 46.422151,14.095263 41.286674,18.592586 35.218135,26.894964 c 1.959637,-0.30455 8.087228,3.743534 8.391896,5.70329 6.068657,-8.302262 7.890782,-14.755104 13.959441,-23.057482 1.915411,-3.1160841 0.21138,-5.5818943 -2.00975,-5.5402522 z M 33.670092,28.280086 c -0.176096,-0.01647 -0.345134,0 -0.488881,0.02707 l -4.046672,5.431676 c 2.356177,-0.36619 9.166388,4.596604 9.532695,6.952547 l 3.992327,-5.431678 C 42.31631,33.050786 36.312939,28.524055 33.670092,28.280086 z m -6.382265,6.762335 c -10.998989,1.993987 -3.30253,10.495399 -13.68783,14.828492 11.457755,4.95244 23.732815,0.708974 23.817981,-7.006879 -0.318195,-2.225133 -8.083346,-8.167452 -10.130151,-7.821613 z"
+       id="path17755"
+       style="fill:#787878;fill-opacity:1;stroke:none;display:inline"
+       inkscape:export-filename="E:\Projects\My\Android_Graphics\Pretty Paint\icons\ic_menu_brush.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
