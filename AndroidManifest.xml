@@ -20,7 +20,8 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".PainterPreferences" android:hardwareAccelerated="false"
+		<activity android:name=".PainterPreferences" android:screenOrientation="portrait"
+		    android:hardwareAccelerated="false"
 		    android:configChanges="locale" />
 	</application>
 </manifest>

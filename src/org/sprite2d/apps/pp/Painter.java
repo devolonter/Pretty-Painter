@@ -1156,6 +1156,7 @@ public class Painter extends Activity {
 	private void showPreferences() {
 		Intent intent = new Intent();
 		intent.setClass(this, PainterPreferences.class);
+		intent.putExtra("orientation", getRequestedOrientation());
 		startActivity(intent);
 	}
 }

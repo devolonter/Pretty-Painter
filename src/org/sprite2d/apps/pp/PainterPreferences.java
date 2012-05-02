@@ -21,6 +21,14 @@ public class PainterPreferences extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		int canvasOrientation = getIntent().getIntExtra("orientation",
+				getRequestedOrientation());
+		
+		if (getRequestedOrientation() != canvasOrientation) {
+			setRequestedOrientation(canvasOrientation);
+		}
+
 		addPreferencesFromResource(R.xml.preferences);
 
 		mAboutPreferenceKey = getString(R.string.preferences_about);
