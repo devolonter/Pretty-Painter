@@ -20,6 +20,7 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".PainterPreferences" android:configChanges="locale" />
+		<activity android:name=".PainterPreferences" android:hardwareAccelerated="false"
+		    android:configChanges="locale" />
 	</application>
 </manifest>

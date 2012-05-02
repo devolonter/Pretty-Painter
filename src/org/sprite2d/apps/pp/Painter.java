@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -89,7 +90,7 @@ public class Painter extends Activity {
 
 	private boolean mOpenLastFile = true;
 
-	private int mVolumeButtonsShortcuts;	
+	private int mVolumeButtonsShortcuts;
 
 	private class SaveTask extends AsyncTask<Void, Void, String> {
 		private ProgressDialog dialog = ProgressDialog.show(Painter.this,
@@ -177,10 +178,12 @@ public class Painter extends Activity {
 
 		setContentView(R.layout.main);
 		mCanvas = (PainterCanvas) findViewById(R.id.canvas);
-		
+
 		try {
-			mIsHardwareAccelerated = mCanvas.isHardwareAccelerated();
-		} catch (NoSuchMethodError e) {
+			ActivityInfo info = getPackageManager().getActivityInfo(
+					getComponentName(), PackageManager.GET_META_DATA);
+			mIsHardwareAccelerated = (info.flags & ActivityInfo.FLAG_HARDWARE_ACCELERATED) == ActivityInfo.FLAG_HARDWARE_ACCELERATED;
+		} catch (Exception e) {
 			mIsHardwareAccelerated = false;
 		}
 
@@ -694,7 +697,7 @@ public class Painter extends Activity {
 
 	private void exitBrushSetup() {
 		mSettingsLayout.setBackgroundColor(Color.WHITE);
-		
+
 		if (mIsHardwareAccelerated) {
 			setPanelVerticalSlide(mPresetsBar, 0.0f, -1.0f, 300);
 			setPanelVerticalSlide(mPropertiesBar, 0.0f, 1.0f, 300, true);
