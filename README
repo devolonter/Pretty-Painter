@@ -11,6 +11,12 @@ Application features:
 
 Versions history:
 -----------------
+***** v1.18 *****
+- Enabled hardware acceleration on Android 3.x or higher
+- Fixed display bugs on the ICS
+- Changed theme of the application
+- Minor fixes
+
 ***** v1.17 *****
 - Fixed incorrect work of undo/redo functions after the loss of canvas focus 
 - Graphics interface optimize
