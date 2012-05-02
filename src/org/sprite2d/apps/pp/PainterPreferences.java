@@ -21,11 +21,22 @@ public class PainterPreferences extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+		
+		int canvasOrientation = getIntent().getIntExtra("orientation",
+				getRequestedOrientation());
+		
+		if (getRequestedOrientation() != canvasOrientation) {
+			setRequestedOrientation(canvasOrientation);
+		}
+
+		addPreferencesFromResource(R.xml.preferences);
 
 		mAboutPreferenceKey = getString(R.string.preferences_about);
-        getPreferenceScreen().findPreference(mAboutPreferenceKey)
+		getPreferenceScreen().findPreference(mAboutPreferenceKey)
 				.setOnPreferenceClickListener(this);
+
+		setTitle(getString(R.string.app_name) + " - "
+				+ getString(R.string.menu_preferences));
 	}
 
 	@Override
@@ -41,19 +52,19 @@ public class PainterPreferences extends PreferenceActivity implements
 
 	public boolean onPreferenceClick(Preference preference) {
 		if (mAboutPreferenceKey.equals(preference.getKey())) {
-            showDialog(R.id.dialog_about);
+			showDialog(R.id.dialog_about);
 			return true;
 		}
 		return false;
 	}
 
 	public void forkMe(View v) {
-        dismissDialog(R.id.dialog_about);
+		dismissDialog(R.id.dialog_about);
 
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(getString(R.string.repo_url)));
-        startActivity(Intent.createChooser(intent,
-                getString(R.string.which_app)));
+		startActivity(Intent.createChooser(intent,
+				getString(R.string.which_app)));
 	}
 
 	private Dialog createDialogAbout() {
@@ -64,10 +75,11 @@ public class PainterPreferences extends PreferenceActivity implements
 		dialogBuilder.setView(dialogView);
 
 		try {
-			((TextView) dialogView.findViewById(R.id.version)).setText(getString(
+			((TextView) dialogView.findViewById(R.id.version))
+					.setText(getString(
 							R.string.app_version,
-                    getPackageManager().getPackageInfo(
-                            getPackageName(),
+							getPackageManager().getPackageInfo(
+									getPackageName(),
 									PackageManager.GET_META_DATA).versionName));
 		} catch (Exception e) {
 		}

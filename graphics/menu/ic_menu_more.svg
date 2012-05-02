@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="72"
+   height="72"
+   id="svg3010"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="ic_menu_more.svg"
+   inkscape:export-filename="E:\Projects\My\Android_Graphics\Pretty Paint\icons\ic_menu_more.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45">
+  <defs
+     id="defs3012" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="-18.363636"
+     inkscape:cy="32"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3015">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,8)">
+    <path
+       inkscape:connector-curvature="0"
+       d="M 36,4 C 22.745173,4 12,14.745253 12,27.999893 12,41.254973 22.745173,52 36,52 49.254813,52 60,41.254973 60,27.999893 60,14.745253 49.254827,4 36,4 z m 0,8.955773 c 8.309747,0 15.044107,6.73452 15.044107,15.04412 0,8.309814 -6.73436,15.044214 -15.044107,15.044214 -8.309747,0 -15.044107,-6.7344 -15.044107,-15.044214 0,-8.3096 6.73436,-15.04412 15.044107,-15.04412 z m -11.294107,9.397254 0,1.411666 L 36,37.882293 l 11.294107,-14.1176 0,-1.411666 -22.588214,0 z"
+       id="path11905"
+       style="fill:#787878;fill-opacity:1;stroke:none;display:inline"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+  </g>
+</svg>

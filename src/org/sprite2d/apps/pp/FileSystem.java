@@ -16,9 +16,11 @@ public class FileSystem {
 				String fileExt = getFileExtension(destFile.getName());
 				String filePath = destFile.getParentFile().getAbsolutePath() + '/';
 
-				String newFileName = filePath + fileName + '_' + suffix + '.' + fileExt;
+				String newFileName = filePath + fileName + '_' + suffix + '.'
+						+ fileExt;
 				while (new File(newFileName).exists()) {
-					newFileName = filePath + fileName + '_' + suffix + '.' + fileExt;
+					newFileName = filePath + fileName + '_' + suffix + '.'
+							+ fileExt;
 					suffix++;
 				}
 				to = newFileName;
@@ -42,13 +44,13 @@ public class FileSystem {
 		return to;
 	}
 
-	/**Get file extension of the image file*/
+	/** Get file extension of the image file */
 	public static String getFileExtension(String filename) {
 		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(dotposition + 1, filename.length());
 	}
 
-	/**Get the name of the image file*/
+	/** Get the name of the image file */
 	public static String getFileName(String filename) {
 		int dotposition = filename.lastIndexOf('.');
 		return filename.substring(0, dotposition);

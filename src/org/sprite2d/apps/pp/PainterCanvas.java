@@ -18,13 +18,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
-/**
- * Draw surface class
- * 
- * @author Arthur Bikmullin (devolonter)
- * @version 1.17
- * 
- */
 public class PainterCanvas extends SurfaceView implements Callback {
 
 	private PainterThread mThread;
@@ -51,26 +44,28 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		mPreset = new BrushPreset(BrushPreset.PEN, Color.BLACK);
 		mThreadState = new State();
 
-        setFocusable(true);
+		setFocusable(true);
 	}
 
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
 		if (!hasWindowFocus) {
-            getThread().freeze();
+			getThread().freeze();
 		} else {
 			if (!isSetup()) {
-                getThread().activate();
+				getThread().activate();
 			} else {
-                getThread().setup();
+				getThread().setup();
 			}
 		}
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
 		if (mBitmap == null) {
-			mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+			mBitmap = Bitmap.createBitmap(width, height,
+					Bitmap.Config.ARGB_8888);
 
-            getThread().setBitmap(mBitmap, true);
+			getThread().setBitmap(mBitmap, true);
 			Painter painter = (Painter) getContext();
 			Bitmap bitmap = painter.getLastPicture();
 
@@ -121,31 +116,31 @@ public class PainterCanvas extends SurfaceView implements Callback {
 								(height - bitmapHeight) / 2);
 					}
 				}
-                getThread().restoreBitmap(bitmap, matrix);
+				getThread().restoreBitmap(bitmap, matrix);
 			}
 		} else {
-            getThread().setBitmap(mBitmap, false);
+			getThread().setBitmap(mBitmap, false);
 		}
 
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 		if (!isSetup()) {
-            getThread().activate();
+			getThread().activate();
 		} else {
-            getThread().setup();
+			getThread().setup();
 		}
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-        getThread().on();
-        getThread().start();
+		getThread().on();
+		getThread().start();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
-        getThread().off();
+		getThread().off();
 		while (retry) {
 			try {
-                getThread().join();
+				getThread().join();
 				retry = false;
 			} catch (InterruptedException e) {
 			}
@@ -162,15 +157,15 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mIsChanged = true;
-            getThread().drawBegin();
+			getThread().drawBegin();
 			mUndo = false;
 			break;
 		case MotionEvent.ACTION_MOVE:
-            getThread().draw((int) event.getX(), (int) event.getY());
+			getThread().draw((int) event.getX(), (int) event.getY());
 			break;
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
-            getThread().drawEnd();
+			getThread().drawEnd();
 			break;
 		}
 		return true;
@@ -184,24 +179,32 @@ public class PainterCanvas extends SurfaceView implements Callback {
 		return mThread;
 	}
 
-	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
+	/*
+	 * TODO: Make save quality changeable (possibly with a slider on a save
+	 * dialogue?)
+	 */
 	public void saveBitmap(String pictureName) throws FileNotFoundException {
 		synchronized (getHolder()) {
 			FileOutputStream fos = new FileOutputStream(pictureName);
-            getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
+			getThread().getBitmap().compress(CompressFormat.PNG, 100, fos);
 		}
 	}
 
-	/*NOTE: This is commented simply because it is unused as of now. If anyone implements
-	 * JPEG save support, just uncomment this.*/
+	/*
+	 * NOTE: This is commented simply because it is unused as of now. If anyone
+	 * implements JPEG save support, just uncomment this.
+	 */
 
-	/*TODO: Make save quality changeable (possibly with a slider on a save dialogue?)*/
-	/*public void saveBitmapAsJPEG(String pictureName) throws FileNotFoundException {
-		synchronized (getHolder()) {
-			FileOutputStream fos = new FileOutputStream(pictureName);
-			getThread().getBitmap().compress(CompressFormat.JPEG, 100, fos);
-		}
-	}*/
+	/*
+	 * TODO: Make save quality changeable (possibly with a slider on a save
+	 * dialogue?)
+	 */
+	/*
+	 * public void saveBitmapAsJPEG(String pictureName) throws
+	 * FileNotFoundException { synchronized (getHolder()) { FileOutputStream fos
+	 * = new FileOutputStream(pictureName);
+	 * getThread().getBitmap().compress(CompressFormat.JPEG, 100, fos); } }
+	 */
 
 	public BrushPreset getCurrentPreset() {
 		return mPreset;
@@ -209,27 +212,27 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	public void setPresetColor(int color) {
 		mPreset.setColor(color);
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 	}
 
 	public void setPresetSize(float size) {
 		mPreset.setSize(size);
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(Blur blurStyle, int blurRadius) {
 		mPreset.setBlur(blurStyle, blurRadius);
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 	}
 
 	public void setPresetBlur(int blurStyle, int blurRadius) {
 		mPreset.setBlur(blurStyle, blurRadius);
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 	}
 
 	public void setPreset(BrushPreset preset) {
 		mPreset = preset;
-        getThread().setPreset(mPreset);
+		getThread().setPreset(mPreset);
 	}
 
 	public boolean isSetup() {
@@ -238,6 +241,12 @@ public class PainterCanvas extends SurfaceView implements Callback {
 
 	public void setup(boolean setup) {
 		mIsSetup = setup;
+		
+		if (mIsSetup) {
+			getThread().setup();
+		} else {
+			getThread().activate();
+		}
 	}
 
 	public boolean isChanged() {
@@ -251,18 +260,18 @@ public class PainterCanvas extends SurfaceView implements Callback {
 	public void undo() {
 		if (!mUndo) {
 			mUndo = true;
-            getThread().undo();
+			getThread().undo();
 		} else {
 			mUndo = false;
-            getThread().redo();
+			getThread().redo();
 		}
 	}
 
 	public boolean canUndo() {
-        return isChanged() && !mUndo;
-    }
+		return isChanged() && !mUndo;
+	}
 
 	public boolean canRedo() {
-        return isChanged() && mUndo;
-    }
+		return isChanged() && mUndo;
+	}
 }
