@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -504,13 +505,11 @@ public class Painter extends Activity {
 							Bitmap bitmap = null;
 
 							try {
+								Options option = new Options();
+								option.inPreferredConfig = Config.ARGB_8888;
+								
 								bitmap = BitmapFactory.decodeFile(picture
-										.getAbsolutePath());
-
-								Config bitmapConfig = bitmap.getConfig();
-								if (bitmapConfig != Config.ARGB_8888) {
-									bitmap = null;
-								}
+										.getAbsolutePath(), option);
 							} catch (Exception e) {
 							}
 
