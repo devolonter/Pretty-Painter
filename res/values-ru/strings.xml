@@ -68,6 +68,7 @@
     <string name="sd_card_not_available">Карта памяти недоступна</string>
     <string name="wallpaper_setted">Обои успешно установлены</string>
     <string name="wallpaper_error">Обои не установлены. Произошла ошибка</string>
+    <string name="file_saved_in">Файл сохранен в %1$s</string>
     
     <!-- backup options -->
     <string-array name="backup_opened_options">

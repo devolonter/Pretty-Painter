@@ -69,6 +69,7 @@
     <string name="sd_card_not_available">SD card not available</string>
     <string name="wallpaper_setted">Wallpaper was successfully setted</string>
     <string name="wallpaper_error">Wallpaper was not setted. Error occured</string>
+    <string name="file_saved_in">File was saved in %1$s</string>
     
     <!-- settings -->
     <string name="settings_version">version</string>	

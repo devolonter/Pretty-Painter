@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.channels.GatheringByteChannel;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -112,6 +113,9 @@ public class Painter extends Activity {
 			sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
 
 			dialog.hide();
+			Toast.makeText(Painter.this,
+					getString(R.string.file_saved_in, pictureName),
+					Toast.LENGTH_SHORT).show();
 			mCanvas.getThread().activate();
 		}
 	}
@@ -507,9 +511,9 @@ public class Painter extends Activity {
 							try {
 								Options option = new Options();
 								option.inPreferredConfig = Config.ARGB_8888;
-								
-								bitmap = BitmapFactory.decodeFile(picture
-										.getAbsolutePath(), option);
+
+								bitmap = BitmapFactory.decodeFile(
+										picture.getAbsolutePath(), option);
 							} catch (Exception e) {
 							}
 
