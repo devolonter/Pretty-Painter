@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.channels.GatheringByteChannel;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -738,7 +737,7 @@ public class Painter extends Activity {
 	private Dialog createDialogExit() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setMessage(R.string.exit_app_prompt);
-		alert.setCancelable(false);
+		alert.setCancelable(true);
 		alert.setTitle(R.string.exit_app_prompt_title);
 
 		alert.setPositiveButton(R.string.yes,
